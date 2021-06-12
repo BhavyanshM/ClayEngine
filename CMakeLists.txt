@@ -10,4 +10,4 @@ add_executable(ClayEngine
         src/ClayEngine/Application.cpp
         src/ClayEngine/Application.h
         src/ClayEngine/Log.cpp
-        src/ClayEngine/Log.h)
+        src/ClayEngine/Log.h src/ClayEngine/Events/Event.h src/ClayEngine/Events/KeyEvent.h)

@@ -10,7 +10,7 @@ int main()
    Clay::Log::Init();
    CLAY_LOG_INFO("Welcome to Clay Engine!");
 
-   
+
 
    return 0;
 }
