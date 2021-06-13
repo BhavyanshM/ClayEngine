@@ -27,6 +27,10 @@ namespace Clay
 
          void Run();
 
+         void OnEvent(Event& e);
+
+         bool OnWindowClose(Event& e);
+
       private:
          std::unique_ptr<Window> _window;
          bool _running;

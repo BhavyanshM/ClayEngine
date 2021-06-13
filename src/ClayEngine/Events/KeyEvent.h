@@ -12,6 +12,7 @@ namespace Clay
    class KeyEvent : public Event
    {
       public:
+         EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryKeyboard);
 
       protected:
          KeyEvent(int keyCode) : _keyCode(keyCode)
