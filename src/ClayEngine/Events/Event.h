@@ -5,6 +5,9 @@
 #ifndef CLAYENGINE_EVENT_H
 #define CLAYENGINE_EVENT_H
 
+#include <sstream>
+
+
 namespace Clay
 {
    enum class EventType
@@ -12,7 +15,6 @@ namespace Clay
          None = 0,
          WindowClose,
          WindowResize,
-         WindowClose,
          WindowLostFocus,
          WindowMoved,
          AppTick,
@@ -36,6 +38,13 @@ namespace Clay
       EventCategoryMouseInput = (1 << 4),
    };
 
+#define EVENT_CLASS_TYPE(type)   static EventType GetStaticType() { return EventType::type; } \
+                                 virtual EventType GetEventType() const override  { return GetStaticType(); } \
+                                 virtual const char* GetName() const override { return #type; }
+
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
+
+
    class Event
    {
          friend class EventDispatcher;
@@ -43,7 +52,7 @@ namespace Clay
          virtual EventType GetEventType() const = 0;
          virtual const char* GetName() const = 0;
          virtual int GetCategoryFlags() const = 0;
-         virtual int std::string toString() const { return GetName(); };
+         virtual std::string toString() const { return GetName(); };
 
          inline bool IsInCategory(EventCategory category)
          {
@@ -56,8 +65,31 @@ namespace Clay
 
    class EventDispatcher
    {
+         template<typename T>
+         using EventFn = std::function<bool(T&)>;
 
+      public:
+         EventDispatcher(Event& event) : _event(event) {}
+
+         template<typename T>
+         bool Dispatch(EventFn<T> func)
+         {
+            if(_event.GetEventType() == T::GetStaticType())
+            {
+               _event._handled = func(*(T*)&_event);
+               return true;
+            }
+            return false;
+         }
+
+      private:
+         Event& _event;
    };
+
+   inline std::ostream& operator<<(std::ostream& os, const Event& e)
+   {
+      return os << e.toString();
+   }
 }
 
 #endif //CLAYENGINE_EVENT_H
