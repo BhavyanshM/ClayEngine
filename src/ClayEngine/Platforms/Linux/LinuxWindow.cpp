@@ -45,6 +45,10 @@ namespace Clay
 
       _Window = glfwCreateWindow((int) _data.Width, (int) _data.Height, _data.Title.c_str(), nullptr, nullptr);
       glfwMakeContextCurrent(_Window);
+
+      int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+      CLAY_LOG_INFO("GLAD Initialization Code: {0}", status);
+
       glfwSetWindowUserPointer(_Window, &_data);
       SetVSync(true);
 

@@ -54,10 +54,9 @@ namespace Clay
          virtual int GetCategoryFlags() const = 0;
          virtual std::string toString() const { return GetName(); };
 
-         inline bool IsInCategory(EventCategory category)
-         {
-            return GetCategoryFlags() & category;
-         }
+         inline bool IsInCategory(EventCategory category)  { return GetCategoryFlags() & category;}
+         inline bool IsHandled() const { return _handled; }
+         inline void SetHandled() { _handled = true; }
 
       protected:
          bool _handled = false;

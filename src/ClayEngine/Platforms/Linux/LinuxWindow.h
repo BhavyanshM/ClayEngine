@@ -6,6 +6,7 @@
 #define CLAYENGINE_LINUXWINDOW_H
 
 #include "Window.h"
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/Event.h"

@@ -15,6 +15,8 @@
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/ApplicationEvent.h"
+#include "LayerStack.h"
+#include "Layer.h"
 
 namespace Clay
 {
@@ -31,7 +33,12 @@ namespace Clay
 
          bool OnWindowClose(Event& e);
 
+         void PushLayer(Layer* layer);
+
+         void PushOverlay(Layer* layer);
+
       private:
+         LayerStack _layerStack;
          std::unique_ptr<Window> _window;
          bool _running;
    };

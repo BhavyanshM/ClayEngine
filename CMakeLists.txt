@@ -7,6 +7,7 @@ find_package(OpenGL REQUIRED)
 
 include_directories(spdlog/include/)
 include_directories(glfw/include/)
+include_directories(GLAD/include/)
 include_directories(src/ClayEngine/)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -14,7 +15,7 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(glfw)
-
+add_subdirectory(GLAD)
 
 add_executable(ClayEngine
         src/ClayEngine/main.cpp
@@ -29,9 +30,10 @@ add_executable(ClayEngine
         src/ClayEngine/Window.h
         src/ClayEngine/Core.h
         src/ClayEngine/Platforms/Linux/LinuxWindow.cpp
-        src/ClayEngine/Platforms/Linux/LinuxWindow.h)
+        src/ClayEngine/Platforms/Linux/LinuxWindow.h src/ClayEngine/Layer.cpp src/ClayEngine/Layer.h src/ClayEngine/LayerStack.cpp src/ClayEngine/LayerStack.h)
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}
         glfw
+        glad
         )
