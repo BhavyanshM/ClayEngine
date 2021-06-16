@@ -4,15 +4,22 @@
 
 #include "Application.h"
 
+
 namespace Clay
 {
 
-#define BIND_EVENT_CB(x) std::bind(&Application::x, this, std::placeholders::_1)
+   Application* Application::s_Instance = nullptr;
 
    Application::Application()
    {
+      s_Instance = this;
+
       _window = std::unique_ptr<Window>(Window::Create());
       _window->SetEventCallback(BIND_EVENT_CB(OnEvent));
+
+      _imguiLayer = new ImGuiLayer();
+      PushOverlay(_imguiLayer);
+
    }
 
    Application::~Application()
@@ -24,7 +31,7 @@ namespace Clay
       EventDispatcher dispatcher(e);
       dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(OnWindowClose));
 
-      CLAY_LOG_TRACE("{0}", e.toString());
+      CLAY_LOG_INFO("{0}", e.toString());
 
       for(auto it = _layerStack.end(); it != _layerStack.begin(); )
       {
@@ -50,6 +57,12 @@ namespace Clay
          for(Layer* layer : _layerStack)
             layer->OnUpdate();
 
+         // ImGui Rendering
+         _imguiLayer->Begin();
+         for(Layer* layer : _layerStack)
+            layer->OnImGuiRender();
+         _imguiLayer->End();
+
          _window->OnUpdate();
       }
    }
@@ -57,15 +70,15 @@ namespace Clay
    void Application::PushLayer(Layer *layer)
    {
       _layerStack.PushLayer(layer);
+      layer->OnAttach();
    }
 
    void Application::PushOverlay(Layer *layer)
    {
       _layerStack.PushOverlay(layer);
+      layer->OnAttach();
    }
 }
-
-
 
 int main()
 {

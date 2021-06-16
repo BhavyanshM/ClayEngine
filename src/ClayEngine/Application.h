@@ -1,9 +1,7 @@
 //
 // Created by quantum on 6/11/21.
 //
-
-#ifndef CLAYENGINE_APPLICATION_H
-#define CLAYENGINE_APPLICATION_H
+#pragma once
 
 #include "Log.h"
 #include <iostream>
@@ -17,6 +15,10 @@
 #include "Events/ApplicationEvent.h"
 #include "LayerStack.h"
 #include "Layer.h"
+
+#include "ImGui/ImGuiLayer.h"
+
+#define BIND_EVENT_CB(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 namespace Clay
 {
@@ -37,12 +39,22 @@ namespace Clay
 
          void PushOverlay(Layer* layer);
 
+         static Application& Get() { return *s_Instance; }
+
+         Window& GetWindow() { return *_window; }
+
       private:
+         static Application* s_Instance;
          LayerStack _layerStack;
          std::unique_ptr<Window> _window;
          bool _running;
+
+         ImGuiLayer* _imguiLayer;
+
+//         Application* CreateApplication();
+
+
    };
 
-   Application* CreateApplication();
+
 }
-#endif //CLAYENGINE_APPLICATION_H

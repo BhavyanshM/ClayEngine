@@ -58,7 +58,6 @@ namespace Clay
          inline bool IsHandled() const { return _handled; }
          inline void SetHandled() { _handled = true; }
 
-      protected:
          bool _handled = false;
    };
 

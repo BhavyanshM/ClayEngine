@@ -30,6 +30,8 @@ namespace Clay
          virtual void SetVSync(bool enabled) override;
          virtual bool IsVSync() const override;
 
+         virtual void* GetNativeWindow() const { return _Window; }
+
       private:
          virtual void Init(const WindowProps& props);
          virtual void Shutdown();
