@@ -9,7 +9,7 @@ include_directories(spdlog/include/)
 include_directories(glfw/include/)
 include_directories(GLAD/include/)
 include_directories(src/ClayEngine/)
-include_directories(imgui/)
+include_directories(ImGui/imgui/)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -17,7 +17,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(glfw)
 add_subdirectory(GLAD)
-add_subdirectory(imgui)
+add_subdirectory(ImGui)
 
 add_executable(ClayEngine
         src/ClayEngine/main.cpp
