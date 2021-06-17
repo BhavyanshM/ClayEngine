@@ -7,5 +7,7 @@
 
 #include "iostream"
 #include "Log.h"
+#include "KeyCodes.h"
+#include "MouseButtonCodes.h"
 
 #endif //CLAYENGINE_CORE_H

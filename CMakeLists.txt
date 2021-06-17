@@ -10,6 +10,7 @@ include_directories(glfw/include/)
 include_directories(GLAD/include/)
 include_directories(src/ClayEngine/)
 include_directories(ImGui/imgui/)
+include_directories(glm/glm/)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -18,6 +19,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(glfw)
 add_subdirectory(GLAD)
 add_subdirectory(ImGui)
+add_subdirectory(glm)
 
 add_executable(ClayEngine
         src/ClayEngine/main.cpp
@@ -39,11 +41,12 @@ add_executable(ClayEngine
         src/ClayEngine/LayerStack.h
         src/ClayEngine/ImGui/ImGuiLayer.cpp
         src/ClayEngine/ImGui/ImGuiLayer.h
-        src/ClayEngine/ImGui/ImGuiBuild.cpp)
+        src/ClayEngine/ImGui/ImGuiBuild.cpp src/ClayEngine/Input.h src/ClayEngine/Platforms/Linux/LinuxInput.cpp src/ClayEngine/Platforms/Linux/LinuxInput.h src/ClayEngine/KeyCodes.h src/ClayEngine/MouseButtonCodes.h)
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}
         glfw
         glad
         imgui
+        glm::glm
         )

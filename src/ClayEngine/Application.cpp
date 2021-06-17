@@ -2,8 +2,11 @@
 // Created by quantum on 6/11/21.
 //
 
+#include <ext/matrix_clip_space.hpp>
+#include <ext/matrix_transform.hpp>
 #include "Application.h"
 
+#include "glm.hpp"
 
 namespace Clay
 {
@@ -19,7 +22,6 @@ namespace Clay
 
       _imguiLayer = new ImGuiLayer();
       PushOverlay(_imguiLayer);
-
    }
 
    Application::~Application()
