@@ -6,12 +6,14 @@
 #define CLAYENGINE_LINUXWINDOW_H
 
 #include "Window.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+
 #include "Events/ApplicationEvent.h"
 #include "Events/Event.h"
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
+#include <Renderer/GraphicsContext.h>
+#include <Renderer/OpenGLContext.h>
+#include "GLFW/glfw3.h"
 
 namespace Clay
 {
@@ -30,14 +32,15 @@ namespace Clay
          virtual void SetVSync(bool enabled) override;
          virtual bool IsVSync() const override;
 
-         virtual void* GetNativeWindow() const { return _Window; }
+         virtual void* GetNativeWindow() const { return _window; }
 
       private:
          virtual void Init(const WindowProps& props);
          virtual void Shutdown();
 
       private:
-         GLFWwindow* _Window;
+         GLFWwindow* _window;
+         GraphicsContext* _context;
 
          struct WindowData
          {

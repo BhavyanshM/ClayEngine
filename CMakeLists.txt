@@ -41,7 +41,15 @@ add_executable(ClayEngine
         src/ClayEngine/LayerStack.h
         src/ClayEngine/ImGui/ImGuiLayer.cpp
         src/ClayEngine/ImGui/ImGuiLayer.h
-        src/ClayEngine/ImGui/ImGuiBuild.cpp src/ClayEngine/Input.h src/ClayEngine/Platforms/Linux/LinuxInput.cpp src/ClayEngine/Platforms/Linux/LinuxInput.h src/ClayEngine/KeyCodes.h src/ClayEngine/MouseButtonCodes.h)
+        src/ClayEngine/ImGui/ImGuiBuild.cpp
+        src/ClayEngine/Input.h
+        src/ClayEngine/Platforms/Linux/LinuxInput.cpp
+        src/ClayEngine/Platforms/Linux/LinuxInput.h
+        src/ClayEngine/KeyCodes.h
+        src/ClayEngine/MouseButtonCodes.h
+        src/ClayEngine/Renderer/GraphicsContext.h
+        src/ClayEngine/Renderer/OpenGLContext.cpp
+        src/ClayEngine/Renderer/OpenGLContext.h)
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}

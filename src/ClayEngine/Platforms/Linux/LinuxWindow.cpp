@@ -2,6 +2,7 @@
 // Created by quantum on 6/12/21.
 //
 
+
 #include "LinuxWindow.h"
 
 namespace Clay
@@ -34,6 +35,8 @@ namespace Clay
       _data.Height = props.Height;
       _data.Width = props.Width;
 
+
+
       CLAY_LOG_INFO("Creating Window: {0} ({1}, {2}) ", _data.Title, _data.Width, _data.Height);
 
       if (!s_GLFWInitialized)
@@ -43,16 +46,16 @@ namespace Clay
          glfwSetErrorCallback(GLFWErrorCallback);
       }
 
-      _Window = glfwCreateWindow((int) _data.Width, (int) _data.Height, _data.Title.c_str(), nullptr, nullptr);
-      glfwMakeContextCurrent(_Window);
+      _window = glfwCreateWindow((int) _data.Width, (int) _data.Height, _data.Title.c_str(), nullptr, nullptr);
+      _context = new OpenGLContext(_window);
+      _context->Init();
 
-      int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-      CLAY_LOG_INFO("GLAD Initialization Code: {0}", status);
 
-      glfwSetWindowUserPointer(_Window, &_data);
+
+      glfwSetWindowUserPointer(_window, &_data);
       SetVSync(true);
 
-      glfwSetWindowSizeCallback(_Window, [](GLFWwindow *window, int width, int height)
+      glfwSetWindowSizeCallback(_window, [](GLFWwindow *window, int width, int height)
       {
          WindowData& data = *(WindowData *) glfwGetWindowUserPointer(window);
          data.Width = width;
@@ -62,14 +65,14 @@ namespace Clay
          data.EventCallback(event);
       });
 
-      glfwSetWindowCloseCallback(_Window, [](GLFWwindow *window)
+      glfwSetWindowCloseCallback(_window, [](GLFWwindow *window)
       {
          WindowData& data = *(WindowData *) glfwGetWindowUserPointer(window);
          WindowCloseEvent event;
          data.EventCallback(event);
       });
 
-      glfwSetKeyCallback(_Window, [](GLFWwindow *window, int key, int scanCode, int action, int mods)
+      glfwSetKeyCallback(_window, [](GLFWwindow *window, int key, int scanCode, int action, int mods)
       {
          WindowData& data = *(WindowData *) glfwGetWindowUserPointer(window);
          switch (action)
@@ -95,7 +98,7 @@ namespace Clay
          }
       });
 
-      glfwSetMouseButtonCallback(_Window, [](GLFWwindow* window, int button, int action, int mods){
+      glfwSetMouseButtonCallback(_window, [](GLFWwindow* window, int button, int action, int mods){
          WindowData& data = *(WindowData *) glfwGetWindowUserPointer(window);
          switch (action)
          {
@@ -114,13 +117,13 @@ namespace Clay
          }
       });
 
-      glfwSetScrollCallback(_Window, [](GLFWwindow* window, double xoffset, double yoffset){
+      glfwSetScrollCallback(_window, [](GLFWwindow* window, double xoffset, double yoffset){
          WindowData& data = *(WindowData *) glfwGetWindowUserPointer(window);
          MouseScrolledEvent event(xoffset, yoffset);
          data.EventCallback(event);
       });
 
-      glfwSetCursorPosCallback(_Window, [](GLFWwindow* window, double xpos, double ypos) {
+      glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xpos, double ypos) {
          WindowData& data = *(WindowData *) glfwGetWindowUserPointer(window);
          MouseMovedEvent event(xpos, ypos);
          data.EventCallback(event);
@@ -131,7 +134,8 @@ namespace Clay
    void LinuxWindow::OnUpdate()
    {
       glfwPollEvents();
-      glfwSwapBuffers(_Window);
+      _context->SwapBuffers();
+
    }
 
    void LinuxWindow::SetVSync(bool enabled)
@@ -151,6 +155,6 @@ namespace Clay
 
    void LinuxWindow::Shutdown()
    {
-      glfwDestroyWindow(_Window);
+      glfwDestroyWindow(_window);
    }
 }

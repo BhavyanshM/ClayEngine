@@ -3,11 +3,14 @@
 //
 #pragma once
 
-#include "Log.h"
 #include <iostream>
 #include "GLFW/glfw3.h"
+#include <ext/matrix_clip_space.hpp>
+#include <ext/matrix_transform.hpp>
+#include "glm.hpp"
 
 #include "Core.h"
+#include "Log.h"
 #include "Window.h"
 #include "Events/Event.h"
 #include "Events/MouseEvent.h"
@@ -51,6 +54,8 @@ namespace Clay
          bool _running;
 
          ImGuiLayer* _imguiLayer;
+
+         unsigned int _vertexArray, _vertexBuffer, _indexBuffer;
 
 //         Application* CreateApplication();
 
