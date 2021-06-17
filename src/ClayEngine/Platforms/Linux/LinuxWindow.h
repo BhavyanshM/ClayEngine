@@ -12,7 +12,7 @@
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 #include <Renderer/GraphicsContext.h>
-#include <Renderer/OpenGLContext.h>
+#include <Platforms/OpenGL/OpenGLContext.h>
 #include "GLFW/glfw3.h"
 
 namespace Clay

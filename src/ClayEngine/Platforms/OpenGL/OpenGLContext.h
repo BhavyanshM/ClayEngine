@@ -6,7 +6,7 @@
 #define CLAYENGINE_OPENGLCONTEXT_H
 
 #include "Core.h"
-#include "GraphicsContext.h"
+#include "Renderer/GraphicsContext.h"
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 

@@ -4,10 +4,11 @@
 #pragma once
 
 #include <iostream>
-#include "GLFW/glfw3.h"
 #include <ext/matrix_clip_space.hpp>
 #include <ext/matrix_transform.hpp>
+#include <Renderer/Shader.h>
 #include "glm.hpp"
+#include "GLFW/glfw3.h"
 
 #include "Core.h"
 #include "Log.h"
@@ -56,6 +57,8 @@ namespace Clay
          ImGuiLayer* _imguiLayer;
 
          unsigned int _vertexArray, _vertexBuffer, _indexBuffer;
+
+         std::unique_ptr<Shader> _shader;
 
 //         Application* CreateApplication();
 

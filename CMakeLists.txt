@@ -48,8 +48,8 @@ add_executable(ClayEngine
         src/ClayEngine/KeyCodes.h
         src/ClayEngine/MouseButtonCodes.h
         src/ClayEngine/Renderer/GraphicsContext.h
-        src/ClayEngine/Renderer/OpenGLContext.cpp
-        src/ClayEngine/Renderer/OpenGLContext.h)
+        src/ClayEngine/Platforms/OpenGL/OpenGLContext.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLContext.h src/ClayEngine/Renderer/Shader.h src/ClayEngine/Renderer/Shader.cpp)
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}
