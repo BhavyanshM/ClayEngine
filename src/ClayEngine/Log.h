@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_LOG_H
 #define CLAYENGINE_LOG_H
 
-#include "memory"
+#include "ClayHeaders.h"
 #include "spdlog/spdlog.h"
 #include <spdlog/sinks/stdout_color_sinks.h>
 

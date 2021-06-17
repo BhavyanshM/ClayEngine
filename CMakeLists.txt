@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenGL REQUIRED)
 
+include_directories(src/ClayEngine/)
 include_directories(spdlog/include/)
 include_directories(glfw/include/)
 include_directories(GLAD/include/)
@@ -49,7 +50,10 @@ add_executable(ClayEngine
         src/ClayEngine/MouseButtonCodes.h
         src/ClayEngine/Renderer/GraphicsContext.h
         src/ClayEngine/Platforms/OpenGL/OpenGLContext.cpp
-        src/ClayEngine/Platforms/OpenGL/OpenGLContext.h src/ClayEngine/Renderer/Shader.h src/ClayEngine/Renderer/Shader.cpp)
+        src/ClayEngine/Platforms/OpenGL/OpenGLContext.h src/ClayEngine/Renderer/Shader.h src/ClayEngine/Renderer/Shader.cpp src/ClayEngine/Renderer/Buffer.h src/ClayEngine/Renderer/Buffer.cpp src/ClayEngine/ClayHeaders.h src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.h src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp src/ClayEngine/Renderer/Renderer.h src/ClayEngine/Renderer/Renderer.cpp)
+
+target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/ClayHeaders.h)
+
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}

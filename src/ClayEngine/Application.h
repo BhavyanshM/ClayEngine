@@ -3,13 +3,13 @@
 //
 #pragma once
 
-#include <iostream>
 #include <ext/matrix_clip_space.hpp>
 #include <ext/matrix_transform.hpp>
 #include <Renderer/Shader.h>
 #include "glm.hpp"
 #include "GLFW/glfw3.h"
 
+#include "ClayHeaders.h"
 #include "Core.h"
 #include "Log.h"
 #include "Window.h"
@@ -20,8 +20,8 @@
 #include "LayerStack.h"
 #include "Layer.h"
 #include "Input.h"
-
 #include "ImGui/ImGuiLayer.h"
+#include "Renderer/Buffer.h"
 
 #define BIND_EVENT_CB(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -56,9 +56,12 @@ namespace Clay
 
          ImGuiLayer* _imguiLayer;
 
-         unsigned int _vertexArray, _vertexBuffer, _indexBuffer;
+         unsigned int _vertexArray;
+         std::unique_ptr<VertexBuffer> _vertexBuffer;
+         std::unique_ptr<IndexBuffer> _indexBuffer;
 
          std::unique_ptr<Shader> _shader;
+
 
 //         Application* CreateApplication();
 

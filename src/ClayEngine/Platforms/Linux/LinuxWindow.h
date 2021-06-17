@@ -5,8 +5,8 @@
 #ifndef CLAYENGINE_LINUXWINDOW_H
 #define CLAYENGINE_LINUXWINDOW_H
 
-#include "Window.h"
 
+#include "Window.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/Event.h"
 #include "Events/MouseEvent.h"

@@ -7,9 +7,8 @@
 
 
 #include "glad/glad.h"
-#include "vector"
-#include "string"
 
+#include "ClayHeaders.h"
 #include "Log.h"
 
 namespace Clay
