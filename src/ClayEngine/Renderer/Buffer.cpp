@@ -12,17 +12,17 @@ namespace Clay
    {
       switch (Renderer::GetAPI())
       {
-         case RendererAPI::None:
+         case RenderAPI::None:
          {
             CLAY_LOG_INFO("Renderer API is None.");
             return nullptr;
          }
-         case RendererAPI::OpenGL:
+         case RenderAPI::OpenGL:
          {
             return new OpenGLVertexBuffer(vertices, size);
          }
       }
-      CLAY_LOG_INFO("Could not find RendererAPI. ");
+      CLAY_LOG_INFO("Could not find RenderAPI. ");
       return nullptr;
    }
 
@@ -30,17 +30,17 @@ namespace Clay
    {
       switch (Renderer::GetAPI())
       {
-         case RendererAPI::None:
+         case RenderAPI::None:
          {
             CLAY_LOG_INFO("Renderer API is None.");
             return nullptr;
          }
-         case RendererAPI::OpenGL:
+         case RenderAPI::OpenGL:
          {
             return new OpenGLIndexBuffer(indices, size);
          }
       }
-      CLAY_LOG_INFO("Could not find RendererAPI. ");
+      CLAY_LOG_INFO("Could not find RenderAPI. ");
       return nullptr;
    }
 }

@@ -22,6 +22,7 @@
 #include "Input.h"
 #include "ImGui/ImGuiLayer.h"
 #include "Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
 
 #define BIND_EVENT_CB(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -56,9 +57,9 @@ namespace Clay
 
          ImGuiLayer* _imguiLayer;
 
-         unsigned int _vertexArray;
-         std::unique_ptr<VertexBuffer> _vertexBuffer;
-         std::unique_ptr<IndexBuffer> _indexBuffer;
+         std::shared_ptr<VertexBuffer> _vertexBuffer;
+         std::shared_ptr<IndexBuffer> _indexBuffer;
+         std::shared_ptr<VertexArray> _vertexArray;
 
          std::unique_ptr<Shader> _shader;
 

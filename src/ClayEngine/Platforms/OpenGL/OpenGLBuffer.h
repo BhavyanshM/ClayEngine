@@ -16,14 +16,18 @@ namespace Clay
          OpenGLVertexBuffer(float* vertices, uint32_t count);
          virtual ~OpenGLVertexBuffer();
 
-         virtual void Bind() const;
-         virtual void Unbind() const;
+         virtual void Bind() const override;
+         virtual void Unbind() const override;
+
+         virtual const BufferLayout& GetLayout() const override;
+         virtual void SetLayout(const BufferLayout& layout) override;
 
          virtual uint32_t GetCount() const override {return _count;}
 
       private:
          uint32_t _rendererId;
          uint32_t _count;
+         BufferLayout _layout;
 
    };
 

@@ -33,6 +33,16 @@ namespace Clay
       glBindBuffer(GL_ARRAY_BUFFER, 0);
    }
 
+   const BufferLayout& OpenGLVertexBuffer::GetLayout() const
+   {
+      return _layout;
+   }
+
+   void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout)
+   {
+      _layout = layout;
+   }
+
    ///////////////////////////////////////////////////////////////////////
    // IndexBuffer /////////////////////////////////////////////////////////
    ///////////////////////////////////////////////////////////////////////
