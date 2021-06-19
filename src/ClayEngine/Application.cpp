@@ -4,8 +4,8 @@
 
 
 
-#include <glad/glad.h>
 #include "Application.h"
+#include "Renderer/Renderer.h"
 
 namespace Clay
 {
@@ -106,10 +106,7 @@ namespace Clay
    {
       while (_running)
       {
-         glClearColor(0.1f, 0.1f, 0.1f, 1);
-         glClear(GL_COLOR_BUFFER_BIT);
-
-         RenderCommand::SetClearColor();
+         RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
          RenderCommand::Clear();
 
          Renderer::BeginScene();
@@ -118,9 +115,6 @@ namespace Clay
          Renderer::Submit(_vertexArray);
 
          Renderer::EndScene();
-
-         _vertexArray->Bind();
-         glDrawElements(GL_TRIANGLES, _vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
          for (Layer *layer : _layerStack)
             layer->OnUpdate();

@@ -6,7 +6,6 @@
 #define CLAYENGINE_BUFFER_H
 
 #include "ClayHeaders.h"
-#include "Renderer.h"
 #include "Log.h"
 
 namespace Clay

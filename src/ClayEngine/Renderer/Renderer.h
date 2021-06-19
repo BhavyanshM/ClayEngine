@@ -6,6 +6,7 @@
 #define CLAYENGINE_RENDERER_H
 
 #include "ClayHeaders.h"
+#include "RenderCommand.h"
 
 class VertexArray;
 
@@ -14,15 +15,13 @@ namespace Clay
    class Renderer
    {
       public:
-         inline static RendererAPI GetAPI() { return s_RendererAPI;}
+         inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI();}
 
          static void BeginScene();
          static void EndScene();
          static void Submit(const std::shared_ptr<VertexArray>& vertexBuffer);
 
-      private:
 
-         static RendererAPI s_RendererAPI;
    };
 }
 

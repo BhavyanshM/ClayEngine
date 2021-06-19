@@ -8,8 +8,6 @@
 
 namespace Clay
 {
-   RenderAPI Renderer::s_RendererAPI = RenderAPI::OpenGL;
-
    void Renderer::BeginScene()
    {
 
@@ -19,7 +17,8 @@ namespace Clay
    {
    }
 
-   void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexBuffer)
+   void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray)
    {
+      RenderCommand::DrawIndexed(vertexArray);
    }
 }

@@ -3,7 +3,7 @@
 //
 
 #include "Buffer.h"
-
+#include "Renderer.h"
 #include "Platforms/OpenGL/OpenGLBuffer.h"
 
 namespace Clay
@@ -12,17 +12,17 @@ namespace Clay
    {
       switch (Renderer::GetAPI())
       {
-         case RenderAPI::None:
+         case RendererAPI::API::None:
          {
             CLAY_LOG_INFO("Renderer API is None.");
             return nullptr;
          }
-         case RenderAPI::OpenGL:
+         case RendererAPI::API::OpenGL:
          {
             return new OpenGLVertexBuffer(vertices, size);
          }
       }
-      CLAY_LOG_INFO("Could not find RenderAPI. ");
+      CLAY_LOG_INFO("Could not find RendererAPI::API. ");
       return nullptr;
    }
 
@@ -30,17 +30,17 @@ namespace Clay
    {
       switch (Renderer::GetAPI())
       {
-         case RenderAPI::None:
+         case RendererAPI::API::None:
          {
             CLAY_LOG_INFO("Renderer API is None.");
             return nullptr;
          }
-         case RenderAPI::OpenGL:
+         case RendererAPI::API::OpenGL:
          {
             return new OpenGLIndexBuffer(indices, size);
          }
       }
-      CLAY_LOG_INFO("Could not find RenderAPI. ");
+      CLAY_LOG_INFO("Could not find RendererAPI::API. ");
       return nullptr;
    }
 }

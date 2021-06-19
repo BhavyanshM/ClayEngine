@@ -5,6 +5,7 @@
 #ifndef CLAYENGINE_RENDERCOMMAND_H
 #define CLAYENGINE_RENDERCOMMAND_H
 
+#include "ClayHeaders.h"
 #include "RendererAPI.h"
 
 namespace Clay
@@ -13,9 +14,21 @@ namespace Clay
    class RenderCommand
    {
       public:
-
+         inline static void SetClearColor(const glm::vec4& color)
+         {
+            s_RendererAPI->SetClearColor(color);
+         }
+         inline static void Clear()
+         {
+            s_RendererAPI->Clear();
+         }
+         inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+         {
+            vertexArray->Bind();
+            s_RendererAPI->DrawIndexed(vertexArray);
+         }
       private:
-
+         static RendererAPI* s_RendererAPI;
    };
 }
 
