@@ -10,6 +10,7 @@
 
 #include "ClayHeaders.h"
 #include "Log.h"
+#include "glm/glm.hpp"
 
 namespace Clay
 {
@@ -21,6 +22,8 @@ namespace Clay
 
          void Bind();
          void Unbind();
+
+         void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
       private:
          uint32_t _rendererId;

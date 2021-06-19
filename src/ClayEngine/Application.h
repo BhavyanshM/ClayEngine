@@ -14,8 +14,6 @@
 #include "Log.h"
 #include "Window.h"
 #include "Events/Event.h"
-#include "Events/MouseEvent.h"
-#include "Events/KeyEvent.h"
 #include "Events/ApplicationEvent.h"
 #include "LayerStack.h"
 #include "Layer.h"
@@ -23,6 +21,8 @@
 #include "ImGui/ImGuiLayer.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
+
+#include "Renderer/OrthographicCamera.h"
 
 #define BIND_EVENT_CB(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -61,7 +61,9 @@ namespace Clay
          std::shared_ptr<IndexBuffer> _indexBuffer;
          std::shared_ptr<VertexArray> _vertexArray;
 
-         std::unique_ptr<Shader> _shader;
+         std::shared_ptr<Shader> _shader;
+
+         OrthographicCamera _camera;
 
 
 //         Application* CreateApplication();
