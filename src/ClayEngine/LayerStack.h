@@ -14,7 +14,7 @@ namespace  Clay
    class LayerStack
    {
       public:
-         LayerStack();
+         LayerStack() = default;
          ~LayerStack();
 
          void PushLayer(Layer* layer);
@@ -27,7 +27,7 @@ namespace  Clay
 
       private:
          std::vector<Layer*> _layers;
-         std::vector<Layer*>::iterator _layerInsert;
+         unsigned int _layerInsertIndex = 0;
 
    };
 

@@ -22,8 +22,7 @@ add_subdirectory(GLAD)
 add_subdirectory(ImGui)
 add_subdirectory(glm)
 
-add_executable(ClayEngine
-        src/ClayEngine/main.cpp
+add_library(ClayEngine
         src/ClayEngine/Application.cpp
         src/ClayEngine/Application.h
         src/ClayEngine/Log.cpp
@@ -50,10 +49,9 @@ add_executable(ClayEngine
         src/ClayEngine/MouseButtonCodes.h
         src/ClayEngine/Renderer/GraphicsContext.h
         src/ClayEngine/Platforms/OpenGL/OpenGLContext.cpp
-        src/ClayEngine/Platforms/OpenGL/OpenGLContext.h src/ClayEngine/Renderer/Shader.h src/ClayEngine/Renderer/Shader.cpp src/ClayEngine/Renderer/Buffer.h src/ClayEngine/Renderer/Buffer.cpp src/ClayEngine/ClayHeaders.h src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.h src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp src/ClayEngine/Renderer/Renderer.h src/ClayEngine/Renderer/Renderer.cpp src/ClayEngine/Renderer/VertexArray.cpp src/ClayEngine/Renderer/VertexArray.h src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.cpp src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.h src/ClayEngine/Renderer/RendererAPI.cpp src/ClayEngine/Renderer/RendererAPI.h src/ClayEngine/Renderer/RenderCommand.cpp src/ClayEngine/Renderer/RenderCommand.h src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.cpp src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.h src/ClayEngine/Renderer/OrthographicCamera.cpp src/ClayEngine/Renderer/OrthographicCamera.h)
+        src/ClayEngine/Platforms/OpenGL/OpenGLContext.h src/ClayEngine/Renderer/Shader.h src/ClayEngine/Renderer/Shader.cpp src/ClayEngine/Renderer/Buffer.h src/ClayEngine/Renderer/Buffer.cpp src/ClayEngine/ClayHeaders.h src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.h src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp src/ClayEngine/Renderer/Renderer.h src/ClayEngine/Renderer/Renderer.cpp src/ClayEngine/Renderer/VertexArray.cpp src/ClayEngine/Renderer/VertexArray.h src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.cpp src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.h src/ClayEngine/Renderer/RendererAPI.cpp src/ClayEngine/Renderer/RendererAPI.h src/ClayEngine/Renderer/RenderCommand.cpp src/ClayEngine/Renderer/RenderCommand.h src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.cpp src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.h src/ClayEngine/Renderer/OrthographicCamera.cpp src/ClayEngine/Renderer/OrthographicCamera.h src/Example/GameSandbox.cpp src/Example/GameSandbox.h src/ClayEngine/Clay.h src/Example/ExampleLayer.cpp src/Example/ExampleLayer.h)
 
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/ClayHeaders.h)
-
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}
@@ -62,3 +60,9 @@ target_link_libraries(ClayEngine
         imgui
         glm::glm
         )
+
+add_executable(ClayGameApp src/Example/GameSandbox.cpp src/Example/GameSandbox.h)
+target_link_libraries(ClayGameApp
+        ClayEngine)
+
+

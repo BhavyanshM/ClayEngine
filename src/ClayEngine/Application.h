@@ -57,13 +57,6 @@ namespace Clay
 
          ImGuiLayer* _imguiLayer;
 
-         std::shared_ptr<VertexBuffer> _vertexBuffer;
-         std::shared_ptr<IndexBuffer> _indexBuffer;
-         std::shared_ptr<VertexArray> _vertexArray;
-
-         std::shared_ptr<Shader> _shader;
-
-         OrthographicCamera _camera;
 
 
 //         Application* CreateApplication();

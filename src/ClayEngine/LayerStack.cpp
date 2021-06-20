@@ -6,20 +6,19 @@
 
 namespace Clay
 {
-   LayerStack::LayerStack()
-   {
-      _layerInsert = _layers.begin();
-   }
-
    LayerStack::~LayerStack()
    {
       for(Layer* layer : _layers)
+      {
+         layer->OnDetach();
          delete layer;
+      }
    }
 
    void LayerStack::PushLayer(Layer *layer)
    {
-      _layers.emplace(_layerInsert, layer);
+      _layers.emplace(_layers.begin() + _layerInsertIndex, layer);
+      _layerInsertIndex++;
    }
 
    void LayerStack::PushOverlay(Layer *overlay)
@@ -29,11 +28,12 @@ namespace Clay
 
    void LayerStack::PopLayer(Layer *layer)
    {
-      auto it = std::find(_layers.begin(), _layers.end(), layer);
-      if(it != _layers.end())
+      auto it = std::find(_layers.begin(), _layers.begin() + _layerInsertIndex, layer);
+      if(it != _layers.begin() + _layerInsertIndex)
       {
+         layer->OnDetach();
          _layers.erase(it);
-         _layerInsert--;
+         _layerInsertIndex--;
       }
    }
 
@@ -42,6 +42,7 @@ namespace Clay
       auto it = std::find(_layers.begin(), _layers.end(), overlay);
       if(it != _layers.end())
       {
+         overlay->OnDetach();
          _layers.erase(it);
       }
    }
