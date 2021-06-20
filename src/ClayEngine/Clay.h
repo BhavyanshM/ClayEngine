@@ -5,7 +5,8 @@
 #ifndef CLAYENGINE_CLAY_H
 #define CLAYENGINE_CLAY_H
 
-#include "Application.h"
 #include "Renderer/Renderer.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
 
 #endif //CLAYENGINE_CLAY_H

@@ -4,7 +4,7 @@
 
 #include "ExampleLayer.h"
 
-ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, -1.0f, 1.0f)
+ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, -1.0f, 1.0f), _cameraPosition(0.0f)
 {
    _vertexArray.reset(Clay::VertexArray::Create());
 
@@ -61,8 +61,30 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
 
 void ExampleLayer::OnUpdate()
 {
+
+   if(Clay::Input::IsKeyPressed(Clay::Key::LEFT))
+      _cameraPosition.x -= _cameraSpeed;
+
+   if(Clay::Input::IsKeyPressed(Clay::Key::RIGHT))
+      _cameraPosition.x += _cameraSpeed;
+
+   if(Clay::Input::IsKeyPressed(Clay::Key::UP))
+      _cameraPosition.y += _cameraSpeed;
+
+   if(Clay::Input::IsKeyPressed(Clay::Key::DOWN))
+      _cameraPosition.y -= _cameraSpeed;
+
+   if(Clay::Input::IsKeyPressed(Clay::Key::A))
+      _cameraRotation += _cameraSpeed;
+
+   if(Clay::Input::IsKeyPressed(Clay::Key::D))
+      _cameraRotation -= _cameraSpeed;
+
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
    Clay::RenderCommand::Clear();
+
+   _camera.SetPosition(_cameraPosition);
+   _camera.SetRotation(_cameraRotation);
 
    Clay::Renderer::BeginScene(_camera);
 
@@ -81,3 +103,4 @@ void ExampleLayer::OnImGuiRender()
 void ExampleLayer::OnEvent(Clay::Event& e)
 {
 }
+

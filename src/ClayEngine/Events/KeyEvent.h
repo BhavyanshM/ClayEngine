@@ -12,20 +12,21 @@ namespace Clay
    class KeyEvent : public Event
    {
       public:
+         KeyCode GetKeyCode() const { return _keyCode; }
          EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryKeyboard);
 
       protected:
-         KeyEvent(int keyCode) : _keyCode(keyCode)
+         KeyEvent(const KeyCode keyCode) : _keyCode(keyCode)
          {
          }
 
-         int _keyCode;
+         KeyCode _keyCode;
    };
 
    class KeyPressedEvent : public KeyEvent
    {
       public:
-         KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), _repeatCount(repeatCount) {}
+         KeyPressedEvent(const KeyCode keyCode, int repeatCount) : KeyEvent(keyCode), _repeatCount(repeatCount) {}
 
          inline int GetRepeatCount() const {return _repeatCount;}
 
@@ -45,7 +46,7 @@ namespace Clay
    class KeyReleasedEvent : public KeyEvent
    {
       public:
-         KeyReleasedEvent(int keyCode) : KeyEvent(keyCode) {}
+         KeyReleasedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
 
          std::string toString() const override
          {

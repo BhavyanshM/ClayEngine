@@ -21,6 +21,8 @@
       void OnEvent(Clay::Event& e) override;
       void OnImGuiRender() override;
 
+      bool OnKeyPressedEvent(Clay::KeyPressedEvent& e);
+
    private:
       std::shared_ptr<Clay::VertexBuffer> _vertexBuffer;
       std::shared_ptr<Clay::IndexBuffer> _indexBuffer;
@@ -29,6 +31,10 @@
       std::shared_ptr<Clay::Shader> _shader;
 
       Clay::OrthographicCamera _camera;
+
+      glm::vec3 _cameraPosition;
+      float _cameraSpeed = 0.1f;
+      float _cameraRotation = 0.0f;
 };
 
 #endif //CLAYENGINE_EXAMPLELAYER_H

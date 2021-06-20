@@ -18,7 +18,7 @@ namespace Clay
       s_Instance = this;
 
       _window = std::unique_ptr<Window>(Window::Create());
-      _window->SetEventCallback(BIND_EVENT_CB(OnEvent));
+      _window->SetEventCallback(BIND_EVENT_CB(Application::OnEvent));
 
       _imguiLayer = new ImGuiLayer();
       PushOverlay(_imguiLayer);
@@ -33,7 +33,7 @@ namespace Clay
    void Application::OnEvent(Event& e)
    {
       EventDispatcher dispatcher(e);
-      dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(OnWindowClose));
+      dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(Application::OnWindowClose));
 
       CLAY_LOG_INFO("{0}", e.toString());
 

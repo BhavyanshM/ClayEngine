@@ -24,7 +24,7 @@
 
 #include "Renderer/OrthographicCamera.h"
 
-#define BIND_EVENT_CB(x) std::bind(&Application::x, this, std::placeholders::_1)
+#define BIND_EVENT_CB(fn) std::bind(&fn, this, std::placeholders::_1)
 
 namespace Clay
 {
