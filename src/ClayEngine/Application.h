@@ -33,7 +33,7 @@ namespace Clay
       public:
          Application();
 
-         virtual ~Application();
+         virtual ~Application() = default;
 
          void Run();
 
@@ -56,6 +56,8 @@ namespace Clay
          bool _running;
 
          ImGuiLayer* _imguiLayer;
+
+         double _lastFrameTime = 0.0f;
 
 
 

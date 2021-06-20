@@ -59,26 +59,28 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
    _shader.reset(new Clay::Shader(vertexSource, fragmentSource));
 };
 
-void ExampleLayer::OnUpdate()
+void ExampleLayer::OnUpdate(Clay::Timestep ts)
 {
 
+   CLAY_LOG_INFO("Delta Time: {0} ({1})", ts.GetSeconds(), ts.GetMilliseconds());
+
    if(Clay::Input::IsKeyPressed(Clay::Key::LEFT))
-      _cameraPosition.x -= _cameraSpeed;
+      _cameraPosition.x -= _cameraSpeed * ts;
 
    if(Clay::Input::IsKeyPressed(Clay::Key::RIGHT))
-      _cameraPosition.x += _cameraSpeed;
+      _cameraPosition.x += _cameraSpeed * ts;
 
    if(Clay::Input::IsKeyPressed(Clay::Key::UP))
-      _cameraPosition.y += _cameraSpeed;
+      _cameraPosition.y += _cameraSpeed * ts;
 
    if(Clay::Input::IsKeyPressed(Clay::Key::DOWN))
-      _cameraPosition.y -= _cameraSpeed;
+      _cameraPosition.y -= _cameraSpeed * ts;
 
    if(Clay::Input::IsKeyPressed(Clay::Key::A))
-      _cameraRotation += _cameraSpeed;
+      _cameraRotation += _cameraSpeed * ts;
 
    if(Clay::Input::IsKeyPressed(Clay::Key::D))
-      _cameraRotation -= _cameraSpeed;
+      _cameraRotation -= _cameraSpeed * ts;
 
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
    Clay::RenderCommand::Clear();

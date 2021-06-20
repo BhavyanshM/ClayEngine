@@ -8,5 +8,6 @@
 #include "Log.h"
 #include "KeyCodes.h"
 #include "MouseButtonCodes.h"
+#include "Core/Timestep.h"
 
 #endif //CLAYENGINE_CORE_H

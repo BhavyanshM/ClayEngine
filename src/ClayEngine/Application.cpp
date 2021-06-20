@@ -22,12 +22,6 @@ namespace Clay
 
       _imguiLayer = new ImGuiLayer();
       PushOverlay(_imguiLayer);
-
-
-   }
-
-   Application::~Application()
-   {
    }
 
    void Application::OnEvent(Event& e)
@@ -36,7 +30,6 @@ namespace Clay
       dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(Application::OnWindowClose));
 
       CLAY_LOG_INFO("{0}", e.toString());
-
       for (auto it = _layerStack.end(); it != _layerStack.begin();)
       {
          (*--it)->OnEvent(e);
@@ -55,8 +48,12 @@ namespace Clay
    {
       while (_running)
       {
+         double time = glfwGetTime();
+         Timestep timestep = time - _lastFrameTime;
+         _lastFrameTime = time;
+
          for (Layer *layer : _layerStack)
-            layer->OnUpdate();
+            layer->OnUpdate(timestep);
 
          // ImGui Rendering
          _imguiLayer->Begin();

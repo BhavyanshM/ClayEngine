@@ -17,7 +17,7 @@
       void OnAttach() override {};
       void OnDetach() override {};
 
-      void OnUpdate() override;
+      void OnUpdate(Clay::Timestep ts) override;
       void OnEvent(Clay::Event& e) override;
       void OnImGuiRender() override;
 
@@ -33,7 +33,7 @@
       Clay::OrthographicCamera _camera;
 
       glm::vec3 _cameraPosition;
-      float _cameraSpeed = 0.1f;
+      float _cameraSpeed = 1.0f;
       float _cameraRotation = 0.0f;
 };
 
