@@ -4,11 +4,13 @@
 
 #include "ExampleLayer.h"
 
-ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, -1.0f, 1.0f), _cameraPosition(0.0f)
+ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, -1.0f, 1.0f), _cameraPosition(0.0f), _modelPosition(0.0f)
 {
    _vertexArray.reset(Clay::VertexArray::Create());
 
-   float vertices[3 * 7] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f, 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f, 0.0f, 0.5f, 0.0f, 0.8f, 0.2f, 0.1f, 1.0f};
+   float vertices[3 * 7] = {/* Position */  -0.5f, -0.5f, 0.0f,          /* Color */ 0.8f, 0.2f, 0.8f, 1.0f,
+                            /* Position */  0.5f, -0.5f, 0.0f,           /* Color */ 0.2f, 0.3f, 0.8f, 1.0f,
+                            /* Position */  0.0f, 0.5f, 0.0f,            /* Color */ 0.8f, 0.2f, 0.1f, 1.0f};
 
    _vertexBuffer.reset(Clay::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
 
@@ -29,12 +31,13 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
          layout(location = 1) in vec4 a_Color;
 
          uniform mat4 u_ViewProjection;
+         uniform mat4 u_Transform;
 
          out vec3 v_Position;
          out vec4 v_Color;
 
          void main(){
-            gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+            gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
             v_Position = a_Position;
             v_Color = a_Color;
          }
@@ -64,23 +67,29 @@ void ExampleLayer::OnUpdate(Clay::Timestep ts)
 
    CLAY_LOG_INFO("Delta Time: {0} ({1})", ts.GetSeconds(), ts.GetMilliseconds());
 
+   // Camera Transform Input
    if(Clay::Input::IsKeyPressed(Clay::Key::LEFT))
       _cameraPosition.x -= _cameraSpeed * ts;
-
    if(Clay::Input::IsKeyPressed(Clay::Key::RIGHT))
       _cameraPosition.x += _cameraSpeed * ts;
-
    if(Clay::Input::IsKeyPressed(Clay::Key::UP))
       _cameraPosition.y += _cameraSpeed * ts;
-
    if(Clay::Input::IsKeyPressed(Clay::Key::DOWN))
       _cameraPosition.y -= _cameraSpeed * ts;
-
    if(Clay::Input::IsKeyPressed(Clay::Key::A))
       _cameraRotation += _cameraSpeed * ts;
-
    if(Clay::Input::IsKeyPressed(Clay::Key::D))
       _cameraRotation -= _cameraSpeed * ts;
+
+   // Model Transform Input
+   if(Clay::Input::IsKeyPressed(Clay::Key::J))
+      _modelPosition.x -= _modelSpeed * ts;
+   if(Clay::Input::IsKeyPressed(Clay::Key::L))
+      _modelPosition.x += _modelSpeed * ts;
+   if(Clay::Input::IsKeyPressed(Clay::Key::I))
+      _modelPosition.y += _modelSpeed * ts;
+   if(Clay::Input::IsKeyPressed(Clay::Key::K))
+      _modelPosition.y -= _modelSpeed * ts;
 
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
    Clay::RenderCommand::Clear();
@@ -90,7 +99,8 @@ void ExampleLayer::OnUpdate(Clay::Timestep ts)
 
    Clay::Renderer::BeginScene(_camera);
 
-   Clay::Renderer::Submit(_shader, _vertexArray);
+   glm::mat4 transform = glm::translate(glm::mat4(1.0f), _modelPosition);
+   Clay::Renderer::Submit(_shader, _vertexArray, transform);
 
    Clay::Renderer::EndScene();
 }

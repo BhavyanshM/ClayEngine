@@ -33,8 +33,13 @@
       Clay::OrthographicCamera _camera;
 
       glm::vec3 _cameraPosition;
+      glm::vec3 _modelPosition;
+
       float _cameraSpeed = 1.0f;
       float _cameraRotation = 0.0f;
+
+      float _modelSpeed = 1.0f;
+      float _modelRotation = 0.0f;
 };
 
 #endif //CLAYENGINE_EXAMPLELAYER_H
