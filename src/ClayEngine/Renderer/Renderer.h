@@ -8,7 +8,7 @@
 #include "ClayHeaders.h"
 #include "RenderCommand.h"
 #include "OrthographicCamera.h"
-#include "Shader.h"
+#include "Platforms/OpenGL/OpenGLShader.h"
 
 class VertexArray;
 

@@ -59,7 +59,7 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
 
       )";
 
-   _shader.reset(new Clay::Shader(vertexSource, fragmentSource));
+   _shader.reset(Clay::Shader::Create(vertexSource, fragmentSource));
 };
 
 void ExampleLayer::OnUpdate(Clay::Timestep ts)
