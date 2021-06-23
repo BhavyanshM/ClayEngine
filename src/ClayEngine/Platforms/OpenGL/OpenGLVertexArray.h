@@ -16,10 +16,10 @@ namespace Clay
          OpenGLVertexArray();
          virtual ~OpenGLVertexArray() {}
 
-         virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
-         virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+         virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
+         virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-         virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const override {return _indexBuffer;};
+         virtual const Ref<IndexBuffer>& GetIndexBuffer() const override {return _indexBuffer;};
 
          virtual void Bind() override;
          virtual void Unbind() override;
@@ -27,8 +27,8 @@ namespace Clay
          static VertexArray* Create();
 
       private:
-         std::vector<std::shared_ptr<VertexBuffer>> _vertexBuffers;
-         std::shared_ptr<IndexBuffer> _indexBuffer;
+         std::vector<Ref<VertexBuffer>> _vertexBuffers;
+         Ref<IndexBuffer> _indexBuffer;
          uint32_t _rendererId;
    };
 

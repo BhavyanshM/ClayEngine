@@ -24,11 +24,11 @@
       bool OnKeyPressedEvent(Clay::KeyPressedEvent& e);
 
    private:
-      std::shared_ptr<Clay::VertexBuffer> _vertexBuffer;
-      std::shared_ptr<Clay::IndexBuffer> _indexBuffer;
-      std::shared_ptr<Clay::VertexArray> _vertexArray;
+      Clay::Ref<Clay::VertexBuffer> _vertexBuffer;
+      Clay::Ref<Clay::IndexBuffer> _indexBuffer;
+      Clay::Ref<Clay::VertexArray> _vertexArray;
 
-      std::shared_ptr<Clay::Shader> _shader;
+      Clay::Ref<Clay::Shader> _shader;
 
       Clay::OrthographicCamera _camera;
 

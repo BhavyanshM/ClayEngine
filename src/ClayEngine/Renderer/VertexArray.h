@@ -7,6 +7,7 @@
 
 #include "ClayHeaders.h"
 #include "Buffer.h"
+#include "Core.h"
 
 namespace Clay
 {
@@ -15,9 +16,11 @@ namespace Clay
       public:
          virtual ~VertexArray() {};
 
-         virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
-         virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) = 0;
-         virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;
+         virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) = 0;
+         virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) = 0;
+
+         // TODO-Clay: Add getter for vertex buffers(s): GetVertexBuffers()
+         virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
          virtual void Bind() = 0;
          virtual void Unbind() = 0;

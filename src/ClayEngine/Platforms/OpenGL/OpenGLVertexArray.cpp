@@ -53,7 +53,7 @@ namespace Clay
       glBindVertexArray(0);
    }
 
-   void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+   void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
    {
       glBindVertexArray(_rendererId);
       vertexBuffer->Bind();
@@ -72,7 +72,7 @@ namespace Clay
       _vertexBuffers.push_back(vertexBuffer);
    }
 
-   void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+   void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
    {
       glBindVertexArray(_rendererId);
       indexBuffer->Bind();

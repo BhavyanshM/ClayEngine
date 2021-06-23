@@ -1,11 +1,6 @@
-//
-// Created by quantum on 6/16/21.
-//
-
 #include "glad/glad.h"
 #include "OpenGLShader.h"
 #include "glm/gtc/type_ptr.hpp"
-
 
 namespace Clay
 {

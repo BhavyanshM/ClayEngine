@@ -22,7 +22,7 @@ namespace Clay
          {
             s_RendererAPI->Clear();
          }
-         inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+         inline static void DrawIndexed(const Ref<VertexArray>& vertexArray)
          {
             vertexArray->Bind();
             s_RendererAPI->DrawIndexed(vertexArray);

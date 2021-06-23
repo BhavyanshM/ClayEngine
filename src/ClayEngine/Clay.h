@@ -8,5 +8,6 @@
 #include "Renderer/Renderer.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
+#include "Core.h"
 
 #endif //CLAYENGINE_CLAY_H

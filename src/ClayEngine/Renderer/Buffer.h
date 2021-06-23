@@ -8,6 +8,7 @@
 #include "ClayHeaders.h"
 #include "Log.h"
 
+
 namespace Clay
 {
    enum class ShaderDataType
