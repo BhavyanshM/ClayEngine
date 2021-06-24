@@ -10,4 +10,21 @@
 #include "Events/MouseEvent.h"
 #include "Core.h"
 
+
+#include "ImGui/ImGuiLayer.h"
+
+#include "LayerStack.h"
+#include "Layer.h"
+#include "Input.h"
+
+#include "Log.h"
+
+#include <Renderer/Shader.h>
+#include "Renderer/Texture.h"
+#include "Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
+
+
+#include "Renderer/OrthographicCamera.h"
+
 #endif //CLAYENGINE_CLAY_H

@@ -18,8 +18,8 @@ namespace Clay
       unsigned int Height;
 
       WindowProps(std::string title = "Clay Engine Window",
-                  unsigned int height = 1080,
-                  unsigned int width = 1920) : Title(title), Height(height), Width(width) {}
+                  unsigned int height = 2000,
+                  unsigned int width = 2000) : Title(title), Height(height), Width(width) {}
    };
 
    class Window

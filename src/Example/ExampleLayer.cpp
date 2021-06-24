@@ -8,18 +8,22 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
 {
    _vertexArray.reset(Clay::VertexArray::Create());
 
-   float vertices[3 * 7] = {/* Position */  -0.5f, -0.5f, 0.0f,          /* Color */ 0.8f, 0.2f, 0.8f, 1.0f,
-                            /* Position */  0.5f, -0.5f, 0.0f,           /* Color */ 0.2f, 0.3f, 0.8f, 1.0f,
-                            /* Position */  0.0f, 0.5f, 0.0f,            /* Color */ 0.8f, 0.2f, 0.1f, 1.0f};
+   float vertices[4 * 5] = {/* Position */  -0.5f, -0.5f, 0.0f,   /* TexCoord */ 0.0f, 0.0f,
+                            /* Position */  0.5f, -0.5f, 0.0f,    /* TexCoord */ 1.0f, 0.0f,
+                            /* Position */  0.5f, 0.5f, 0.0f,     /* TexCoord */ 1.0f, 1.0f,
+                            /* Position */  -0.5f, 0.5f, 0.0f,    /* TexCoord */ 0.0f, 1.0f
+    };
 
    _vertexBuffer.reset(Clay::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
 
-   Clay::BufferLayout layout = {{Clay::ShaderDataType::Float3, "a_Position"},
-                                {Clay::ShaderDataType::Float4, "a_Color"}};
+   Clay::BufferLayout layout = {
+         {Clay::ShaderDataType::Float3, "a_Position"},
+         {Clay::ShaderDataType::Float2, "a_TexCoord"}
+   };
    _vertexBuffer->SetLayout(layout);
    _vertexArray->AddVertexBuffer(_vertexBuffer);
 
-   unsigned int indices[3] = {0, 1, 2};
+   unsigned int indices[6] = {0, 1, 2, 2, 3, 0};
    _indexBuffer.reset(Clay::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
    _vertexArray->SetIndexBuffer(_indexBuffer);
@@ -28,18 +32,16 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
          #version 450 core
 
          layout(location = 0) in vec3 a_Position;
-         layout(location = 1) in vec4 a_Color;
+         layout(location = 1) in vec2 a_TexCoord;
 
          uniform mat4 u_ViewProjection;
          uniform mat4 u_Transform;
 
-         out vec3 v_Position;
-         out vec4 v_Color;
+         out vec2 v_TexCoord;
 
          void main(){
+            v_TexCoord = a_TexCoord;
             gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-            v_Position = a_Position;
-            v_Color = a_Color;
          }
 
       )";
@@ -49,17 +51,23 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
 
          layout(location = 0) out vec4 color;
 
-         in vec3 v_Position;
-         in vec4 v_Color;
+         in vec2 v_TexCoord;
+
+         uniform sampler2D u_Texture;
 
          void main(){
-            color = vec4(0.5 * v_Position + 0.5, 1.0);
-            color = v_Color;
+            color = texture(u_Texture, v_TexCoord);
          }
 
       )";
 
    _shader.reset(Clay::Shader::Create(vertexSource, fragmentSource));
+
+   _texture = Clay::Texture2D::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Textures/Checkerboard.png");
+
+   std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->Bind();
+   std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->UploadUniformInt("u_Texture", 0);
+
 };
 
 void ExampleLayer::OnUpdate(Clay::Timestep ts)
@@ -98,6 +106,8 @@ void ExampleLayer::OnUpdate(Clay::Timestep ts)
    _camera.SetRotation(_cameraRotation);
 
    Clay::Renderer::BeginScene(_camera);
+
+   _texture->Bind();
 
    glm::mat4 transform = glm::translate(glm::mat4(1.0f), _modelPosition);
    Clay::Renderer::Submit(_shader, _vertexArray, transform);

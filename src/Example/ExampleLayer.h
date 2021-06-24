@@ -27,6 +27,7 @@
       Clay::Ref<Clay::VertexBuffer> _vertexBuffer;
       Clay::Ref<Clay::IndexBuffer> _indexBuffer;
       Clay::Ref<Clay::VertexArray> _vertexArray;
+      Clay::Ref<Clay::Texture2D> _texture;
 
       Clay::Ref<Clay::Shader> _shader;
 
