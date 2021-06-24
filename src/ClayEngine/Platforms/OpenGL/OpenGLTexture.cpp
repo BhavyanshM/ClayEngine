@@ -1,7 +1,3 @@
-//
-// Created by quantum on 6/23/21.
-//
-
 #include "OpenGLTexture.h"
 #include "stb_image.h"
 #include "glad/glad.h"

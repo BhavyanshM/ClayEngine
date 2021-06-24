@@ -7,7 +7,7 @@
 
 #include "ClayHeaders.h"
 #include "Log.h"
-
+#include "Core.h"
 
 namespace Clay
 {
@@ -140,7 +140,7 @@ namespace Clay
 
          virtual const BufferLayout& GetLayout() const = 0;
 
-         static VertexBuffer *Create(float *vertices, uint32_t count);
+         static Ref<VertexBuffer> Create(float *vertices, uint32_t count);
    };
 
    class IndexBuffer
@@ -156,7 +156,7 @@ namespace Clay
 
          virtual uint32_t GetCount() const = 0;
 
-         static IndexBuffer *Create(uint32_t *indices, uint32_t count);
+         static Ref<IndexBuffer> Create(uint32_t *indices, uint32_t count);
    };
 }
 

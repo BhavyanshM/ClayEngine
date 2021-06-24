@@ -8,7 +8,7 @@
 
 namespace Clay
 {
-   VertexArray *VertexArray::Create()
+   Ref<VertexArray> VertexArray::Create()
    {
       switch (Renderer::GetAPI())
       {
@@ -19,7 +19,7 @@ namespace Clay
          }
          case RendererAPI::API::OpenGL:
          {
-            return new OpenGLVertexArray();
+            return std::make_shared<OpenGLVertexArray>();
          }
       }
       CLAY_LOG_INFO("Could not find RendererAPI. ");

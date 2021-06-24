@@ -6,7 +6,7 @@
 
 ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, -1.0f, 1.0f), _cameraPosition(0.0f), _modelPosition(0.0f)
 {
-   _vertexArray.reset(Clay::VertexArray::Create());
+   _vertexArray = Clay::VertexArray::Create();
 
    float vertices[4 * 5] = {/* Position */  -0.5f, -0.5f, 0.0f,   /* TexCoord */ 0.0f, 0.0f,
                             /* Position */  0.5f, -0.5f, 0.0f,    /* TexCoord */ 1.0f, 0.0f,
@@ -14,7 +14,7 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
                             /* Position */  -0.5f, 0.5f, 0.0f,    /* TexCoord */ 0.0f, 1.0f
     };
 
-   _vertexBuffer.reset(Clay::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
+   _vertexBuffer = Clay::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
 
    Clay::BufferLayout layout = {
          {Clay::ShaderDataType::Float3, "a_Position"},
@@ -24,45 +24,11 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
    _vertexArray->AddVertexBuffer(_vertexBuffer);
 
    unsigned int indices[6] = {0, 1, 2, 2, 3, 0};
-   _indexBuffer.reset(Clay::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+   _indexBuffer = Clay::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 
    _vertexArray->SetIndexBuffer(_indexBuffer);
 
-   std::string vertexSource = R"(
-         #version 450 core
-
-         layout(location = 0) in vec3 a_Position;
-         layout(location = 1) in vec2 a_TexCoord;
-
-         uniform mat4 u_ViewProjection;
-         uniform mat4 u_Transform;
-
-         out vec2 v_TexCoord;
-
-         void main(){
-            v_TexCoord = a_TexCoord;
-            gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-         }
-
-      )";
-
-   std::string fragmentSource = R"(
-         #version 450 core
-
-         layout(location = 0) out vec4 color;
-
-         in vec2 v_TexCoord;
-
-         uniform sampler2D u_Texture;
-
-         void main(){
-            color = texture(u_Texture, v_TexCoord);
-         }
-
-      )";
-
-   _shader.reset(Clay::Shader::Create(vertexSource, fragmentSource));
-
+   _shader = Clay::Shader::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Shaders/Texture.glsl");
    _texture = Clay::Texture2D::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Textures/Checkerboard.png");
 
    std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->Bind();
@@ -73,7 +39,7 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
 void ExampleLayer::OnUpdate(Clay::Timestep ts)
 {
 
-   CLAY_LOG_INFO("Delta Time: {0} ({1})", ts.GetSeconds(), ts.GetMilliseconds());
+//   CLAY_LOG_INFO("Delta Time: {0} ({1})", ts.GetSeconds(), ts.GetMilliseconds());
 
    // Camera Transform Input
    if(Clay::Input::IsKeyPressed(Clay::Key::LEFT))
