@@ -9,7 +9,7 @@ include_directories(src/ClayEngine/)
 include_directories(Vendor/spdlog/include/)
 include_directories(Vendor/glfw/include/)
 include_directories(Vendor/GLAD/include/)
-include_directories(Vendor/imgui/imgui/)
+include_directories(Vendor/ImGui/imgui/)
 include_directories(Vendor/glm/glm/)
 include_directories(Vendor/std_image)
 
@@ -19,7 +19,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(Vendor/glfw)
 add_subdirectory(Vendor/GLAD)
-add_subdirectory(Vendor/imgui)
+add_subdirectory(Vendor/ImGui)
 add_subdirectory(Vendor/glm)
 
 add_library(ClayEngine
