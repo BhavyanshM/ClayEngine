@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_EVENT_H
 #define CLAYENGINE_EVENT_H
 
-#include "ClayHeaders.h"
+#include "Core/ClayHeaders.h"
 
 namespace Clay
 {

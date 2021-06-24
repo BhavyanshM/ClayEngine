@@ -23,30 +23,30 @@ add_subdirectory(Vendor/ImGui)
 add_subdirectory(Vendor/glm)
 
 add_library(ClayEngine
-        src/ClayEngine/Application.cpp
-        src/ClayEngine/Application.h
-        src/ClayEngine/Log.cpp
-        src/ClayEngine/Log.h
+        src/ClayEngine/Core/Application.cpp
+        src/ClayEngine/Core/Application.h
+        src/ClayEngine/Core/Log.cpp
+        src/ClayEngine/Core/Log.h
         src/ClayEngine/Events/Event.h
         src/ClayEngine/Events/KeyEvent.h
         src/ClayEngine/Events/MouseEvent.h
         src/ClayEngine/Events/ApplicationEvent.h
-        src/ClayEngine/Window.h
-        src/ClayEngine/Core.h
+        src/ClayEngine/Core/Window.h
+        src/ClayEngine/Core/Core.h
         src/ClayEngine/Platforms/Linux/LinuxWindow.cpp
         src/ClayEngine/Platforms/Linux/LinuxWindow.h
-        src/ClayEngine/Layer.cpp
-        src/ClayEngine/Layer.h
-        src/ClayEngine/LayerStack.cpp
-        src/ClayEngine/LayerStack.h
+        src/ClayEngine/Core/Layer.cpp
+        src/ClayEngine/Core/Layer.h
+        src/ClayEngine/Core/LayerStack.cpp
+        src/ClayEngine/Core/LayerStack.h
         src/ClayEngine/ImGui/ImGuiLayer.cpp
         src/ClayEngine/ImGui/ImGuiLayer.h
         src/ClayEngine/ImGui/ImGuiBuild.cpp
-        src/ClayEngine/Input.h
+        src/ClayEngine/Core/Input.h
         src/ClayEngine/Platforms/Linux/LinuxInput.cpp
         src/ClayEngine/Platforms/Linux/LinuxInput.h
-        src/ClayEngine/KeyCodes.h
-        src/ClayEngine/MouseButtonCodes.h
+        src/ClayEngine/Core/KeyCodes.h
+        src/ClayEngine/Core/MouseButtonCodes.h
         src/ClayEngine/Renderer/GraphicsContext.h
         src/ClayEngine/Platforms/OpenGL/OpenGLContext.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLContext.h
@@ -54,7 +54,7 @@ add_library(ClayEngine
         src/ClayEngine/Renderer/Shader.cpp
         src/ClayEngine/Renderer/Buffer.h
         src/ClayEngine/Renderer/Buffer.cpp
-        src/ClayEngine/ClayHeaders.h
+        src/ClayEngine/Core/ClayHeaders.h
         src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.h
         src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp
@@ -74,7 +74,7 @@ add_library(ClayEngine
         src/ClayEngine/Renderer/OrthographicCamera.h
         src/Example/GameSandbox.cpp
         src/Example/GameSandbox.h
-        src/ClayEngine/Clay.h
+        src/ClayEngine/Core/Clay.h
         src/Example/ExampleLayer.cpp
         src/Example/ExampleLayer.h
         src/ClayEngine/Core/Timestep.h
@@ -87,7 +87,7 @@ add_library(ClayEngine
         Vendor/std_image/stb_image.h
         Vendor/std_image/stb_image.cpp)
 
-target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/ClayHeaders.h)
+target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 
 target_link_libraries(ClayEngine
         ${OPENGL_LIBRARIES}

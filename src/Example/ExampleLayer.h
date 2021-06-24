@@ -5,8 +5,8 @@
 #ifndef CLAYENGINE_EXAMPLELAYER_H
 #define CLAYENGINE_EXAMPLELAYER_H
 
-#include "Application.h"
-#include "Clay.h"
+#include "Core/Application.h"
+#include "Core/Clay.h"
 
    class ExampleLayer : public Clay::Layer
 {

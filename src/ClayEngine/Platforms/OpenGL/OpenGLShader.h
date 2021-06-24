@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_OPENGLSHADER_H
 #define CLAYENGINE_OPENGLSHADER_H
 
-#include "ClayHeaders.h"
+#include "Core/ClayHeaders.h"
 #include "Renderer/Shader.h"
 #include "glm/glm.hpp"
 

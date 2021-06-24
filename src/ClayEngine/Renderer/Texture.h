@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_TEXTURE_H
 #define CLAYENGINE_TEXTURE_H
 
-#include "Core.h"
+#include "Core/Core.h"
 
 namespace Clay
 {

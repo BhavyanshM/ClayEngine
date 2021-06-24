@@ -5,9 +5,9 @@
 #ifndef CLAYENGINE_SHADER_H
 #define CLAYENGINE_SHADER_H
 
-#include "ClayHeaders.h"
-#include "Core.h"
-#include "Log.h"
+#include "Core/ClayHeaders.h"
+#include "Core/Core.h"
+#include "Core/Log.h"
 
 namespace Clay
 {

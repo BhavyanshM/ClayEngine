@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_LINUXINPUT_H
 #define CLAYENGINE_LINUXINPUT_H
 
-#include "Input.h"
+#include "Core/Input.h"
 
 namespace Clay
 {

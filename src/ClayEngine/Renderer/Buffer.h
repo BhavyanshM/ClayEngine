@@ -5,9 +5,9 @@
 #ifndef CLAYENGINE_BUFFER_H
 #define CLAYENGINE_BUFFER_H
 
-#include "ClayHeaders.h"
-#include "Log.h"
-#include "Core.h"
+#include "Core/ClayHeaders.h"
+#include "Core/Log.h"
+#include "Core/Core.h"
 
 namespace Clay
 {

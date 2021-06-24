@@ -5,11 +5,11 @@
 #ifndef CLAYENGINE_RENDERER_H
 #define CLAYENGINE_RENDERER_H
 
-#include "ClayHeaders.h"
+#include "Core/ClayHeaders.h"
 #include "RenderCommand.h"
 #include "OrthographicCamera.h"
 #include "Platforms/OpenGL/OpenGLShader.h"
-#include "Core.h"
+#include "Core/Core.h"
 
 class VertexArray;
 

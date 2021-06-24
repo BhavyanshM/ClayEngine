@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_OPENGLBUFFER_H
 #define CLAYENGINE_OPENGLBUFFER_H
 
-#include "ClayHeaders.h"
+#include "Core/ClayHeaders.h"
 #include "Renderer/Buffer.h"
 
 namespace Clay

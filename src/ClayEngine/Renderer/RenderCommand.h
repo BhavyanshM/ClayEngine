@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_RENDERCOMMAND_H
 #define CLAYENGINE_RENDERCOMMAND_H
 
-#include "ClayHeaders.h"
+#include "Core/ClayHeaders.h"
 #include "RendererAPI.h"
 
 namespace Clay

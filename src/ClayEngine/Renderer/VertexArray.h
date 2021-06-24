@@ -5,9 +5,9 @@
 #ifndef CLAYENGINE_VERTEXARRAY_H
 #define CLAYENGINE_VERTEXARRAY_H
 
-#include "ClayHeaders.h"
+#include "Core/ClayHeaders.h"
 #include "Buffer.h"
-#include "Core.h"
+#include "Core/Core.h"
 
 namespace Clay
 {
