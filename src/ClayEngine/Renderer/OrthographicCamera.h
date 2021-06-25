@@ -18,6 +18,8 @@ namespace Clay
          void SetPosition(const glm::vec3& position) { _Position = position; RecalculateViewMatrix();}
          void SetRotation(float rotation) {_Rotation = rotation; RecalculateViewMatrix();}
 
+         void SetProjection(float left, float right, float bottom, float top);
+
          const glm::vec3& GetPosition() const { return _Position; }
          float GetRotation() const { return _Rotation; }
 

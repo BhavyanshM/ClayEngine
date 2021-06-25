@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "ExampleLayer.h"
 
-ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, -1.0f, 1.0f), _cameraPosition(0.0f), _modelPosition(0.0f)
+ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _cameraController(2000.0f / 2000.0f)
 {
    _vertexArray = Clay::VertexArray::Create();
 
@@ -35,11 +35,11 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _camera(-1.0f, 1.0f, 
 void ExampleLayer::OnAttach()
 {
    _texture = Clay::Texture2D::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Textures/Checkerboard.png");
-
-   Clay::FramebufferSpecification fbSpec;
-   fbSpec.width = 2000;
-   fbSpec.height = 2000;
-   _frameBuffer = Clay::FrameBuffer::Create(fbSpec);
+//
+//   Clay::FramebufferSpecification fbSpec;
+//   fbSpec.width = 2000;
+//   fbSpec.height = 2000;
+//   _frameBuffer = Clay::FrameBuffer::Create(fbSpec);
 }
 
 void ExampleLayer::OnDetach()
@@ -49,113 +49,87 @@ void ExampleLayer::OnDetach()
 
 void ExampleLayer::OnUpdate(Clay::Timestep ts)
 {
-   /* TODO: Camera Controller Abstraction Here. */
-   // Camera Transform Input
-   if (Clay::Input::IsKeyPressed(Clay::Key::LEFT))
-      _cameraPosition.x -= _cameraSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::RIGHT))
-      _cameraPosition.x += _cameraSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::UP))
-      _cameraPosition.y += _cameraSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::DOWN))
-      _cameraPosition.y -= _cameraSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::A))
-      _cameraRotation += _cameraSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::D))
-      _cameraRotation -= _cameraSpeed * ts;
-
-   // Model Transform Input
-   if (Clay::Input::IsKeyPressed(Clay::Key::J))
-      _modelPosition.x -= _modelSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::L))
-      _modelPosition.x += _modelSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::I))
-      _modelPosition.y += _modelSpeed * ts;
-   if (Clay::Input::IsKeyPressed(Clay::Key::K))
-      _modelPosition.y -= _modelSpeed * ts;
-
+   /* Camera Controller Abstraction Here. */
+   _cameraController.OnUpdate(ts);
 
    /* Renderer handling from here. */
-   _frameBuffer->Bind();
+//   _frameBuffer->Bind();
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
    Clay::RenderCommand::Clear();
 
-   _camera.SetPosition(_cameraPosition);
-   _camera.SetRotation(_cameraRotation);
-
-   Clay::Renderer::BeginScene(_camera);
+   Clay::Renderer::BeginScene(_cameraController.GetCamera());
 
    _texture->Bind();
 
-   glm::mat4 transform = glm::translate(glm::mat4(1.0f), _modelPosition);
-   Clay::Renderer::Submit(_shader, _vertexArray, transform);
+   Clay::Renderer::Submit(_shader, _vertexArray, glm::identity<glm::mat4>());
 
    Clay::Renderer::EndScene();
-   _frameBuffer->Unbind();
+//   _frameBuffer->Unbind();
 }
 
 void ExampleLayer::OnImGuiRender()
 {
-   static bool dockspaceOpen = true;
-   static bool opt_fullscreen = true;
-   static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-
-   ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-   if (opt_fullscreen)
-   {
-      const ImGuiViewport *viewport = ImGui::GetMainViewport();
-      ImGui::SetNextWindowPos(viewport->WorkPos);
-      ImGui::SetNextWindowSize(viewport->WorkSize);
-      ImGui::SetNextWindowViewport(viewport->ID);
-      ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-      ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-      window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-      window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-   } else
-   {
-      dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
-   }
-
-   if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-      window_flags |= ImGuiWindowFlags_NoBackground;
-
-   ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
-
-   if (opt_fullscreen)
-      ImGui::PopStyleVar(2);
-
-   // Submit the DockSpace
-   ImGuiIO& io = ImGui::GetIO();
-   if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-   {
-      ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-      ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-   }
-
-   if (ImGui::BeginMenuBar())
-   {
-      if (ImGui::BeginMenu("File"))
-      {
-         if (ImGui::MenuItem("Exit"))
-            Clay::Application::Get().Close();
-
-         ImGui::EndMenu();
-      }
-      ImGui::EndMenuBar();
-   }
-
-   ImGui::Begin("Settings");
-   ImGui::Text("Renderer Stats:");
-   ImGui::ColorEdit4("Square Color", glm::value_ptr(_squareColor));
-
-   uint32_t textureId = _texture->GetRendererId();
-   ImGui::Image((void*)textureId, ImVec2{200,200} );
-   ImGui::End();
-
-   ImGui::End();
+//   static bool dockspaceOpen = true;
+//   static bool opt_fullscreen = true;
+//   static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+//
+//   ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+//   if (opt_fullscreen)
+//   {
+//      const ImGuiViewport *viewport = ImGui::GetMainViewport();
+//      ImGui::SetNextWindowPos(viewport->WorkPos);
+//      ImGui::SetNextWindowSize(viewport->WorkSize);
+//      ImGui::SetNextWindowViewport(viewport->ID);
+//      ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+//      ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+//      window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+//      window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+//   } else
+//   {
+//      dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
+//   }
+//
+//   if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+//      window_flags |= ImGuiWindowFlags_NoBackground;
+//
+//   ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+//
+//   if (opt_fullscreen)
+//      ImGui::PopStyleVar(2);
+//
+//   // Submit the DockSpace
+//   ImGuiIO& io = ImGui::GetIO();
+//   if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+//   {
+//      ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+//      ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+//   }
+//
+//   if (ImGui::BeginMenuBar())
+//   {
+//      if (ImGui::BeginMenu("File"))
+//      {
+//         if (ImGui::MenuItem("Exit"))
+//            Clay::Application::Get().Close();
+//
+//         ImGui::EndMenu();
+//      }
+//      ImGui::EndMenuBar();
+//   }
+//
+//   ImGui::Begin("Settings");
+//   ImGui::Text("Renderer Stats:");
+//   ImGui::ColorEdit4("Square Color", glm::value_ptr(_squareColor));
+//
+//   uint32_t textureId = _texture->GetRendererId();
+//   ImGui::Image((void*)textureId, ImVec2{200,200} );
+//   ImGui::End();
+//
+//   ImGui::End();
 }
 
 void ExampleLayer::OnEvent(Clay::Event& e)
 {
+   _cameraController.OnEvent(e);
 }
 

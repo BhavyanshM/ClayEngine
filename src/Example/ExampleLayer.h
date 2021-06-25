@@ -32,10 +32,8 @@
 
       Clay::Ref<Clay::Shader> _shader;
 
-      Clay::OrthographicCamera _camera;
+      Clay::OrthographicCameraController _cameraController;
 
-      glm::vec3 _cameraPosition;
-      glm::vec3 _modelPosition;
       glm::vec4 _squareColor;
 
       float _cameraSpeed = 1.0f;

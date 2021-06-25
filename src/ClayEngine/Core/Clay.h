@@ -25,7 +25,7 @@
 #include "Renderer/VertexArray.h"
 #include "Renderer/FrameBuffer.h"
 
-
+#include "Renderer/OrthographicCameraController.h"
 #include "Renderer/OrthographicCamera.h"
 
 #endif //CLAYENGINE_CLAY_H

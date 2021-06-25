@@ -12,6 +12,8 @@
 
 #include "memory"
 
+#define BIND_EVENT_CB(fn) std::bind(&fn, this, std::placeholders::_1)
+
 namespace Clay
 {
    template<typename T>

@@ -17,9 +17,6 @@
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 
-
-#define BIND_EVENT_CB(fn) std::bind(&fn, this, std::placeholders::_1)
-
 namespace Clay
 {
    class Application
