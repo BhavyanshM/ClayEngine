@@ -43,6 +43,8 @@ namespace Clay
 
          Window& GetWindow() { return *_window; }
 
+         void Close();
+
       private:
          static Application* s_Instance;
          LayerStack _layerStack;

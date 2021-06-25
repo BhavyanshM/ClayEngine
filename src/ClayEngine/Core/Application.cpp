@@ -76,6 +76,11 @@ namespace Clay
       _layerStack.PushOverlay(layer);
       layer->OnAttach();
    }
+
+   void Application::Close()
+   {
+      _running = false;
+   }
 }
 
 

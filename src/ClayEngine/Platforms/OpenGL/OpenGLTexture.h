@@ -18,6 +18,7 @@ namespace Clay
 
          uint32_t GetWidth() const override  {return _width;}
          uint32_t GetHeight() const override {return _height;}
+         virtual uint32_t GetRendererId() const override {return _rendererId;};
 
          void Bind(uint32_t slot = 0) const override;
 

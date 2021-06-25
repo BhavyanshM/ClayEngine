@@ -85,7 +85,7 @@ add_library(ClayEngine
         src/ClayEngine/Platforms/OpenGL/OpenGLTexture.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLTexture.h
         Vendor/std_image/stb_image.h
-        Vendor/std_image/stb_image.cpp)
+        Vendor/std_image/stb_image.cpp src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.cpp src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.h src/ClayEngine/Renderer/FrameBuffer.cpp src/ClayEngine/Renderer/FrameBuffer.h)
 
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 

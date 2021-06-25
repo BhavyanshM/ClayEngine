@@ -23,6 +23,7 @@
 #include "Renderer/Texture.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
+#include "Renderer/FrameBuffer.h"
 
 
 #include "Renderer/OrthographicCamera.h"

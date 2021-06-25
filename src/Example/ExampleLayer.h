@@ -14,8 +14,8 @@
       ExampleLayer();
       ~ExampleLayer() = default;
 
-      void OnAttach() override {};
-      void OnDetach() override {};
+      void OnAttach() override;
+      void OnDetach() override;
 
       void OnUpdate(Clay::Timestep ts) override;
       void OnEvent(Clay::Event& e) override;
@@ -28,6 +28,7 @@
       Clay::Ref<Clay::IndexBuffer> _indexBuffer;
       Clay::Ref<Clay::VertexArray> _vertexArray;
       Clay::Ref<Clay::Texture2D> _texture;
+      Clay::Ref<Clay::FrameBuffer> _frameBuffer;
 
       Clay::Ref<Clay::Shader> _shader;
 
@@ -35,6 +36,7 @@
 
       glm::vec3 _cameraPosition;
       glm::vec3 _modelPosition;
+      glm::vec4 _squareColor;
 
       float _cameraSpeed = 1.0f;
       float _cameraRotation = 0.0f;
