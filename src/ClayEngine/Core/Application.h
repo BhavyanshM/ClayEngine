@@ -32,6 +32,8 @@ namespace Clay
 
          bool OnWindowClose(Event& e);
 
+         bool OnWindowResize(WindowResizeEvent& e);
+
          void PushLayer(Layer* layer);
 
          void PushOverlay(Layer* layer);
@@ -47,6 +49,7 @@ namespace Clay
          LayerStack _layerStack;
          std::unique_ptr<Window> _window;
          bool _running;
+         bool _minimized;
 
          ImGuiLayer* _imguiLayer;
 

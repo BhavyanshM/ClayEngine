@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "ExampleLayer.h"
 
-ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _cameraController(2000.0f / 2000.0f)
+ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _cameraController(1000.0f / 1000.0f)
 {
    _vertexArray = Clay::VertexArray::Create();
 
@@ -131,5 +131,14 @@ void ExampleLayer::OnImGuiRender()
 void ExampleLayer::OnEvent(Clay::Event& e)
 {
    _cameraController.OnEvent(e);
+
+   if(e.GetEventType() == Clay::EventType::WindowResize)
+   {
+      auto& re = (Clay::WindowResizeEvent&)e;
+
+//      float zoom = re.GetWidth() / 1000.0f
+//
+//      re.GetWidth(_cameraController.)
+   }
 }
 

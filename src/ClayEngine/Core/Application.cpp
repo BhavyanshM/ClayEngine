@@ -28,6 +28,7 @@ namespace Clay
    {
       EventDispatcher dispatcher(e);
       dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(Application::OnWindowClose));
+      dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(Application::OnWindowResize));
 
       CLAY_LOG_INFO("{0}", e.toString());
       for (auto it = _layerStack.end(); it != _layerStack.begin();)
@@ -44,6 +45,20 @@ namespace Clay
       return true;
    }
 
+
+   bool Application::OnWindowResize(WindowResizeEvent& e)
+   {
+      if(e.GetWidth() == 0 || e.GetHeight() == 0)
+      {
+         _minimized = true;
+         return false;
+      }
+      _minimized = false;
+      Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+      return false;
+   }
+
    void Application::Run()
    {
       while (_running)
@@ -52,8 +67,10 @@ namespace Clay
          Timestep timestep = time - _lastFrameTime;
          _lastFrameTime = time;
 
-         for (Layer *layer : _layerStack)
-            layer->OnUpdate(timestep);
+         if(!_minimized){
+            for (Layer *layer : _layerStack)
+               layer->OnUpdate(timestep);
+         }
 
          // ImGui Rendering
          _imguiLayer->Begin();
