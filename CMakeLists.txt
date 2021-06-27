@@ -97,7 +97,9 @@ target_link_libraries(ClayEngine
         glm::glm
         )
 
-add_executable(ClayGameApp src/Example/GameSandbox.cpp src/Example/GameSandbox.h)
+add_executable(ClayGameApp
+        src/Example/GameSandbox.cpp
+        src/Example/GameSandbox.h)
 target_link_libraries(ClayGameApp
         ClayEngine)
 
