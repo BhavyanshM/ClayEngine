@@ -6,7 +6,8 @@
 
 GameSandbox::GameSandbox()
 {
-   PushLayer(new ExampleLayer());
+//   PushLayer(new ExampleLayer());
+   PushLayer(new Example2D());
 }
 
 int main()

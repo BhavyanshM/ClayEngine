@@ -8,6 +8,7 @@
 #include "Core/Application.h"
 #include "Core/Clay.h"
 #include "ExampleLayer.h"
+#include "Example2D.h"
 
 class GameSandbox : public Clay::Application
 {
