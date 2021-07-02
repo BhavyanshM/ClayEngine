@@ -11,26 +11,6 @@ Example2D::Example2D()
 
 void Example2D::OnAttach()
 {
-   _vertexArray = Clay::VertexArray::Create();
-
-   float vertices[4 * 5] = {/* Position */  -0.5f, -0.5f, 0.0f,   /* TexCoord */ 0.0f, 0.0f,
-         /* Position */  0.5f, -0.5f, 0.0f,    /* TexCoord */ 1.0f, 0.0f,
-         /* Position */  0.5f, 0.5f, 0.0f,     /* TexCoord */ 1.0f, 1.0f,
-         /* Position */  -0.5f, 0.5f, 0.0f,    /* TexCoord */ 0.0f, 1.0f};
-
-   _vertexBuffer = Clay::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
-
-   Clay::BufferLayout layout = {{Clay::ShaderDataType::Float3, "a_Position"},
-                                {Clay::ShaderDataType::Float2, "a_TexCoord"}};
-   _vertexBuffer->SetLayout(layout);
-   _vertexArray->AddVertexBuffer(_vertexBuffer);
-
-   unsigned int indices[6] = {0, 1, 2, 2, 3, 0};
-   _indexBuffer = Clay::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
-
-   _vertexArray->SetIndexBuffer(_indexBuffer);
-
-   _shader = Clay::Shader::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Shaders/FlatColor.glsl");
 
 
 }
@@ -47,14 +27,13 @@ void Example2D::OnUpdate(Clay::Timestep ts)
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
    Clay::RenderCommand::Clear();
 
-   Clay::Renderer::BeginScene(_cameraController.GetCamera());
+   Clay::Renderer2D::DrawQuad({-1.0f, 0.0f}, {0.8f, 0.8f}, {0.8f, 0.2f, 0.3f, 1.0f});
+   Clay::Renderer2D::DrawQuad({-0.5f, -0.5f}, {1.0f, 1.0f}, {0.2f, 0.5f, 0.3f, 1.0f});
 
-   std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->Bind();
-   std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->UploadUniformFloat4("u_Color", _squareColor);
 
-   Clay::Renderer::Submit(_shader, _vertexArray, glm::identity<glm::mat4>());
+   Clay::Renderer2D::BeginScene(_cameraController.GetCamera());
+   Clay::Renderer2D::EndScene();
 
-   Clay::Renderer::EndScene();
 }
 
 void Example2D::OnEvent(Clay::Event& e)

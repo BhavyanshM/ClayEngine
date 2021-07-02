@@ -20,8 +20,15 @@ namespace Clay
       _window = std::unique_ptr<Window>(Window::Create());
       _window->SetEventCallback(BIND_EVENT_CB(Application::OnEvent));
 
+      Renderer::Init();
+
       _imguiLayer = new ImGuiLayer();
       PushOverlay(_imguiLayer);
+   }
+
+   Application::~Application()
+   {
+      Renderer::Shutdown();
    }
 
    void Application::OnEvent(Event& e)

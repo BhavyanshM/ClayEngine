@@ -6,6 +6,8 @@
 #define CLAYENGINE_CLAY_H
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
+
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Core.h"
