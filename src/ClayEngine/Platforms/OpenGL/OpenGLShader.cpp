@@ -211,4 +211,9 @@ namespace Clay
    {
       UploadUniformMat4(name, value);
    }
+
+   void OpenGLShader::SetInt(const std::string& name, int value)
+   {
+      UploadUniformInt(name, value);
+   }
 }

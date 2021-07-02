@@ -22,9 +22,6 @@ class Example2D : public Clay::Layer
       void OnImGuiRender() override;
 
    private:
-      Clay::Ref<Clay::VertexBuffer> _vertexBuffer;
-      Clay::Ref<Clay::IndexBuffer> _indexBuffer;
-      Clay::Ref<Clay::VertexArray> _vertexArray;
       Clay::Ref<Clay::FrameBuffer> _frameBuffer;
 
       Clay::Ref<Clay::Shader> _shader;
@@ -32,6 +29,8 @@ class Example2D : public Clay::Layer
       Clay::OrthographicCameraController _cameraController;
 
       glm::vec4 _squareColor;
+
+      Clay::Ref<Clay::Texture2D> _texture;
 
 
 
