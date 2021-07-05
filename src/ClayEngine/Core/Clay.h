@@ -30,4 +30,7 @@
 #include "Renderer/OrthographicCameraController.h"
 #include "Renderer/OrthographicCamera.h"
 
+#include "Timer.h"
+#include "Instrumentor.h"
+
 #endif //CLAYENGINE_CLAY_H

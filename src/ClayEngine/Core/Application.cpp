@@ -37,7 +37,7 @@ namespace Clay
       dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(Application::OnWindowClose));
       dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(Application::OnWindowResize));
 
-      CLAY_LOG_INFO("{0}", e.toString());
+//      CLAY_LOG_INFO("{0}", e.toString());
       for (auto it = _layerStack.end(); it != _layerStack.begin();)
       {
          (*--it)->OnEvent(e);

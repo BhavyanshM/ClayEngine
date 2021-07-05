@@ -32,8 +32,13 @@ class Example2D : public Clay::Layer
 
       Clay::Ref<Clay::Texture2D> _texture;
 
+      struct ProfileResult
+      {
+         const char* Name;
+         float Time;
+      };
 
-
+      std::vector<ProfileResult> _profileResults;
 
 };
 

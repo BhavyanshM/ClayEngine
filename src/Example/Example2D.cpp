@@ -3,6 +3,7 @@
 //
 #include <glm/gtc/type_ptr.hpp>
 #include "Example2D.h"
+#include "Core/Timer.h"
 
 Example2D::Example2D()
 : Layer("Sandbox2D"), _cameraController(1000.0f / 1000.0f)
@@ -21,6 +22,8 @@ void Example2D::OnDetach()
 
 void Example2D::OnUpdate(Clay::Timestep ts)
 {
+   CLAY_PROFILE_FUNCTION();
+
    _cameraController.OnUpdate(ts);
 
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -44,6 +47,8 @@ void Example2D::OnEvent(Clay::Event& e)
 
 void Example2D::OnImGuiRender()
 {
+   CLAY_PROFILE_FUNCTION();
+
    ImGui::Begin("Settings");
    ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
    ImGui::End();
