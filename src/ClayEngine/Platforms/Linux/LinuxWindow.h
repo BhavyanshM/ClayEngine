@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_LINUXWINDOW_H
 #define CLAYENGINE_LINUXWINDOW_H
 
-
+#include "Core/ClayHeaders.h"
 #include "Core/Window.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/Event.h"

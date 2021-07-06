@@ -12,11 +12,13 @@ Example2D::Example2D()
 
 void Example2D::OnAttach()
 {
+   CLAY_PROFILE_FUNCTION();
    _texture = Clay::Texture2D::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Textures/Checkerboard.png");
 }
 
 void Example2D::OnDetach()
 {
+   CLAY_PROFILE_FUNCTION();
    Layer::OnDetach();
 }
 

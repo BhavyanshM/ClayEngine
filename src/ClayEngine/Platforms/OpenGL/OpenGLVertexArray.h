@@ -14,7 +14,7 @@ namespace Clay
    {
       public:
          OpenGLVertexArray();
-         virtual ~OpenGLVertexArray() {}
+         ~OpenGLVertexArray() override;
 
          virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
          virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;

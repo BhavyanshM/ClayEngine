@@ -5,6 +5,7 @@
 #ifndef CLAYENGINE_ORTHOGRAPHICCAMERA_H
 #define CLAYENGINE_ORTHOGRAPHICCAMERA_H
 
+#include "Core/Core.h"
 #include "glm/glm.hpp"
 
 namespace Clay

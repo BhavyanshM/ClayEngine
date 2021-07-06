@@ -40,21 +40,31 @@ namespace Clay
 
    OpenGLVertexArray::OpenGLVertexArray()
    {
+      CLAY_PROFILE_FUNCTION();
       glCreateBuffers(1, &_rendererId);
+   }
+
+   OpenGLVertexArray::~OpenGLVertexArray()
+   {
+      CLAY_PROFILE_FUNCTION();
+      glDeleteVertexArrays(1, &_rendererId);
    }
 
    void OpenGLVertexArray::Bind()
    {
+      CLAY_PROFILE_FUNCTION();
       glBindVertexArray(_rendererId);
    }
 
    void OpenGLVertexArray::Unbind()
    {
+      CLAY_PROFILE_FUNCTION();
       glBindVertexArray(0);
    }
 
    void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
    {
+      CLAY_PROFILE_FUNCTION();
       glBindVertexArray(_rendererId);
       vertexBuffer->Bind();
 
@@ -74,6 +84,7 @@ namespace Clay
 
    void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
    {
+      CLAY_PROFILE_FUNCTION();
       glBindVertexArray(_rendererId);
       indexBuffer->Bind();
 

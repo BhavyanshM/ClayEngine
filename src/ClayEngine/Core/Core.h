@@ -5,6 +5,7 @@
 #ifndef CLAYENGINE_CORE_H
 #define CLAYENGINE_CORE_H
 
+#include "Instrumentor.h"
 #include "Log.h"
 #include "KeyCodes.h"
 #include "MouseButtonCodes.h"

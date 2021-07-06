@@ -5,6 +5,7 @@ namespace Clay
 {
    OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
    {
+      CLAY_PROFILE_FUNCTION();
       _width = width;
       _height = height;
       _internalFormat = GL_RGBA8;
@@ -22,6 +23,7 @@ namespace Clay
 
    OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : _path(path)
    {
+      CLAY_PROFILE_FUNCTION();
       int width, height, channels;
       stbi_set_flip_vertically_on_load(1);
       stbi_uc *data = stbi_load(path.c_str(), &width, &height, &channels, 0);
@@ -62,16 +64,19 @@ namespace Clay
 
    OpenGLTexture2D::~OpenGLTexture2D()
    {
+      CLAY_PROFILE_FUNCTION();
       glDeleteTextures(1, &_rendererId);
    }
 
    void OpenGLTexture2D::Bind(uint32_t slot) const
    {
+      CLAY_PROFILE_FUNCTION();
       glBindTextureUnit(slot, _rendererId);
    }
 
    void OpenGLTexture2D::SetData(void *data, uint32_t size)
    {
+      CLAY_PROFILE_FUNCTION();
       uint32_t bpc = _dataFormat == GL_RGBA ? 4 : 3;
       glTextureSubImage2D(_rendererId, 0, 0, 0, _width, _height, _dataFormat, GL_UNSIGNED_BYTE, data);
    }

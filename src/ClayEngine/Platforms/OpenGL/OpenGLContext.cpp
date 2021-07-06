@@ -12,6 +12,7 @@ namespace Clay
 
    void OpenGLContext::Init()
    {
+      CLAY_PROFILE_FUNCTION();
       glfwMakeContextCurrent(_windowHandle);
       int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
       CLAY_LOG_INFO("GLAD Initialization Code: {0}", status);
@@ -24,6 +25,7 @@ namespace Clay
 
    void OpenGLContext::SwapBuffers()
    {
+      CLAY_PROFILE_FUNCTION();
       glfwSwapBuffers(_windowHandle);
    }
 }

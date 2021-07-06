@@ -31,6 +31,7 @@ namespace Clay
 
    void LinuxWindow::Init(const WindowProps& props)
    {
+      CLAY_PROFILE_FUNCTION();
       _data.Title = props.Title;
       _data.Height = props.Height;
       _data.Width = props.Width;
@@ -134,6 +135,7 @@ namespace Clay
 
    void LinuxWindow::OnUpdate()
    {
+      CLAY_PROFILE_FUNCTION();
       glfwPollEvents();
       _context->SwapBuffers();
 
@@ -141,6 +143,7 @@ namespace Clay
 
    void LinuxWindow::SetVSync(bool enabled)
    {
+      CLAY_PROFILE_FUNCTION();
       if (enabled)
          glfwSwapInterval(1);
       else
@@ -156,6 +159,7 @@ namespace Clay
 
    void LinuxWindow::Shutdown()
    {
+      CLAY_PROFILE_FUNCTION();
       glfwDestroyWindow(_window);
    }
 }

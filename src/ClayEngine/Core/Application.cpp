@@ -15,6 +15,7 @@ namespace Clay
 
    Application::Application()
    {
+      CLAY_PROFILE_FUNCTION();
       s_Instance = this;
 
       _window = std::unique_ptr<Window>(Window::Create());
@@ -28,11 +29,13 @@ namespace Clay
 
    Application::~Application()
    {
+      CLAY_PROFILE_FUNCTION();
       Renderer::Shutdown();
    }
 
    void Application::OnEvent(Event& e)
    {
+      CLAY_PROFILE_FUNCTION();
       EventDispatcher dispatcher(e);
       dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_CB(Application::OnWindowClose));
       dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(Application::OnWindowResize));
@@ -55,6 +58,7 @@ namespace Clay
 
    bool Application::OnWindowResize(WindowResizeEvent& e)
    {
+      CLAY_PROFILE_FUNCTION();
       if(e.GetWidth() == 0 || e.GetHeight() == 0)
       {
          _minimized = true;
@@ -68,6 +72,7 @@ namespace Clay
 
    void Application::Run()
    {
+      CLAY_PROFILE_FUNCTION();
       while (_running)
       {
          double time = glfwGetTime();
@@ -75,15 +80,22 @@ namespace Clay
          _lastFrameTime = time;
 
          if(!_minimized){
-            for (Layer *layer : _layerStack)
-               layer->OnUpdate(timestep);
+            {
+               CLAY_PROFILE_SCOPE("Application::Run::LayerUpdate");
+               for (Layer *layer : _layerStack)
+                  layer->OnUpdate(timestep);
+            }
+
+            {
+               CLAY_PROFILE_SCOPE("Application::Run::ImGuiRendering");
+               // ImGui Rendering
+               _imguiLayer->Begin();
+               for (Layer *layer : _layerStack)
+                  layer->OnImGuiRender();
+               _imguiLayer->End();
+            }
          }
 
-         // ImGui Rendering
-         _imguiLayer->Begin();
-         for (Layer *layer : _layerStack)
-            layer->OnImGuiRender();
-         _imguiLayer->End();
 
          _window->OnUpdate();
       }
@@ -91,12 +103,14 @@ namespace Clay
 
    void Application::PushLayer(Layer *layer)
    {
+      CLAY_PROFILE_FUNCTION();
       _layerStack.PushLayer(layer);
       layer->OnAttach();
    }
 
    void Application::PushOverlay(Layer *layer)
    {
+      CLAY_PROFILE_FUNCTION();
       _layerStack.PushOverlay(layer);
       layer->OnAttach();
    }

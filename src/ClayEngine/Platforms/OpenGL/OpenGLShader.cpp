@@ -18,6 +18,7 @@ namespace Clay
 
    OpenGLShader::OpenGLShader(const std::string& filePath)
    {
+      CLAY_PROFILE_FUNCTION();
       std::string shaderSrc = ReadFile(filePath);
       auto shaderSources = PreProcess(shaderSrc);
       Compile(shaderSources);
@@ -31,6 +32,7 @@ namespace Clay
 
    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : _name(name)
    {
+      CLAY_PROFILE_FUNCTION();
       std::unordered_map<GLenum, std::string> sources;
       sources[GL_VERTEX_SHADER] = vertexSrc;
       sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -39,11 +41,13 @@ namespace Clay
 
    OpenGLShader::~OpenGLShader()
    {
+      CLAY_PROFILE_FUNCTION();
       glDeleteProgram(_rendererId);
    }
 
    std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
    {
+      CLAY_PROFILE_FUNCTION();
       std::unordered_map<GLenum, std::string> shaderSources;
 
       const char* typeToken = "#type";
@@ -66,6 +70,7 @@ namespace Clay
 
    std::string OpenGLShader::ReadFile(const std::string& filePath)
    {
+      CLAY_PROFILE_FUNCTION();
       std::string result;
       std::ifstream in(filePath, std::ios::in | std::ios::binary);
       if(in)
@@ -84,6 +89,7 @@ namespace Clay
 
    void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
    {
+      CLAY_PROFILE_FUNCTION();
       GLuint program = glCreateProgram();
       std::vector<GLenum> glShaderIDs(shaderSources.size());
 
@@ -147,11 +153,13 @@ namespace Clay
 
    void OpenGLShader::Bind() const
    {
+      CLAY_PROFILE_FUNCTION();
       glUseProgram(_rendererId);
    }
 
    void OpenGLShader::Unbind() const
    {
+      CLAY_PROFILE_FUNCTION();
       glUseProgram(0);
    }
 
@@ -199,21 +207,25 @@ namespace Clay
 
    void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
    {
+      CLAY_PROFILE_FUNCTION();
       UploadUniformFloat3(name, value);
    }
 
    void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
    {
+      CLAY_PROFILE_FUNCTION();
       UploadUniformFloat4(name, value);
    }
 
    void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
    {
+      CLAY_PROFILE_FUNCTION();
       UploadUniformMat4(name, value);
    }
 
    void OpenGLShader::SetInt(const std::string& name, int value)
    {
+      CLAY_PROFILE_FUNCTION();
       UploadUniformInt(name, value);
    }
 }

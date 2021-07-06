@@ -13,7 +13,7 @@ namespace Clay
 
    void OpenGLRendererAPI::Init()
    {
-//      HZ_PROFILE_FUNCTION();
+      CLAY_PROFILE_FUNCTION();
 
 //#ifdef HZ_DEBUG
 //      glEnable(GL_DEBUG_OUTPUT);

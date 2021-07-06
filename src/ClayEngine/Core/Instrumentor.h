@@ -7,6 +7,9 @@
 
 #include "ClayHeaders.h"
 #include "iomanip"
+#include "chrono"
+#include "thread"
+#include "mutex"
 
 namespace Clay
 {
