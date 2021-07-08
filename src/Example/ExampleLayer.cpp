@@ -14,7 +14,7 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _cameraController(100
          /* Position */  0.5f, 0.5f, 0.0f,     /* TexCoord */ 1.0f, 1.0f,
          /* Position */  -0.5f, 0.5f, 0.0f,    /* TexCoord */ 0.0f, 1.0f};
 
-   _vertexBuffer = Clay::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
+   _vertexBuffer = Clay::VertexBuffer::Create(vertices, sizeof(vertices));
 
    Clay::BufferLayout layout = {{Clay::ShaderDataType::Float3, "a_Position"},
                                 {Clay::ShaderDataType::Float2, "a_TexCoord"}};

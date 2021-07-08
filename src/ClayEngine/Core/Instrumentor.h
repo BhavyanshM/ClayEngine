@@ -192,7 +192,7 @@ namespace Clay
    }
 }
 
-#define CLAY_PROFILE 1
+#define CLAY_PROFILE 0
 #if CLAY_PROFILE
 // Resolve which function signature macro will be used. Note that this only
 	// is resolved when the (pre)compiler starts, so the syntax highlighting

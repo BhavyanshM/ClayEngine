@@ -11,12 +11,20 @@ namespace Clay
    // VertexBuffer ///////////////////////////////////////////////////////
    ///////////////////////////////////////////////////////////////////////
 
-   OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, uint32_t count) : _count(count)
+   OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
    {
       CLAY_PROFILE_FUNCTION();
       glCreateBuffers(1, &_rendererId);
       glBindBuffer(GL_ARRAY_BUFFER, _rendererId);
-      glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), vertices, GL_STATIC_DRAW);
+      glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+   }
+
+   OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, uint32_t size) : _count(size / sizeof(float))
+   {
+      CLAY_PROFILE_FUNCTION();
+      glCreateBuffers(1, &_rendererId);
+      glBindBuffer(GL_ARRAY_BUFFER, _rendererId);
+      glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
    }
 
    OpenGLVertexBuffer::~OpenGLVertexBuffer()
@@ -45,6 +53,12 @@ namespace Clay
    void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout)
    {
       _layout = layout;
+   }
+
+   void OpenGLVertexBuffer::SetData(const void *data, uint32_t dataSize)
+   {
+      glBindBuffer(GL_ARRAY_BUFFER, _rendererId);
+      glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, data);
    }
 
    ///////////////////////////////////////////////////////////////////////
@@ -76,4 +90,5 @@ namespace Clay
       CLAY_PROFILE_FUNCTION();
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
    }
+
 }

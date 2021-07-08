@@ -26,7 +26,7 @@ namespace Clay
       return nullptr;
    }
 
-   Ref<IndexBuffer> IndexBuffer::Create(uint32_t *indices, uint32_t size)
+   Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
    {
       switch (Renderer::GetAPI())
       {
@@ -37,7 +37,25 @@ namespace Clay
          }
          case RendererAPI::API::OpenGL:
          {
-            return std::make_shared<OpenGLIndexBuffer>(indices, size);
+            return std::make_shared<OpenGLVertexBuffer>(size);
+         }
+      }
+      CLAY_LOG_INFO("Could not find RendererAPI::API. ");
+      return nullptr;
+   }
+
+   Ref<IndexBuffer> IndexBuffer::Create(uint32_t *indices, uint32_t count)
+   {
+      switch (Renderer::GetAPI())
+      {
+         case RendererAPI::API::None:
+         {
+            CLAY_LOG_INFO("Renderer API is None.");
+            return nullptr;
+         }
+         case RendererAPI::API::OpenGL:
+         {
+            return std::make_shared<OpenGLIndexBuffer>(indices, count);
          }
       }
       CLAY_LOG_INFO("Could not find RendererAPI::API. ");

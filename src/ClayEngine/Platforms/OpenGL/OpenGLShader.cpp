@@ -205,6 +205,12 @@ namespace Clay
       glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
    }
 
+   void OpenGLShader::SetFloat(const std::string& name, float value)
+   {
+      CLAY_PROFILE_FUNCTION();
+      UploadUniformFloat(name, value);
+   }
+
    void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
    {
       CLAY_PROFILE_FUNCTION();
