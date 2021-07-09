@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenGL REQUIRED)
 
+
 include_directories(src/ClayEngine/)
 include_directories(Vendor/spdlog/include/)
 include_directories(Vendor/glfw/include/)
