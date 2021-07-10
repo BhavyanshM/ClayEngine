@@ -23,6 +23,7 @@ namespace Clay
       glBindFramebuffer(GL_FRAMEBUFFER, _rendererId);
 
       glCreateTextures(GL_TEXTURE_2D, 1, &_colorAttachment);
+      glBindTexture(GL_TEXTURE_2D, _colorAttachment);
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _fbSpec.width, _fbSpec.height,0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
