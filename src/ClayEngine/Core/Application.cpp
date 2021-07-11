@@ -13,12 +13,12 @@ namespace Clay
 
    Application *Application::s_Instance = nullptr;
 
-   Application::Application()
+   Application::Application(const std::string& name)
    {
       CLAY_PROFILE_FUNCTION();
       s_Instance = this;
 
-      _window = std::unique_ptr<Window>(Window::Create());
+      _window = std::unique_ptr<Window>(Window::Create(WindowProps(name)));
       _window->SetEventCallback(BIND_EVENT_CB(Application::OnEvent));
 
       Renderer::Init();

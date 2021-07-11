@@ -15,10 +15,19 @@ namespace Clay
    OpenGLFrameBuffer::~OpenGLFrameBuffer()
    {
       glDeleteFramebuffers(1, &_rendererId);
+      glDeleteTextures(1, &_colorAttachment);
+      glDeleteTextures(1, &_depthAttachment);
    }
 
    void OpenGLFrameBuffer::Invalidate()
    {
+      if(_rendererId)
+      {
+         glDeleteFramebuffers(1, &_rendererId);
+         glDeleteTextures(1, &_colorAttachment);
+         glDeleteTextures(1, &_depthAttachment);
+      }
+
       glCreateFramebuffers(1, &_rendererId);
       glBindFramebuffer(GL_FRAMEBUFFER, _rendererId);
 
@@ -43,9 +52,18 @@ namespace Clay
 
    }
 
+   void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
+   {
+      _fbSpec.width = width;
+      _fbSpec.height = height;
+
+      Invalidate();
+   }
+
    void OpenGLFrameBuffer::Bind() const
    {
       glBindFramebuffer(GL_FRAMEBUFFER, _rendererId);
+      glViewport(0,0,_fbSpec.width, _fbSpec.height);
    }
 
    void OpenGLFrameBuffer::Unbind() const

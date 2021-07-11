@@ -22,6 +22,8 @@ namespace Clay
 
          virtual const FramebufferSpecification& GetSpecification() override {return _fbSpec;};
 
+         virtual void Resize(uint32_t width, uint32_t height) override;
+
          void Invalidate();
 
       private:

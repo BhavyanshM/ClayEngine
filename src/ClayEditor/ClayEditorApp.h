@@ -3,21 +3,16 @@
 //
 
 #ifndef CLAYENGINE_CLAYEDITORAPP_H
-#define CLAYENGINE_GAMESANDBOX_H
+#define CLAYENGINE_CLAYEDITORAPP_H
 
 #include "Core/Application.h"
 #include "Core/Clay.h"
-#include "ExampleLayer.h"
-#include "Example2D.h"
+#include "EditorLayer.h"
 
 class ClayEditorApp : public Clay::Application
 {
    public:
-      ClayEditorApp()
-         : Clay::Application("Hazel Editor")
-      {
-         PushLayer(new EditorLayer());
-      }
+      ClayEditorApp();
       ~ClayEditorApp() = default;
 };
 

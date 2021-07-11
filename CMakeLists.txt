@@ -73,11 +73,7 @@ add_library(ClayEngine
         src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.h
         src/ClayEngine/Renderer/OrthographicCamera.cpp
         src/ClayEngine/Renderer/OrthographicCamera.h
-        src/Example/GameSandbox.cpp
-        src/Example/GameSandbox.h
         src/ClayEngine/Core/Clay.h
-        src/Example/ExampleLayer.cpp
-        src/Example/ExampleLayer.h
         src/ClayEngine/Core/Timestep.h
         src/ClayEngine/Platforms/OpenGL/OpenGLShader.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLShader.h
@@ -86,7 +82,17 @@ add_library(ClayEngine
         src/ClayEngine/Platforms/OpenGL/OpenGLTexture.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLTexture.h
         Vendor/std_image/stb_image.h
-        Vendor/std_image/stb_image.cpp src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.cpp src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.h src/ClayEngine/Renderer/FrameBuffer.cpp src/ClayEngine/Renderer/FrameBuffer.h src/ClayEngine/Renderer/OrthographicCameraController.cpp src/ClayEngine/Renderer/OrthographicCameraController.h src/Example/Example2D.cpp src/Example/Example2D.h src/ClayEngine/Renderer/Renderer2D.cpp src/ClayEngine/Renderer/Renderer2D.h src/ClayEngine/Core/Timer.h src/ClayEngine/Core/Instrumentor.h)
+        Vendor/std_image/stb_image.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.h
+        src/ClayEngine/Renderer/FrameBuffer.cpp
+        src/ClayEngine/Renderer/FrameBuffer.h
+        src/ClayEngine/Renderer/OrthographicCameraController.cpp
+        src/ClayEngine/Renderer/OrthographicCameraController.h
+        src/ClayEngine/Renderer/Renderer2D.cpp
+        src/ClayEngine/Renderer/Renderer2D.h
+        src/ClayEngine/Core/Timer.h
+        src/ClayEngine/Core/Instrumentor.h)
 
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 
@@ -99,9 +105,23 @@ target_link_libraries(ClayEngine
         )
 
 add_executable(ClayGameApp
+        src/Example/ExampleLayer.cpp
+        src/Example/ExampleLayer.h
         src/Example/GameSandbox.cpp
-        src/Example/GameSandbox.h)
+        src/Example/GameSandbox.h
+        src/Example/Example2D.cpp
+        src/Example/Example2D.h
+        )
 target_link_libraries(ClayGameApp
+        ClayEngine)
+
+
+add_executable(ClayEditor
+        src/ClayEditor/ClayEditorApp.cpp
+        src/ClayEditor/ClayEditorApp.h
+        src/ClayEditor/EditorLayer.cpp
+        src/ClayEditor/EditorLayer.h)
+target_link_libraries(ClayEditor
         ClayEngine)
 
 

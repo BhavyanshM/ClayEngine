@@ -67,12 +67,12 @@ namespace Clay
    void ImGuiLayer::OnEvent(Event& e)
    {
       CLAY_PROFILE_FUNCTION();
-      if (_blockEvents)
-      {
-         ImGuiIO& io = ImGui::GetIO();
-         e._handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-         e._handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-      }
+//      if (_blockEvents)
+//      {
+//         ImGuiIO& io = ImGui::GetIO();
+//         e._handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+//         e._handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+//      }
    }
 
    void ImGuiLayer::Begin()

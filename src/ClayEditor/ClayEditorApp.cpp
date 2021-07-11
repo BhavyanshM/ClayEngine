@@ -2,8 +2,13 @@
 // Created by quantum on 6/20/21.
 //
 
-#include "GameSandbox.h"
+#include "ClayEditorApp.h"
 
+ClayEditorApp::ClayEditorApp()
+{
+//   PushLayer(new ExampleLayer());
+   PushLayer(new Clay::EditorLayer());
+}
 
 int main(int argc, char** argv)
 {

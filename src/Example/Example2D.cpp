@@ -21,37 +21,31 @@ void handler(int sig) {
    exit(1);
 }
 
-Example2D::Example2D()
+EditorLayer::EditorLayer()
 : Layer("Sandbox2D"), _cameraController(1000.0f / 1000.0f)
 {
    signal(SIGSEGV, handler);
 }
 
-void Example2D::OnAttach()
+void EditorLayer::OnAttach()
 {
    CLAY_PROFILE_FUNCTION();
    _texture = Clay::Texture2D::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/Example/Assets/Textures/Checkerboard.png");
-
-   Clay::FramebufferSpecification fbSpec;
-   fbSpec.width = 1000;
-   fbSpec.height = 1000;
-   _frameBuffer = Clay::FrameBuffer::Create(fbSpec);
 }
 
-void Example2D::OnDetach()
+void EditorLayer::OnDetach()
 {
    CLAY_PROFILE_FUNCTION();
    Layer::OnDetach();
 }
 
-void Example2D::OnUpdate(Clay::Timestep ts)
+void EditorLayer::OnUpdate(Clay::Timestep ts)
 {
    CLAY_PROFILE_FUNCTION();
 
    _cameraController.OnUpdate(ts);
 
    Clay::Renderer2D::ResetStats();
-   _frameBuffer->Bind();
 
    Clay::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
    Clay::RenderCommand::Clear();
@@ -70,65 +64,16 @@ void Example2D::OnUpdate(Clay::Timestep ts)
       }
    }
    Clay::Renderer2D::EndScene();
-   _frameBuffer->Unbind();
 }
 
-void Example2D::OnEvent(Clay::Event& e)
+void EditorLayer::OnEvent(Clay::Event& e)
 {
    _cameraController.OnEvent(e);
 }
 
-void Example2D::OnImGuiRender()
+void EditorLayer::OnImGuiRender()
 {
    CLAY_PROFILE_FUNCTION();
-
-   static bool dockspaceOpen = true;
-   static bool opt_fullscreen = true;
-   static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-
-   ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-   if (opt_fullscreen)
-   {
-      const ImGuiViewport *viewport = ImGui::GetMainViewport();
-      ImGui::SetNextWindowPos(viewport->WorkPos);
-      ImGui::SetNextWindowSize(viewport->WorkSize);
-      ImGui::SetNextWindowViewport(viewport->ID);
-      ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-      ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-      window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-      window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-   } else
-   {
-      dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
-   }
-
-   if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-      window_flags |= ImGuiWindowFlags_NoBackground;
-
-   ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
-
-   if (opt_fullscreen)
-      ImGui::PopStyleVar(2);
-
-   // Submit the DockSpace
-   ImGuiIO& io = ImGui::GetIO();
-   if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-   {
-      ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-      ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-   }
-
-   if (ImGui::BeginMenuBar())
-   {
-      if (ImGui::BeginMenu("File"))
-      {
-         if (ImGui::MenuItem("Exit"))
-            Clay::Application::Get().Close();
-
-         ImGui::EndMenu();
-      }
-      ImGui::EndMenuBar();
-   }
 
    ImGui::Begin("Settings");
 
@@ -140,12 +85,6 @@ void Example2D::OnImGuiRender()
    ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
    ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
-
-   uint32_t textureId = _frameBuffer->GetColorAttachment();
-   ImGui::Image((void*)textureId, ImVec2{400.0f, 400.0f});
-
-
-   ImGui::End();
 
    ImGui::End();
 }

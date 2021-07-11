@@ -22,7 +22,7 @@ namespace Clay
    class Application
    {
       public:
-         Application();
+         Application(const std::string& name = "Clay Engine");
 
          virtual ~Application();
 

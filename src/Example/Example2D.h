@@ -2,17 +2,17 @@
 // Created by quantum on 6/29/21.
 //
 
-#ifndef CLAYENGINE_EXAMPLE2D_H
+#ifndef CLAYENGINE_EDITORLAYER_H
 #define CLAYENGINE_EXAMPLE2D_H
 
 #include "Core/Application.h"
 #include "Core/Clay.h"
 
-class Example2D : public Clay::Layer
+class EditorLayer : public Clay::Layer
 {
    public:
-      Example2D();
-      ~Example2D() = default;
+      EditorLayer();
+      ~EditorLayer() = default;
 
       void OnAttach() override;
       void OnDetach() override;
@@ -22,8 +22,6 @@ class Example2D : public Clay::Layer
       void OnImGuiRender() override;
 
    private:
-      Clay::Ref<Clay::FrameBuffer> _frameBuffer;
-
       Clay::Ref<Clay::Shader> _shader;
 
       Clay::OrthographicCameraController _cameraController;
@@ -42,4 +40,4 @@ class Example2D : public Clay::Layer
 
 };
 
-#endif //CLAYENGINE_EXAMPLE2D_H
+#endif //CLAYENGINE_EDITORLAYER_H
