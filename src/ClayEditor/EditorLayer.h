@@ -47,6 +47,9 @@ namespace Clay
          std::vector<ProfileResult> _profileResults;
 
          glm::vec2 _viewportSize = {0,0};
+
+         bool _viewportFocused = false;
+         bool _viewportHovered = false;
    };
 }
 #endif //CLAYENGINE_EDITORLAYER_H

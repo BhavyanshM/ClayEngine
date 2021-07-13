@@ -50,7 +50,8 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
 
-      _cameraController.OnUpdate(ts);
+      if (_viewportFocused)
+         _cameraController.OnUpdate(ts);
 
       Renderer2D::ResetStats();
       _frameBuffer->Bind();
@@ -144,21 +145,29 @@ namespace Clay
       ImGui::End();
 
       /* Viewport Region */
-      ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0,0});
+      ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
+
       ImGui::Begin("Viewport");
+
+      _viewportFocused = ImGui::IsWindowFocused();
+      _viewportHovered = ImGui::IsWindowHovered();
+      Application::Get().GetImGuiLayer()->BlockEvents(!_viewportFocused || !_viewportHovered);
+
+      CLAY_LOG_INFO("Focused: {0}, Hovered: {1}", ImGui::IsWindowFocused(), ImGui::IsWindowHovered());
+
       ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
-      if(_viewportSize != *((glm::vec2*)&viewportPanelSize))
+      if (_viewportSize != *((glm::vec2 *) &viewportPanelSize))
       {
 
          _viewportSize.x = viewportPanelSize.x;
          _viewportSize.y = viewportPanelSize.y;
 
-         _frameBuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
+         _frameBuffer->Resize((uint32_t) viewportPanelSize.x, (uint32_t) viewportPanelSize.y);
          _cameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
       }
       uint32_t textureId = _frameBuffer->GetColorAttachment();
-      ImGui::Image((void *) textureId, ImVec2{_viewportSize.x, _viewportSize.y}, ImVec2{0,1}, ImVec2(1,0));
+      ImGui::Image((void *) textureId, ImVec2{_viewportSize.x, _viewportSize.y}, ImVec2{0, 1}, ImVec2(1, 0));
       ImGui::End();
       ImGui::PopStyleVar();
 

@@ -38,6 +38,8 @@ namespace Clay
 
          void PushOverlay(Layer* layer);
 
+         ImGuiLayer* GetImGuiLayer() {return _imguiLayer;}
+
          static Application& Get() { return *s_Instance; }
 
          Window& GetWindow() { return *_window; }
