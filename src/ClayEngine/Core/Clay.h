@@ -27,7 +27,7 @@
 #include "Renderer/VertexArray.h"
 #include "Renderer/FrameBuffer.h"
 
-#include "Renderer/OrthographicCameraController.h"
+#include "Renderer/CameraController.h"
 #include "Renderer/OrthographicCamera.h"
 
 #include "Timer.h"

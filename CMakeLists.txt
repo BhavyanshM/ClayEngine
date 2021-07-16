@@ -87,12 +87,12 @@ add_library(ClayEngine
         src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.h
         src/ClayEngine/Renderer/FrameBuffer.cpp
         src/ClayEngine/Renderer/FrameBuffer.h
-        src/ClayEngine/Renderer/OrthographicCameraController.cpp
-        src/ClayEngine/Renderer/OrthographicCameraController.h
+        src/ClayEngine/Renderer/CameraController.cpp
+        src/ClayEngine/Renderer/CameraController.h
         src/ClayEngine/Renderer/Renderer2D.cpp
         src/ClayEngine/Renderer/Renderer2D.h
         src/ClayEngine/Core/Timer.h
-        src/ClayEngine/Core/Instrumentor.h)
+        src/ClayEngine/Core/Instrumentor.h src/ClayEngine/Renderer/PerspectiveCamera.cpp src/ClayEngine/Renderer/PerspectiveCamera.h)
 
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 

@@ -32,7 +32,7 @@ namespace Clay
 
          Ref<Shader> _shader;
 
-         OrthographicCameraController _cameraController;
+         CameraController _cameraController;
 
          glm::vec4 _squareColor;
 

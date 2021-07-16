@@ -32,7 +32,7 @@
 
       Clay::Ref<Clay::Shader> _shader;
 
-      Clay::OrthographicCameraController _cameraController;
+      Clay::CameraController _cameraController;
 
       glm::vec4 _squareColor;
 

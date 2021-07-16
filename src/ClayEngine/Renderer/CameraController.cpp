@@ -6,19 +6,19 @@
 #define CLAYENGINE_ORTHOGRAPHICCAMERACONTROLLER_H
 
 #include "Core/ClayHeaders.h"
-#include "Renderer/OrthographicCameraController.h"
+#include "Renderer/CameraController.h"
 
 #include "Core/Input.h"
 #include "Core/KeyCodes.h"
 
 namespace Clay {
 
-   OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
+   CameraController::CameraController(float aspectRatio, bool rotation)
          : m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
    {
    }
 
-   void OrthographicCameraController::OnUpdate(Timestep ts)
+   void CameraController::OnUpdate(Timestep ts)
    {
       CLAY_PROFILE_FUNCTION();
       if (Input::IsKeyPressed(Key::A))
@@ -63,22 +63,23 @@ namespace Clay {
       m_CameraTranslationSpeed = m_ZoomLevel;
    }
 
-   void OrthographicCameraController::OnEvent(Event& e)
+   void CameraController::OnEvent(Event& e)
    {
       CLAY_PROFILE_FUNCTION();
       EventDispatcher dispatcher(e);
-      dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_CB(OrthographicCameraController::OnMouseScrolled));
-      dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(OrthographicCameraController::OnWindowResized));
+      dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_CB(CameraController::OnMouseScrolled));
+      dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_CB(CameraController::OnMouseScrolled));
+      dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(CameraController::OnWindowResized));
    }
 
-   void OrthographicCameraController::OnResize(float width, float height)
+   void CameraController::OnResize(float width, float height)
    {
       CLAY_PROFILE_FUNCTION();
       m_AspectRatio = width / height;
       m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
    }
 
-   bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
+   bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
    {
       CLAY_PROFILE_FUNCTION();
       m_ZoomLevel -= e.GetOffsetY() * 0.25f;
@@ -87,11 +88,18 @@ namespace Clay {
       return false;
    }
 
-   bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
+   bool CameraController::OnWindowResized(WindowResizeEvent& e)
    {
       CLAY_PROFILE_FUNCTION();
       OnResize((float)e.GetWidth(), (float)e.GetHeight());
       return false;
+   }
+
+   bool CameraController::OnMouseMoved(MouseMovedEvent& e)
+   {
+      CLAY_PROFILE_FUNCTION();
+
+
    }
 
 }
