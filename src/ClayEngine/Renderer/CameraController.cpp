@@ -59,6 +59,7 @@ namespace Clay {
       }
 
       m_Camera.SetPosition(m_CameraPosition);
+      CLAY_LOG_INFO("Camera Position: {} {} {}", m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z);
 
       m_CameraTranslationSpeed = m_ZoomLevel;
    }
@@ -67,7 +68,7 @@ namespace Clay {
    {
       CLAY_PROFILE_FUNCTION();
       EventDispatcher dispatcher(e);
-      dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_CB(CameraController::OnMouseScrolled));
+      dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_CB(CameraController::OnMouseMoved));
       dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_CB(CameraController::OnMouseScrolled));
       dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(CameraController::OnWindowResized));
    }
@@ -99,7 +100,7 @@ namespace Clay {
    {
       CLAY_PROFILE_FUNCTION();
 
-
+      return false;
    }
 
 }

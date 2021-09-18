@@ -32,7 +32,7 @@ namespace Clay
    void EditorLayer::OnAttach()
    {
       CLAY_PROFILE_FUNCTION();
-      _texture = Texture2D::Create("/home/quantum/Workspace/FastStorage/IHMC_PhD/Research/ClayEngine/src/ClayEditor/Assets/Textures/Checkerboard.png");
+      _texture = Texture2D::Create("/home/quantum/Workspace/Volume/CPP/ClayEngine/src/ClayEditor/Assets/Textures/Checkerboard.png");
 
       FramebufferSpecification fbSpec;
       fbSpec.width = 1000;
@@ -51,7 +51,10 @@ namespace Clay
       CLAY_PROFILE_FUNCTION();
 
       if (_viewportFocused)
+      {
+         CLAY_LOG_INFO("Camera Controller Update!");
          _cameraController.OnUpdate(ts);
+      }
 
       Renderer2D::ResetStats();
       _frameBuffer->Bind();
@@ -60,8 +63,8 @@ namespace Clay
       RenderCommand::Clear();
 
       Renderer2D::BeginScene(_cameraController.GetCamera());
-      Renderer2D::DrawQuad({-1.0f, 0.0f}, {0.8f, 0.8f}, {0.8f, 0.2f, 0.3f, 1.0f});
-      Renderer2D::DrawQuad({-0.5f, -0.5f}, {1.0f, 1.0f}, {0.2f, 0.5f, 0.3f, 1.0f});
+//      Renderer2D::DrawQuad({-1.0f, -1.0f}, {0.8f, 0.8f}, {0.8f, 0.2f, 0.3f, 1.0f});
+//      Renderer2D::DrawQuad({-0.5f, -0.5f}, {1.0f, 1.0f}, {0.2f, 0.5f, 0.3f, 1.0f});
       Renderer2D::DrawQuad({0.0f, 0.0f, -0.01f}, {2.0f, 2.0f}, _texture, 4.0f);
 
       for (float y = -4.0f; y < 4.0f; y += 0.1f)

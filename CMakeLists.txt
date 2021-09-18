@@ -23,10 +23,8 @@ add_subdirectory(Vendor/GLAD)
 add_subdirectory(Vendor/ImGui)
 add_subdirectory(Vendor/glm)
 
-add_library(ClayEngine
-        src/ClayEngine/Core/Application.cpp
+set(HEADERS src/ClayEngine/Core/Instrumentor.h
         src/ClayEngine/Core/Application.h
-        src/ClayEngine/Core/Log.cpp
         src/ClayEngine/Core/Log.h
         src/ClayEngine/Events/Event.h
         src/ClayEngine/Events/KeyEvent.h
@@ -34,66 +32,72 @@ add_library(ClayEngine
         src/ClayEngine/Events/ApplicationEvent.h
         src/ClayEngine/Core/Window.h
         src/ClayEngine/Core/Core.h
-        src/ClayEngine/Platforms/Linux/LinuxWindow.cpp
         src/ClayEngine/Platforms/Linux/LinuxWindow.h
-        src/ClayEngine/Core/Layer.cpp
         src/ClayEngine/Core/Layer.h
-        src/ClayEngine/Core/LayerStack.cpp
         src/ClayEngine/Core/LayerStack.h
-        src/ClayEngine/ImGui/ImGuiLayer.cpp
         src/ClayEngine/ImGui/ImGuiLayer.h
-        src/ClayEngine/ImGui/ImGuiBuild.cpp
         src/ClayEngine/Core/Input.h
-        src/ClayEngine/Platforms/Linux/LinuxInput.cpp
         src/ClayEngine/Platforms/Linux/LinuxInput.h
         src/ClayEngine/Core/KeyCodes.h
         src/ClayEngine/Core/MouseButtonCodes.h
         src/ClayEngine/Renderer/GraphicsContext.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLContext.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLContext.h
         src/ClayEngine/Renderer/Shader.h
-        src/ClayEngine/Renderer/Shader.cpp
         src/ClayEngine/Renderer/Buffer.h
-        src/ClayEngine/Renderer/Buffer.cpp
         src/ClayEngine/Core/ClayHeaders.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp
         src/ClayEngine/Renderer/Renderer.h
-        src/ClayEngine/Renderer/Renderer.cpp
-        src/ClayEngine/Renderer/VertexArray.cpp
         src/ClayEngine/Renderer/VertexArray.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.h
-        src/ClayEngine/Renderer/RendererAPI.cpp
         src/ClayEngine/Renderer/RendererAPI.h
-        src/ClayEngine/Renderer/RenderCommand.cpp
         src/ClayEngine/Renderer/RenderCommand.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.h
-        src/ClayEngine/Renderer/OrthographicCamera.cpp
         src/ClayEngine/Renderer/OrthographicCamera.h
         src/ClayEngine/Core/Clay.h
         src/ClayEngine/Core/Timestep.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLShader.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLShader.h
-        src/ClayEngine/Renderer/Texture.cpp
         src/ClayEngine/Renderer/Texture.h
-        src/ClayEngine/Platforms/OpenGL/OpenGLTexture.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLTexture.h
         Vendor/std_image/stb_image.h
-        Vendor/std_image/stb_image.cpp
-        src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.h
-        src/ClayEngine/Renderer/FrameBuffer.cpp
         src/ClayEngine/Renderer/FrameBuffer.h
-        src/ClayEngine/Renderer/CameraController.cpp
         src/ClayEngine/Renderer/CameraController.h
-        src/ClayEngine/Renderer/Renderer2D.cpp
         src/ClayEngine/Renderer/Renderer2D.h
         src/ClayEngine/Core/Timer.h
-        src/ClayEngine/Core/Instrumentor.h src/ClayEngine/Renderer/PerspectiveCamera.cpp src/ClayEngine/Renderer/PerspectiveCamera.h)
+        src/ClayEngine/Renderer/PerspectiveCamera.h)
 
+set(SOURCES src/ClayEngine/Core/Application.cpp
+        src/ClayEngine/Core/Log.cpp
+        src/ClayEngine/Platforms/Linux/LinuxWindow.cpp
+        src/ClayEngine/Core/Layer.cpp
+        src/ClayEngine/Core/LayerStack.cpp
+        src/ClayEngine/ImGui/ImGuiLayer.cpp
+        src/ClayEngine/ImGui/ImGuiBuild.cpp
+        src/ClayEngine/Platforms/Linux/LinuxInput.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLContext.cpp
+        src/ClayEngine/Renderer/Shader.cpp
+        src/ClayEngine/Renderer/Buffer.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLBuffer.cpp
+        src/ClayEngine/Renderer/Renderer.cpp
+        src/ClayEngine/Renderer/VertexArray.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLVertexArray.cpp
+        src/ClayEngine/Renderer/RendererAPI.cpp
+        src/ClayEngine/Renderer/RenderCommand.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.cpp
+        src/ClayEngine/Renderer/OrthographicCamera.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLShader.cpp
+        src/ClayEngine/Renderer/Texture.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLTexture.cpp
+        Vendor/std_image/stb_image.cpp
+        src/ClayEngine/Platforms/OpenGL/OpenGLFrameBuffer.cpp
+        src/ClayEngine/Renderer/FrameBuffer.cpp
+        src/ClayEngine/Renderer/CameraController.cpp
+        src/ClayEngine/Renderer/Renderer2D.cpp
+        src/ClayEngine/Renderer/PerspectiveCamera.cpp)
+
+add_library(ClayEngine ${HEADERS} ${SOURCES})
+target_include_directories(ClayEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 
 target_link_libraries(ClayEngine
@@ -103,6 +107,10 @@ target_link_libraries(ClayEngine
         imgui
         glm::glm
         )
+
+message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
+install(TARGETS ClayEngine DESTINATION lib)
+install(FILES ${HEADERS} DESTINATION include)
 
 add_executable(ClayGameApp
         src/Example/ExampleLayer.cpp
@@ -116,6 +124,7 @@ target_link_libraries(ClayGameApp
         ClayEngine)
 
 
+
 add_executable(ClayEditor
         src/ClayEditor/ClayEditorApp.cpp
         src/ClayEditor/ClayEditorApp.h
@@ -123,5 +132,7 @@ add_executable(ClayEditor
         src/ClayEditor/EditorLayer.h)
 target_link_libraries(ClayEditor
         ClayEngine)
+
+
 
 
