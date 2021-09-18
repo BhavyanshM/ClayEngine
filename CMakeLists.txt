@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.16)
 project(ClayEngine)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -98,6 +98,12 @@ set(SOURCES src/ClayEngine/Core/Application.cpp
 
 add_library(ClayEngine ${HEADERS} ${SOURCES})
 target_include_directories(ClayEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(ClayEngine PUBLIC "Vendor/spdlog/include/")
+target_include_directories(ClayEngine PUBLIC "Vendor/glfw/include/")
+target_include_directories(ClayEngine PUBLIC "Vendor/GLAD/include/")
+target_include_directories(ClayEngine PUBLIC "Vendor/ImGui/imgui/")
+target_include_directories(ClayEngine PUBLIC "Vendor/glm/glm/")
+target_include_directories(ClayEngine PUBLIC "Vendor/std_image")
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 
 target_link_libraries(ClayEngine
@@ -110,7 +116,10 @@ target_link_libraries(ClayEngine
 
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 install(TARGETS ClayEngine DESTINATION lib)
-install(FILES ${HEADERS} DESTINATION include)
+INSTALL (
+        DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.h*")
 
 add_executable(ClayGameApp
         src/Example/ExampleLayer.cpp
