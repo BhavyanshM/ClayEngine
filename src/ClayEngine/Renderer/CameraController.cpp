@@ -59,7 +59,6 @@ namespace Clay {
       }
 
       m_Camera.SetPosition(m_CameraPosition);
-      CLAY_LOG_INFO("Camera Position: {} {} {}", m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z);
 
       m_CameraTranslationSpeed = m_ZoomLevel;
    }

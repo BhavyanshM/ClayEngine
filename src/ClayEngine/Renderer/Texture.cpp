@@ -43,4 +43,23 @@ namespace Clay
       CLAY_LOG_INFO("Could not find RendererAPI. ");
       return nullptr;
    }
+
+   Ref<Texture2D> Texture2D::Create()
+   {
+      switch (Renderer::GetAPI())
+      {
+         case RendererAPI::API::None:
+         {
+            CLAY_LOG_INFO("Renderer API is None.");
+            return nullptr;
+         }
+         case RendererAPI::API::OpenGL:
+         {
+            return std::make_shared<OpenGLTexture2D>();
+         }
+      }
+      CLAY_LOG_INFO("Could not find RendererAPI. ");
+      return nullptr;
+   }
+
 }

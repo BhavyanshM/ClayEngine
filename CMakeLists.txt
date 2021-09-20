@@ -106,7 +106,7 @@ target_include_directories(ClayEngine PUBLIC "Vendor/glm/glm/")
 target_include_directories(ClayEngine PUBLIC "Vendor/std_image")
 target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 
-target_link_libraries(ClayEngine
+target_link_libraries(ClayEngine PUBLIC
         ${OPENGL_LIBRARIES}
         glfw
         glad
@@ -116,10 +116,15 @@ target_link_libraries(ClayEngine
 
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 install(TARGETS ClayEngine DESTINATION lib)
-INSTALL (
-        DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine
-        DESTINATION include
-        FILES_MATCHING PATTERN "*.h*")
+install(TARGETS glad DESTINATION lib)
+install(TARGETS imgui DESTINATION lib)
+
+INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine DESTINATION include FILES_MATCHING PATTERN "*.h")
+INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine DESTINATION include FILES_MATCHING PATTERN "*.hpp")
+
+INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FILES_MATCHING PATTERN "*.h")
+INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FILES_MATCHING PATTERN "*.hpp")
+INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FILES_MATCHING PATTERN "*.inl")
 
 add_executable(ClayGameApp
         src/Example/ExampleLayer.cpp

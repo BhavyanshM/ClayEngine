@@ -52,7 +52,6 @@ namespace Clay
 
       if (_viewportFocused)
       {
-         CLAY_LOG_INFO("Camera Controller Update!");
          _cameraController.OnUpdate(ts);
       }
 
@@ -155,8 +154,6 @@ namespace Clay
       _viewportFocused = ImGui::IsWindowFocused();
       _viewportHovered = ImGui::IsWindowHovered();
       Application::Get().GetImGuiLayer()->BlockEvents(!_viewportFocused || !_viewportHovered);
-
-      CLAY_LOG_INFO("Focused: {0}, Hovered: {1}", ImGui::IsWindowFocused(), ImGui::IsWindowHovered());
 
       ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 

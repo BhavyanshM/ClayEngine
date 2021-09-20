@@ -63,7 +63,6 @@ namespace Clay
          data.Height = height;
 
          WindowResizeEvent event(width, height);
-         CLAY_LOG_INFO("Window Size: {0}, {1}", width, height);
          data.EventCallback(event);
       });
 

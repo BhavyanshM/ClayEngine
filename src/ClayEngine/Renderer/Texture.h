@@ -19,6 +19,8 @@ namespace Clay
          virtual uint32_t GetRendererId() const = 0;
 
          virtual void SetData(void* data, uint32_t size) = 0;
+         virtual void LoadImage(unsigned char* data, int width, int height, int channels) = 0;
+         virtual void LoadTexture(unsigned char* data, int width, int height, int channels) = 0;
 
          virtual void Bind(uint32_t slot = 0) const = 0;
 
@@ -29,7 +31,7 @@ namespace Clay
    class Texture2D : public Texture
    {
       public:
-
+         static Ref<Texture2D> Create();
          static Ref<Texture2D> Create(const std::string& path);
          static Ref<Texture2D> Create(uint32_t width, uint32_t height);
 

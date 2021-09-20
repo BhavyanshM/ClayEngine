@@ -45,8 +45,8 @@ namespace Clay
 
       glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, _depthAttachment, 0);
 
-      if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
-         CLAY_LOG_INFO("FrameBuffer Complete!");
+      if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+         CLAY_LOG_ERROR("FrameBuffer Incomplete!");
 
       glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

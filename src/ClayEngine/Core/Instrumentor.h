@@ -37,7 +37,7 @@ namespace Clay
 
          void BeginSession(const std::string& name, const std::string& filepath = "results.json")
          {
-            std::lock_guard lock(m_Mutex);
+            std::lock_guard<std::mutex> lock(m_Mutex);
             if (m_CurrentSession)
             {
                // If there is already a current session, then close it before beginning new one.
@@ -58,7 +58,7 @@ namespace Clay
 
          void EndSession()
          {
-            std::lock_guard lock(m_Mutex);
+            std::lock_guard<std::mutex> lock(m_Mutex);
             InternalEndSession();
          }
 
@@ -77,7 +77,7 @@ namespace Clay
             json << "\"ts\":" << result.Start.count();
             json << "}";
 
-            std::lock_guard lock(m_Mutex);
+            std::lock_guard<std::mutex> lock(m_Mutex);
             if (m_CurrentSession)
             {
                m_OutputStream << json.str();

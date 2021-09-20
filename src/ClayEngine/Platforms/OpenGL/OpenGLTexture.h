@@ -14,12 +14,15 @@ namespace Clay
    class OpenGLTexture2D : public Texture2D
    {
       public:
+         OpenGLTexture2D() = default;
          OpenGLTexture2D(const std::string& path);
          OpenGLTexture2D(uint32_t width, uint32_t height);
          virtual ~OpenGLTexture2D();
 
          uint32_t GetWidth() const override  {return _width;}
          uint32_t GetHeight() const override {return _height;}
+         void LoadTexture(unsigned char* data, int width, int height, int channels) override;
+         void LoadImage(unsigned char* data, int width, int height, int channels) override;
          virtual uint32_t GetRendererId() const override {return _rendererId;};
          void SetData(void* data, uint32_t size) override;
 

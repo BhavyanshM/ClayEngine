@@ -3,10 +3,10 @@
 //
 #pragma once
 
-#include <ext/matrix_clip_space.hpp>
-#include <ext/matrix_transform.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
-#include "glm.hpp"
+#include "glm/glm.hpp"
 #include "GLFW/glfw3.h"
 
 #include "ClayHeaders.h"
