@@ -114,6 +114,12 @@ target_link_libraries(ClayEngine PUBLIC
         glm::glm
         )
 
+if(BUILD_LOCAL)
+    target_compile_definitions(ClayEngine PUBLIC -DASSETS_PATH="../src/ClayEngine/Assets/")
+else()
+    target_compile_definitions(ClayEngine PUBLIC -DASSETS_PATH="/usr/local/include/ClayEngine/Assets/")
+endif()
+
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 install(TARGETS ClayEngine DESTINATION lib)
 install(TARGETS glad DESTINATION lib)
@@ -125,6 +131,8 @@ INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine DESTINATION include FILES_
 INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FILES_MATCHING PATTERN "*.h")
 INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FILES_MATCHING PATTERN "*.hpp")
 INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FILES_MATCHING PATTERN "*.inl")
+
+INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine/Assets DESTINATION include/ClayEngine)
 
 add_executable(ClayGameApp
         src/Example/ExampleLayer.cpp

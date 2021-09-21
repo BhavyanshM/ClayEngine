@@ -32,7 +32,7 @@ namespace Clay
    void EditorLayer::OnAttach()
    {
       CLAY_PROFILE_FUNCTION();
-      _texture = Texture2D::Create("../src/ClayEditor/Assets/Textures/Checkerboard.png");
+      _texture = Texture2D::Create(std::string(ASSETS_PATH) + std::string("Textures/Checkerboard.png"));
 
       FramebufferSpecification fbSpec;
       fbSpec.width = 1000;

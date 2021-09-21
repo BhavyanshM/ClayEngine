@@ -102,7 +102,9 @@ namespace Clay
       for(uint32_t i = 0; i<s_Data.MaxTextureSlots; i++)
           samplers[i] = i;
 
-      s_Data.TextureShader = Shader::Create("../src/ClayEditor/Assets/Shaders/Texture.glsl");
+      std::cout << "ASSETS: " << ASSETS_PATH << std::endl;
+
+      s_Data.TextureShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/Texture.glsl"));
       s_Data.TextureShader->Bind();
       s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
 

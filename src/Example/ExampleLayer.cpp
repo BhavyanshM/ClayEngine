@@ -27,7 +27,7 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _cameraController(100
    _vertexArray->SetIndexBuffer(_indexBuffer);
 
 //   _shader = Clay::Shader::Create("../src/ClayEditor/Assets/Shaders/Texture.glsl");
-   _shader = Clay::Shader::Create("../src/ClayEditor/Assets/Shaders/Texture.glsl");
+   _shader = Clay::Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/Texture.glsl"));
 
    std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->Bind();
    std::dynamic_pointer_cast<Clay::OpenGLShader>(_shader)->UploadUniformInt("u_Texture", 0);
@@ -35,7 +35,7 @@ ExampleLayer::ExampleLayer() : Clay::Layer("GameExample"), _cameraController(100
 
 void ExampleLayer::OnAttach()
 {
-   _texture = Clay::Texture2D::Create("../src/ClayEditor/Assets/Textures/Checkerboard.png");
+   _texture = Clay::Texture2D::Create(std::string(ASSETS_PATH) + std::string("Textures/Checkerboard.png"));
 //
 //   Clay::FramebufferSpecification fbSpec;
 //   fbSpec.width = 2000;

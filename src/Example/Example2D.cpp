@@ -30,7 +30,7 @@ EditorLayer::EditorLayer()
 void EditorLayer::OnAttach()
 {
    CLAY_PROFILE_FUNCTION();
-   _texture = Clay::Texture2D::Create("../src/Example/Assets/Textures/Checkerboard.png");
+   _texture = Clay::Texture2D::Create(std::string(ASSETS_PATH) + std::string("Textures/Checkerboard.png"));
 }
 
 void EditorLayer::OnDetach()
