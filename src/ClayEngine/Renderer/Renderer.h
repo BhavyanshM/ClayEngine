@@ -7,7 +7,7 @@
 
 #include "Core/ClayHeaders.h"
 #include "RenderCommand.h"
-#include "OrthographicCamera.h"
+#include "Camera.h"
 #include "Platforms/OpenGL/OpenGLShader.h"
 #include "Core/Core.h"
 
@@ -23,7 +23,7 @@ namespace Clay
          static void Shutdown();
          static void OnWindowResize(uint32_t width, uint32_t height);
 
-         static void BeginScene(OrthographicCamera& camera);
+         static void BeginScene(Camera& camera);
 
          static void EndScene();
          static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f), uint32_t mode = RendererAPI::MODE::Triangles);

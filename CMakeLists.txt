@@ -51,7 +51,7 @@ set(HEADERS src/ClayEngine/Core/Instrumentor.h
         src/ClayEngine/Renderer/RendererAPI.h
         src/ClayEngine/Renderer/RenderCommand.h
         src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.h
-        src/ClayEngine/Renderer/OrthographicCamera.h
+        src/ClayEngine/Renderer/Camera.h
         src/ClayEngine/Core/Clay.h
         src/ClayEngine/Core/Timestep.h
         src/ClayEngine/Platforms/OpenGL/OpenGLShader.h
@@ -85,7 +85,7 @@ set(SOURCES src/ClayEngine/Core/Application.cpp
         src/ClayEngine/Renderer/RendererAPI.cpp
         src/ClayEngine/Renderer/RenderCommand.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLRendererAPI.cpp
-        src/ClayEngine/Renderer/OrthographicCamera.cpp
+        src/ClayEngine/Renderer/Camera.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLShader.cpp
         src/ClayEngine/Renderer/Texture.cpp
         src/ClayEngine/Platforms/OpenGL/OpenGLTexture.cpp

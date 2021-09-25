@@ -117,7 +117,7 @@ namespace Clay
    {
    }
 
-   void Renderer2D::BeginScene(const OrthographicCamera& camera)
+   void Renderer2D::BeginScene(const Camera& camera)
    {
       CLAY_PROFILE_FUNCTION();
 

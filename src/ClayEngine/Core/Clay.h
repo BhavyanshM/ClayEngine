@@ -28,7 +28,7 @@
 #include "Renderer/FrameBuffer.h"
 
 #include "Renderer/CameraController.h"
-#include "Renderer/OrthographicCamera.h"
+#include "Renderer/Camera.h"
 
 #include "Scene/Mesh/PointCloud.h"
 

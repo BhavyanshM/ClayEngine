@@ -5,7 +5,7 @@
 #ifndef CLAYENGINE_RENDERER2D_H
 #define CLAYENGINE_RENDERER2D_H
 
-#include "OrthographicCamera.h"
+#include "Camera.h"
 #include "Texture.h"
 
 namespace Clay
@@ -22,7 +22,7 @@ namespace Clay
          static void Shutdown();
          static void OnWindowResize(uint32_t width, uint32_t height);
 
-         static void BeginScene(const OrthographicCamera& camera);
+         static void BeginScene(const Camera& camera);
          static void EndScene();
 
          static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);

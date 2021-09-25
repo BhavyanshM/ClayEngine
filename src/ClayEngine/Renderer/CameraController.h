@@ -1,4 +1,4 @@
-#include "Renderer/OrthographicCamera.h"
+#include "Renderer/Camera.h"
 #include "Core/Timestep.h"
 
 #include "Events/ApplicationEvent.h"
@@ -16,8 +16,8 @@ namespace Clay {
 
          void OnResize(float width, float height);
 
-         OrthographicCamera& GetCamera() { return m_Camera; }
-         const OrthographicCamera& GetCamera() const { return m_Camera; }
+         Camera& GetCamera() { return m_Camera; }
+         const Camera& GetCamera() const { return m_Camera; }
 
          float GetZoomLevel() const { return m_ZoomLevel; }
          void SetZoomLevel(float level) { m_ZoomLevel = level; }
@@ -28,7 +28,7 @@ namespace Clay {
       private:
          float m_AspectRatio;
          float m_ZoomLevel = 1.0f;
-         OrthographicCamera m_Camera;
+         Camera m_Camera;
 
          bool m_Rotation;
 
