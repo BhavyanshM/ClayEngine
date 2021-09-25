@@ -42,9 +42,6 @@ namespace Clay
       Renderer2D::Statistics Stats;
    };
 
-
-
-
    static Renderer2DData s_Data;
 
    void Renderer2D::Init()

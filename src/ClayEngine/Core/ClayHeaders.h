@@ -5,6 +5,9 @@
 #ifndef CLAYENGINE_CLAYHEADERS_H
 #define CLAYENGINE_CLAYHEADERS_H
 
+#include <boost/algorithm/string.hpp>
+#include <regex>
+#include <cstdio>
 #include <iostream>
 #include <memory>
 #include <utility>

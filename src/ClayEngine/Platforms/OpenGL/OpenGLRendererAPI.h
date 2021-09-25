@@ -5,9 +5,9 @@
 #ifndef CLAYENGINE_OPENGLRENDERERAPI_H
 #define CLAYENGINE_OPENGLRENDERERAPI_H
 
-
-
+#include <glad/glad.h>
 #include "Renderer/Renderer.h"
+#include "Renderer/RendererAPI.h"
 
 namespace Clay
 {
@@ -22,7 +22,7 @@ namespace Clay
          virtual void Clear() override;
          virtual void SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 
-         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) override;
+         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0, GLenum mode = GL_TRIANGLES) override;
    };
 
 }

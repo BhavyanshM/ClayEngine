@@ -32,10 +32,10 @@ namespace Clay
             s_RendererAPI->SetViewPort(x,y, width, height);
          }
 
-         inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
+         inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0, unsigned int mode = RendererAPI::MODE::Triangles)
          {
             vertexArray->Bind();
-            s_RendererAPI->DrawIndexed(vertexArray, indexCount);
+            s_RendererAPI->DrawIndexed(vertexArray, indexCount, mode);
          }
 
       private:

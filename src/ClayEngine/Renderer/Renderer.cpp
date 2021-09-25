@@ -11,6 +11,46 @@
 
 namespace Clay
 {
+
+   struct PointVertex
+   {
+      glm::vec3 Position;
+      glm::vec4 Color;
+   };
+
+   struct TriangleVertex
+   {
+      glm::vec3 Position;
+      glm::vec4 Color;
+      glm::vec2 TexCoord;
+      float TexIndex;
+   };
+
+   template <typename T> // PointVertex or TriangleVertex
+   struct RendererData
+   {
+      static const uint32_t MaxTriangles = 20000;
+      static const uint32_t MaxVertices = MaxTriangles * 3;
+      static const uint32_t MaxIndices = MaxTriangles * 3;
+      static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
+
+      Ref<VertexArray> TriangleVertexArray;
+      Ref<VertexBuffer> TriangleVertexBuffer;
+      Ref<Shader> TextureShader;
+      Ref<Texture2D> WhiteTexture;
+
+      uint32_t QuadIndexCount = 0;
+      T* VertexBufferBase = nullptr;
+      T* VertexBufferPtr = nullptr;
+
+      std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
+      uint32_t TextureSlotIndex = 1; // 0: WhiteTexture
+
+      Renderer::Statistics Stats;
+   };
+
+   static RendererData<PointVertex> s_Data;
+
    Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
 
    void Renderer::Init()
@@ -38,13 +78,25 @@ namespace Clay
    {
    }
 
-   void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
+   void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform, uint32_t mode)
    {
       shader->Bind();
       std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
+      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", glm::vec4(0.3,0.8,0.3,1));
 
       vertexArray->Bind();
-      RenderCommand::DrawIndexed(vertexArray);
+      RenderCommand::DrawIndexed(vertexArray, 0, mode);
+   }
+
+   Renderer::Statistics Renderer::GetStats()
+   {
+      return s_Data.Stats;
+   }
+
+   void Renderer::ResetStats()
+   {
+      s_Data.Stats.TriangleCount = 0;
+      s_Data.Stats.DrawCalls = 0;
    }
 }

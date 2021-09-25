@@ -38,6 +38,9 @@ namespace Clay
 
          Ref<Texture2D> _texture;
 
+         Ref<PointCloud> _cloud;
+
+
          struct ProfileResult
          {
             const char *Name;

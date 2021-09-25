@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenGL REQUIRED)
 
-
 include_directories(src/ClayEngine/)
 include_directories(Vendor/spdlog/include/)
 include_directories(Vendor/glfw/include/)
@@ -64,7 +63,8 @@ set(HEADERS src/ClayEngine/Core/Instrumentor.h
         src/ClayEngine/Renderer/CameraController.h
         src/ClayEngine/Renderer/Renderer2D.h
         src/ClayEngine/Core/Timer.h
-        src/ClayEngine/Renderer/PerspectiveCamera.h)
+        src/ClayEngine/Renderer/PerspectiveCamera.h
+        src/ClayEngine/Scene/Mesh/PointCloud.h)
 
 set(SOURCES src/ClayEngine/Core/Application.cpp
         src/ClayEngine/Core/Log.cpp
@@ -94,7 +94,8 @@ set(SOURCES src/ClayEngine/Core/Application.cpp
         src/ClayEngine/Renderer/FrameBuffer.cpp
         src/ClayEngine/Renderer/CameraController.cpp
         src/ClayEngine/Renderer/Renderer2D.cpp
-        src/ClayEngine/Renderer/PerspectiveCamera.cpp)
+        src/ClayEngine/Renderer/PerspectiveCamera.cpp
+        src/ClayEngine/Scene/Mesh/PointCloud.cpp )
 
 add_library(ClayEngine ${HEADERS} ${SOURCES})
 target_include_directories(ClayEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -144,8 +145,6 @@ add_executable(ClayGameApp
         )
 target_link_libraries(ClayGameApp
         ClayEngine)
-
-
 
 add_executable(ClayEditor
         src/ClayEditor/ClayEditorApp.cpp

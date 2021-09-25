@@ -26,9 +26,21 @@ namespace Clay
          static void BeginScene(OrthographicCamera& camera);
 
          static void EndScene();
-         static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
+         static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f), uint32_t mode = RendererAPI::MODE::Triangles);
 
          inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI();}
+
+         struct Statistics
+         {
+            uint32_t DrawCalls = 0;
+            uint32_t TriangleCount = 0;
+
+            uint32_t GetTotalVertexCount() {return TriangleCount * 3;}
+            uint32_t GetTotalIndexCount() {return TriangleCount * 3;}
+         };
+
+         static Statistics GetStats();
+         static void ResetStats();
 
       private:
          struct SceneData

@@ -30,6 +30,8 @@
 #include "Renderer/CameraController.h"
 #include "Renderer/OrthographicCamera.h"
 
+#include "Scene/Mesh/PointCloud.h"
+
 #include "Timer.h"
 
 

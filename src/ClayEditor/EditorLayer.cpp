@@ -27,11 +27,17 @@ namespace Clay
    EditorLayer::EditorLayer() : Layer("Sandbox2D"), _cameraController(1000.0f / 1000.0f)
    {
       signal(SIGSEGV, handler);
+
+      _cloud = std::make_shared<PointCloud>("bunny.pcd");
+
+
    }
 
    void EditorLayer::OnAttach()
    {
       CLAY_PROFILE_FUNCTION();
+
+      _shader = Clay::Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/PointCloudShader.glsl"));
       _texture = Texture2D::Create(std::string(ASSETS_PATH) + std::string("Textures/Checkerboard.png"));
 
       FramebufferSpecification fbSpec;
@@ -55,26 +61,20 @@ namespace Clay
          _cameraController.OnUpdate(ts);
       }
 
-      Renderer2D::ResetStats();
+      Renderer::ResetStats();
       _frameBuffer->Bind();
 
       RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       RenderCommand::Clear();
 
-      Renderer2D::BeginScene(_cameraController.GetCamera());
-//      Renderer2D::DrawQuad({-1.0f, -1.0f}, {0.8f, 0.8f}, {0.8f, 0.2f, 0.3f, 1.0f});
-//      Renderer2D::DrawQuad({-0.5f, -0.5f}, {1.0f, 1.0f}, {0.2f, 0.5f, 0.3f, 1.0f});
-      Renderer2D::DrawQuad({0.0f, 0.0f, -0.01f}, {2.0f, 2.0f}, _texture, 4.0f);
+      Renderer::BeginScene(_cameraController.GetCamera());
 
-      for (float y = -4.0f; y < 4.0f; y += 0.1f)
-      {
-         for (float x = -4.0f; x < 4.0f; x += 0.1f)
-         {
-            glm::vec4 color = {(x + 4.0f) / 8.0f, 0.4f, (y + 4.0f) / 8.0f, 0.5f};
-            Renderer2D::DrawQuad({x, y}, {0.45f, 0.45f}, color);
-         }
-      }
-      Renderer2D::EndScene();
+
+
+      Renderer::Submit(_shader, _cloud->GetVertexArray(), glm::mat4(1.0f), RendererAPI::MODE::Points);
+
+      Renderer::EndScene();
+
       _frameBuffer->Unbind();
    }
 
