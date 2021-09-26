@@ -25,6 +25,7 @@ namespace Clay
          Ref<VertexArray> _vertexArray;
          Ref<IndexBuffer> _indexBuffer;
          Ref<VertexBuffer> _vertexBuffer;
+         uint32_t _index = 0;
    };
 }
 

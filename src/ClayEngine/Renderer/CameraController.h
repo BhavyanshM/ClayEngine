@@ -35,6 +35,8 @@ namespace Clay {
          Camera m_Camera;
 
          bool _mouseLeftButtonPressed = false;
+         bool _mouseRightButtonPressed = false;
+         bool _mouseMiddleButtonPressed = false;
          bool _firstClick = false;
 
          glm::vec3 m_CameraOrigin = {0.0f, 0.0f, 0.0f};

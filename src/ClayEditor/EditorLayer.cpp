@@ -138,10 +138,10 @@ namespace Clay
       /* Renderer ImGui Stats and Settings */
       ImGui::Begin("Renderer");
       ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
-      auto stats = Renderer2D::GetStats();
-      ImGui::Text("Renderer2D Stats:");
+      auto stats = Renderer::GetStats();
+      ImGui::Text("Renderer Stats:");
       ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-      ImGui::Text("Quad Count: %d", stats.QuadCount);
+      ImGui::Text("Quad Count: %d", stats.TriangleCount);
       ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
       ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
       ImGui::End();

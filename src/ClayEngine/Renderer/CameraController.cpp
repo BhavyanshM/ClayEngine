@@ -17,7 +17,8 @@ namespace Clay
    CameraController::CameraController(float aspectRatio, bool rotation) : m_AspectRatio(aspectRatio)
    {
       m_Camera.SetPerspective(glm::radians(80.0f), m_AspectRatio, 0.01f, 1000.0f);
-      m_Camera.TranslateLocal({0.0f, 0.0f, 1.0f});
+      m_Camera.TranslateLocal({0.0f, 0.0f, -0.1f});
+      CLAY_LOG_INFO("Initializing Camera Controller!");
    }
 
    void CameraController::OnUpdate(Timestep ts)
@@ -61,7 +62,7 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
 
-      if (_firstClick && _mouseLeftButtonPressed)
+      if (_firstClick)
       {
          _lastX = e.GetX();
          _lastY = e.GetY();
@@ -70,6 +71,13 @@ namespace Clay
       else if (_mouseLeftButtonPressed)
       {
          m_Camera.RotateLocalY(0.01f * (_lastX - e.GetX()), true);
+//         m_Camera.RotateLocalX(0.01f * (_lastY - e.GetY()), true);
+         _lastX = e.GetX();
+         _lastY = e.GetY();
+      }
+      else if(_mouseMiddleButtonPressed)
+      {
+         m_Camera.TranslateLocal({0.0f, -0.005f * (_lastY - e.GetY()), 0.0f});
          _lastX = e.GetX();
          _lastY = e.GetY();
       }
@@ -81,8 +89,22 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
 
-      _mouseLeftButtonPressed = true;
-      _firstClick = true;
+      // MouseButtons: Left: 0, Right: 1, Middle: 2
+      if(e.GetMouseButton() == 0)
+      {
+         _mouseLeftButtonPressed = true;
+         _firstClick = true;
+      }
+      else if(e.GetMouseButton() == 2)
+      {
+         _mouseMiddleButtonPressed = true;
+         _firstClick = true;
+      }
+      else if(e.GetMouseButton() == 1)
+      {
+         _mouseRightButtonPressed = true;
+         _firstClick = true;
+      }
 
       return false;
    }
@@ -92,6 +114,8 @@ namespace Clay
       CLAY_PROFILE_FUNCTION();
 
       _mouseLeftButtonPressed = false;
+      _mouseRightButtonPressed = false;
+      _mouseMiddleButtonPressed = false;
 
       return false;
    }

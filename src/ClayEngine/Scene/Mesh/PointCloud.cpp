@@ -30,7 +30,6 @@ namespace Clay
       pcdFile.open(filePath);
       std::string line;
       bool startPoints = false;
-      uint32_t index = 0;
       float x, y, z;
       while (std::getline(pcdFile, line))
       {
@@ -51,11 +50,11 @@ namespace Clay
             z = atof(words[2].c_str());
 
 //            CLAY_LOG_INFO("Index: {} - Point: ({}, {}, {})", index, x, y, z);
-            indices[index] = index;
-            vertices[index*3 + 0] = x;
-            vertices[index*3 + 1] = y;
-            vertices[index*3 + 2] = z;
-            index++;
+            indices[_index] = _index;
+            vertices[_index*3 + 0] = x;
+            vertices[_index*3 + 1] = y;
+            vertices[_index*3 + 2] = z;
+            _index++;
          }
       }
       pcdFile.close();

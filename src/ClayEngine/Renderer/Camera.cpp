@@ -22,7 +22,7 @@ namespace Clay
       _type = CameraType::Perspective;
       _transform = glm::translate(glm::mat4(1.0f), {0,0,1}) * glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
       _ProjectionMatrix = glm::perspective(FOV, aspect, near, far);
-      _ViewMatrix = glm::mat4(1.0f);
+      _ViewMatrix = glm::inverse(_transform);
       _ViewProjectionMatrix = _ProjectionMatrix * _ViewMatrix;
    }
 
@@ -67,9 +67,9 @@ namespace Clay
    {
 //      _transform = glm::transpose(glm::translate(glm::mat4(1.0f), translation)) * _transform;
 
-      _transform[0][3] += translation[0];
-      _transform[1][3] += translation[1];
-      _transform[2][3] += translation[2];
+      _transform[3][0] += translation[0];
+      _transform[3][1] += translation[1];
+      _transform[3][2] += translation[2];
 
       RecalculateViewMatrix();
    }
