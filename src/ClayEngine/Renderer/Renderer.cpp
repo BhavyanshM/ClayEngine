@@ -9,6 +9,7 @@
 #include "VertexArray.h"
 
 
+
 namespace Clay
 {
 
@@ -87,6 +88,23 @@ namespace Clay
 
       vertexArray->Bind();
       RenderCommand::DrawIndexed(vertexArray, 0, mode);
+      s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
+      s_Data.Stats.DrawCalls++;
+   }
+
+   void Renderer::Submit(const Ref<PointCloud>& cloud)
+   {
+      Ref<Shader> shader = cloud->GetShader();
+      shader->Bind();
+      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", cloud->GetTransform());
+      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", cloud->GetColor());
+
+      Ref<VertexArray> vertexArray = cloud->GetVertexArray();
+      vertexArray->Bind();
+      RenderCommand::DrawIndexed(vertexArray, 0, RendererAPI::MODE::Points);
+      s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
+      s_Data.Stats.DrawCalls++;
    }
 
    Renderer::Statistics Renderer::GetStats()
@@ -98,5 +116,6 @@ namespace Clay
    {
       s_Data.Stats.TriangleCount = 0;
       s_Data.Stats.DrawCalls = 0;
+      s_Data.Stats.VertexCount = 0;
    }
 }

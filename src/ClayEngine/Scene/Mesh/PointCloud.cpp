@@ -3,21 +3,13 @@
 //
 
 
+#include <ext/matrix_transform.hpp>
 #include "PointCloud.h"
 
 
 namespace Clay
 {
-   std::vector<std::string> split(const std::string& input, const std::string& regex) {
-      // passing -1 as the submatch index parameter performs splitting
-      std::regex re(regex);
-      std::sregex_token_iterator
-            first{input.begin(), input.end(), re, -1},
-            last;
-      return {first, last};
-   }
-
-   PointCloud::PointCloud(const std::string& filename)
+   PointCloud::PointCloud(const std::string& filename, const glm::vec4& color) : _color(color), _transform(1.0f)
    {
       CLAY_LOG_INFO("Creating PointCloud!");
 
@@ -69,6 +61,35 @@ namespace Clay
       _vertexArray->AddVertexBuffer(_vertexBuffer);
       _vertexArray->SetIndexBuffer(_indexBuffer);
 
+   }
+
+   void PointCloud::RotateLocal(float angle, const glm::vec3& axis, bool radians)
+   {
+      _transform = glm::rotate(glm::mat4(1.0f), angle, axis) * _transform;
+   }
+
+   void PointCloud::RotateLocalX(float angle, bool radians)
+   {
+      RotateLocal(angle, glm::vec3(1.0f,0.0f,0.0f), radians);
+   }
+
+   void PointCloud::RotateLocalY(float angle, bool radians)
+   {
+      RotateLocal(angle, glm::vec3(0,1,0), radians);
+   }
+
+   void PointCloud::RotateLocalZ(float angle, bool radians)
+   {
+      RotateLocal(angle, glm::vec3(0,0,1), radians);
+   }
+
+   void PointCloud::TranslateLocal(const glm::vec3& translation)
+   {
+      //      _transform = glm::transpose(glm::translate(glm::mat4(1.0f), translation)) * _transform;
+
+      _transform[3][0] += translation[0];
+      _transform[3][1] += translation[1];
+      _transform[3][2] += translation[2];
    }
 
 }

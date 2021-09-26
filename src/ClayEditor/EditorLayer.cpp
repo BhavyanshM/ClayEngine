@@ -28,9 +28,9 @@ namespace Clay
    {
       signal(SIGSEGV, handler);
 
-      _cloud = std::make_shared<PointCloud>("bunny.pcd");
-
-
+      _clouds.emplace_back(std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.5,0.8,1)));
+      _clouds.emplace_back(std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.8,0.3,1)));
+      _clouds[0]->RotateLocalY(0.1);
    }
 
    void EditorLayer::OnAttach()
@@ -62,16 +62,19 @@ namespace Clay
       }
 
       Renderer::ResetStats();
-      _frameBuffer->Bind();
 
+      _frameBuffer->Bind();
       RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       RenderCommand::Clear();
 
       Renderer::BeginScene(_cameraController.GetCamera());
 
 
-
-      Renderer::Submit(_shader, _cloud->GetVertexArray(), glm::mat4(1.0f), RendererAPI::MODE::Points);
+      for(Ref<PointCloud> cloud : _clouds)
+      {
+         cloud->SetShader(_shader);
+         Renderer::Submit(cloud);
+      }
 
       Renderer::EndScene();
 
