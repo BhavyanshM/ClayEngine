@@ -25,17 +25,20 @@ namespace Clay {
          bool OnMouseScrolled(MouseScrolledEvent& e);
          bool OnWindowResized(WindowResizeEvent& e);
          bool OnMouseMoved(MouseMovedEvent& e);
+         bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
+         bool OnMouseButtonReleased(MouseButtonReleasedEvent& e);
       private:
+         float _lastX = 0;
+         float _lastY = 0;
          float m_AspectRatio;
          float m_ZoomLevel = 1.0f;
          Camera m_Camera;
 
-         bool m_Rotation;
+         bool _mouseLeftButtonPressed = false;
+         bool _firstClick = false;
 
          glm::vec3 m_CameraOrigin = {0.0f, 0.0f, 0.0f};
-         glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
 
-         float m_CameraRotation = 0.0f; //In degrees, in the anti-clockwise direction
          float m_CameraTranslationSpeed = 15.0f, m_CameraRotationSpeed = 180.0f;
    };
 

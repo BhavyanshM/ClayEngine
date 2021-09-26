@@ -11,56 +11,18 @@
 #include "Core/Input.h"
 #include "Core/KeyCodes.h"
 
-namespace Clay {
+namespace Clay
+{
 
-   CameraController::CameraController(float aspectRatio, bool rotation)
-         : m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
+   CameraController::CameraController(float aspectRatio, bool rotation) : m_AspectRatio(aspectRatio)
    {
+      m_Camera.SetPerspective(glm::radians(80.0f), m_AspectRatio, 0.01f, 1000.0f);
+      m_Camera.TranslateLocal({0.0f, 0.0f, 1.0f});
    }
 
    void CameraController::OnUpdate(Timestep ts)
    {
       CLAY_PROFILE_FUNCTION();
-      if (Input::IsKeyPressed(Key::A))
-      {
-         m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-         m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-      }
-      else if (Input::IsKeyPressed(Key::D))
-      {
-         m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-         m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-      }
-
-      if (Input::IsKeyPressed(Key::W))
-      {
-         m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-         m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-      }
-      else if (Input::IsKeyPressed(Key::S))
-      {
-         m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-         m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-      }
-
-      if (m_Rotation)
-      {
-         if (Input::IsKeyPressed(Key::Q))
-            m_CameraRotation += m_CameraRotationSpeed * ts;
-         if (Input::IsKeyPressed(Key::E))
-            m_CameraRotation -= m_CameraRotationSpeed * ts;
-
-         if (m_CameraRotation > 180.0f)
-            m_CameraRotation -= 360.0f;
-         else if (m_CameraRotation <= -180.0f)
-            m_CameraRotation += 360.0f;
-
-         m_Camera.SetRotation(m_CameraRotation);
-      }
-
-      m_Camera.SetPosition(m_CameraPosition);
-
-      m_CameraTranslationSpeed = m_ZoomLevel;
    }
 
    void CameraController::OnEvent(Event& e)
@@ -70,28 +32,28 @@ namespace Clay {
       dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_CB(CameraController::OnMouseMoved));
       dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_CB(CameraController::OnMouseScrolled));
       dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_CB(CameraController::OnWindowResized));
+      dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_CB(CameraController::OnMouseButtonPressed));
+      dispatcher.Dispatch<MouseButtonReleasedEvent>(BIND_EVENT_CB(CameraController::OnMouseButtonReleased));
    }
 
    void CameraController::OnResize(float width, float height)
    {
       CLAY_PROFILE_FUNCTION();
       m_AspectRatio = width / height;
-      m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+      m_Camera.SetPerspective(glm::radians(80.0f), m_AspectRatio, 0.01f, 1000.0f);
    }
 
    bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
    {
       CLAY_PROFILE_FUNCTION();
-      m_ZoomLevel -= e.GetOffsetY() * 0.25f;
-      m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
-      m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+      m_Camera.TranslateLocal({0.0f, 0.0f, e.GetOffsetY() * 0.1f});
       return false;
    }
 
    bool CameraController::OnWindowResized(WindowResizeEvent& e)
    {
       CLAY_PROFILE_FUNCTION();
-      OnResize((float)e.GetWidth(), (float)e.GetHeight());
+      OnResize((float) e.GetWidth(), (float) e.GetHeight());
       return false;
    }
 
@@ -99,8 +61,39 @@ namespace Clay {
    {
       CLAY_PROFILE_FUNCTION();
 
+      if (_firstClick && _mouseLeftButtonPressed)
+      {
+         _lastX = e.GetX();
+         _lastY = e.GetY();
+         _firstClick = false;
+      }
+      else if (_mouseLeftButtonPressed)
+      {
+         m_Camera.RotateLocalY(0.01f * (_lastX - e.GetX()), true);
+         _lastX = e.GetX();
+         _lastY = e.GetY();
+      }
+
       return false;
    }
 
+   bool CameraController::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+   {
+      CLAY_PROFILE_FUNCTION();
+
+      _mouseLeftButtonPressed = true;
+      _firstClick = true;
+
+      return false;
+   }
+
+   bool CameraController::OnMouseButtonReleased(MouseButtonReleasedEvent& e)
+   {
+      CLAY_PROFILE_FUNCTION();
+
+      _mouseLeftButtonPressed = false;
+
+      return false;
+   }
 }
 #endif //CLAYENGINE_ORTHOGRAPHICCAMERACONTROLLER_H

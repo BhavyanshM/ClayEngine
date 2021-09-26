@@ -19,15 +19,20 @@ namespace Clay
    class Camera
    {
       public:
-         Camera(float left, float right, float bottom, float top);
+         Camera() = default;
 
-         void SetPosition(const glm::vec3& position) { _Position = position; RecalculateViewMatrix();}
-         void SetRotation(float rotation) {_Rotation = rotation; RecalculateViewMatrix();}
+         void SetPerspective(float FOV, float aspect, float near, float far);
+         void SetOrthographic(float left, float right, float bottom, float top);
+
+         void RotateLocal(float angle, const glm::vec3& axis, bool radians = true);
+         void RotateLocalX(float angle, bool radians = true);
+         void RotateLocalY(float angle, bool radians = true);
+         void RotateLocalZ(float angle, bool radians = true);
+
+         void TranslateLocal(const glm::vec3& translation);
+
 
          void SetProjection(float left, float right, float bottom, float top);
-
-         const glm::vec3& GetPosition() const { return _Position; }
-         float GetRotation() const { return _Rotation; }
 
          const glm::mat4& GetProjectionMatrix() const { return _ProjectionMatrix; }
          const glm::mat4& GetViewMatrix() const { return _ViewMatrix; }
@@ -44,8 +49,7 @@ namespace Clay
          glm::mat4 _ViewMatrix;
          glm::mat4 _ViewProjectionMatrix;
 
-         glm::vec3 _Position;
-         float _Rotation = 0.0f;
+         glm::mat4 _transform;
 
    };
 
