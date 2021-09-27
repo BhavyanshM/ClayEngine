@@ -20,11 +20,16 @@ namespace Clay
          PointCloud() = default;
          PointCloud(const std::string& filename, const glm::vec4& color);
 
+         void Upload();
+         void Reset();
+         void Insert(float x, float y, float z);
+
          Ref<VertexBuffer> GetVertexBuffer() const { return _vertexBuffer;}
          Ref<VertexArray> GetVertexArray() const { return _vertexArray;}
          const glm::mat4& GetTransform() const { return _transform;}
          Ref<Shader> GetShader() const {return _shader;}
          void SetShader(const Ref<Shader>& shader) { _shader = shader;}
+         void SetColor(const glm::vec4& color) {_color = color;}
          const glm::vec4& GetColor() const { return _color;}
 
          void RotateLocal(float angle, const glm::vec3& axis, bool radians = true);
@@ -34,7 +39,13 @@ namespace Clay
 
          void TranslateLocal(const glm::vec3& translation);
 
+         uint32_t GetSize() const { return _index;}
+
+
       private:
+         static const uint32_t MAX_POINTS = 400000;
+         uint32_t _indices[MAX_POINTS];
+         float _vertices[MAX_POINTS * 3];
          Ref<VertexArray> _vertexArray;
          Ref<IndexBuffer> _indexBuffer;
          Ref<VertexBuffer> _vertexBuffer;

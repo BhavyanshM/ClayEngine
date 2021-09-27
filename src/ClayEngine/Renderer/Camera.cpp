@@ -39,7 +39,7 @@ namespace Clay
 
       _ViewMatrix = glm::inverse(_transform);
       _ViewProjectionMatrix = _ProjectionMatrix * _ViewMatrix;
-      CLAY_LOG_INFO("Transform: {}", glm::to_string(_transform));
+//      CLAY_LOG_INFO("Transform: {}", glm::to_string(_transform));
    }
 
    void Camera::RotateLocal(float angle, const glm::vec3& axis, bool radians)
