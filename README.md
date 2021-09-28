@@ -19,9 +19,16 @@ cmake ..
 sudo make install (requires privileged access)
 ```
 
+To initialize the submodules:
+```
+git submodule update --init --recursive
+```
+
 ## Usage
 ### Cmake
 Link `ClayEngine` as a static library into your CMake project. Use `src/ClayEditor/EditorLayer.cpp` as a guide to use the engine in your application.
+
+Add the CMake arg `-DBUILD_LOCAL=true` to set the asset paths correctly for running locally.
 
 ## Development
 Developed by Bhavyansh Mishra
