@@ -92,17 +92,34 @@ namespace Clay
       s_Data.Stats.DrawCalls++;
    }
 
-   void Renderer::Submit(const Ref<PointCloud>& cloud)
+//   void Renderer::Submit(const Ref<PointCloud>& cloud)
+//   {
+//      Ref<Shader> shader = cloud->GetShader();
+//      shader->Bind();
+//      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+//      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", cloud->GetTransformToWorld());
+//      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", cloud->GetColor());
+//
+//      Ref<VertexArray> vertexArray = cloud->GetVertexArray();
+//      vertexArray->Bind();
+//      RenderCommand::DrawIndexed(vertexArray, 0, RendererAPI::MODE::Points);
+//      s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
+//      s_Data.Stats.DrawCalls++;
+//   }
+
+   void Renderer::Submit(const Ref<Model>& model)
    {
-      Ref<Shader> shader = cloud->GetShader();
+      Ref<Shader> shader = model->GetShader();
       shader->Bind();
       std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", cloud->GetTransform());
-      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", cloud->GetColor());
+      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", model->GetTransformToWorld());
+      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", model->GetColor());
 
-      Ref<VertexArray> vertexArray = cloud->GetVertexArray();
+      Ref<VertexArray> vertexArray = model->GetVertexArray();
       vertexArray->Bind();
-      RenderCommand::DrawIndexed(vertexArray, 0, RendererAPI::MODE::Points);
+      RenderCommand::DrawIndexed(vertexArray, 0, model->GetType());
+      vertexArray->Unbind();
+      shader->Unbind();
       s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
       s_Data.Stats.DrawCalls++;
    }

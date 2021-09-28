@@ -24,5 +24,8 @@
 #include <iomanip>
 #include <limits>
 
+#include "glm/glm.hpp"
+#include <ext/matrix_transform.hpp>
+
 
 #endif //CLAYENGINE_CLAYHEADERS_H
