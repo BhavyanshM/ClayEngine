@@ -6,6 +6,19 @@
 
 namespace Clay {
 
+   Model::Model(const Ref<Model>& parent) : _transformToParent(1.0f), _color({0.3f, 7.0f, 0.2f, 1.0f})
+   {
+      if(parent == nullptr)
+      {
+         _transformToWorld = glm::mat4(1.0f);
+      }
+      else
+      {
+         _parent = parent;
+         _transformToWorld = parent->GetTransformToWorld();
+      }
+   }
+
    void Model::RotateLocal(float angle, const glm::vec3& axis, bool radians)
    {
       _transformToParent = glm::rotate(glm::mat4(1.0f), angle, axis) * _transformToParent;
@@ -37,7 +50,9 @@ namespace Clay {
 
    void Model::Update()
    {
-      _transformToWorld = _parent->GetTransformToWorld() * _transformToParent;
+      if(_parent != nullptr)
+         _transformToWorld = _parent->GetTransformToWorld() * _transformToParent;
+
       for(Ref<Model> model : children)
          model->Update();
    }

@@ -1,23 +1,18 @@
 //
 // Created by quantum on 6/29/21.
 //
-#include <glm/gtc/type_ptr.hpp>
 #include "EditorLayer.h"
 #include "Core/Timer.h"
 
-#include <execinfo.h>
-#include <signal.h>
-#include <stdlib.h>
-#include "unistd.h"
-#include <boost/stacktrace.hpp>
+
 
 namespace Clay
 {
    void handler(int sig)
    {
-      void *array[10];
+      void *array[1000];
       size_t size;
-      size = backtrace(array, 10);
+      size = backtrace(array, 1000);
       fprintf(stderr, "Error: signal %d:\n", sig);
       backtrace_symbols_fd(array, size, STDERR_FILENO);
       std::cout << boost::stacktrace::stacktrace();
@@ -28,9 +23,16 @@ namespace Clay
    {
       signal(SIGSEGV, handler);
 
-      _clouds.emplace_back(std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.5,0.8,1)));
-      _clouds.emplace_back(std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.8,0.3,1)));
-      _clouds[0]->RotateLocalY(0.1);
+      Ref<PointCloud> rootPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.5,0.8,1), nullptr);
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.8,0.3,1), rootPCL);
+      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
+
+//      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(rootPCL->GetTransformToWorld()));
+//      CLAY_LOG_INFO("Second World Transform: {}", glm::to_string(secondPCL->GetTransformToWorld()));
+
+      _models.emplace_back(std::dynamic_pointer_cast<Model>(rootPCL));
+      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
+      _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
    }
 
    void EditorLayer::OnAttach()
@@ -69,11 +71,14 @@ namespace Clay
 
       Renderer::BeginScene(_cameraController.GetCamera());
 
-
-      for(Ref<PointCloud> cloud : _clouds)
+      _currentTime += ts.GetMilliseconds() / 1000.0f;
+      for(Ref<Model> model : _models)
       {
-         cloud->SetShader(_shader);
-         Renderer::Submit(cloud);
+         model->RotateLocalY(0.1f);
+         model->TranslateLocal({sin(_currentTime) * 0.008f, 0, cos(_currentTime) * 0.008f});
+         model->Update();
+         model->SetShader(_shader);
+         Renderer::Submit(model);
       }
 
       Renderer::EndScene();

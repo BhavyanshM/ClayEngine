@@ -7,10 +7,11 @@
 
 namespace Clay
 {
-   PointCloud::PointCloud(const std::string& filename, const glm::vec4& color)
+   PointCloud::PointCloud(const std::string& filename, const glm::vec4& color, const Ref<Model>& parent) : Model(parent)
    {
       CLAY_LOG_INFO("Creating PointCloud!");
 
+      _color = color;
       _type = RendererAPI::MODE::Points;
 
       /* Read and Fill.*/
@@ -64,6 +65,7 @@ namespace Clay
       _indexBuffer = IndexBuffer::Create(_indices, sizeof(_indices) / sizeof(uint32_t));
 
       _vertexBuffer->SetLayout(layout);
+
       _vertexArray->AddVertexBuffer(_vertexBuffer);
       _vertexArray->SetIndexBuffer(_indexBuffer);
    }

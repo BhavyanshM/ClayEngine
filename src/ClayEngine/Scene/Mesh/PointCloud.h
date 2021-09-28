@@ -13,7 +13,7 @@ namespace Clay
    {
       public:
          PointCloud() = default;
-         PointCloud(const std::string& filename, const glm::vec4& color);
+         PointCloud(const std::string& filename, const glm::vec4& color, const Ref<Model>& parent);
 
          void Upload() override;
          void Reset() override;
@@ -23,11 +23,7 @@ namespace Clay
 
 
       private:
-         static const uint32_t MAX_POINTS = 400000;
          uint32_t _index = 0;
-         uint32_t _indices[MAX_POINTS];
-
-         float _vertices[MAX_POINTS * 3];
    };
 }
 

@@ -18,6 +18,7 @@ namespace Clay
    {
       public:
          Model() : _transformToParent(1.0f), _transformToWorld(1.0f), _color({1.0f, 1.0f, 1.0f, 1.0f}) {};
+         Model(const Ref<Model>& parent);
 
          void Update();
          virtual void Upload() = 0;

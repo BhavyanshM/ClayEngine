@@ -7,6 +7,7 @@
 
 #include "Core/Application.h"
 #include "Core/Clay.h"
+#include "Core/ClayHeaders.h"
 
 namespace Clay
 {
@@ -38,7 +39,7 @@ namespace Clay
 
          Ref<Texture2D> _texture;
 
-         std::vector<Ref<PointCloud>> _clouds;
+         std::vector<Ref<Model>> _models;
 
 
          struct ProfileResult
@@ -50,6 +51,7 @@ namespace Clay
          std::vector<ProfileResult> _profileResults;
 
          glm::vec2 _viewportSize = {0,0};
+         float _currentTime = 0.0f;
 
          bool _viewportFocused = false;
          bool _viewportHovered = false;
