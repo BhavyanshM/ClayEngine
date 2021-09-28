@@ -9,11 +9,11 @@
 #include "spdlog/spdlog.h"
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-#define CLAY_LOG_INFO(...) spdlog::info(__VA_ARGS__)
-#define CLAY_LOG_ERROR(...) spdlog::error(__VA_ARGS__)
-#define CLAY_LOG_TRACE(...) spdlog::trace(__VA_ARGS__)
-#define CLAY_LOG_WARN(...) spdlog::warn(__VA_ARGS__)
-#define CLAY_LOG_FATAL(...) spdlog::fatal(__VA_ARGS__)
+#define CLAY_LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
+#define CLAY_LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
+#define CLAY_LOG_TRACE(...) SPDLOG_TRACE(__VA_ARGS__)
+#define CLAY_LOG_WARN(...) SPDLOG_WARN(__VA_ARGS__)
+#define CLAY_LOG_FATAL(...) SPDLOG_FATAL(__VA_ARGS__)
 
 namespace Clay{
    class Log

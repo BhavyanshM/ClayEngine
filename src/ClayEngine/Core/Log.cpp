@@ -9,7 +9,7 @@ namespace Clay
 {
    void Log::Init()
    {
-      spdlog::set_pattern("%^[%T] %n: %v%$");
+      spdlog::set_pattern("%^%C%m%d %H:%M:%S:%e [%l] (%s:%#): %v%$");
    }
 
 }
