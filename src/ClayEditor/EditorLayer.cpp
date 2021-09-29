@@ -23,14 +23,15 @@ namespace Clay
    {
       signal(SIGSEGV, handler);
 
-      Ref<PointCloud> rootPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.5,0.8,1), nullptr);
+      Ref<Model> rootPCL = std::make_shared<Model>();
+//      Ref<PointCloud> rootPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.5,0.8,1), nullptr);
       Ref<PointCloud> secondPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.3,0.8,0.3,1), rootPCL);
       Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>("bunny.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
 //      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(rootPCL->GetTransformToWorld()));
 //      CLAY_LOG_INFO("Second World Transform: {}", glm::to_string(secondPCL->GetTransformToWorld()));
 
-      _models.emplace_back(std::dynamic_pointer_cast<Model>(rootPCL));
+//      _models.emplace_back(std::dynamic_pointer_cast<Model>(rootPCL));
       _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
       _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
    }

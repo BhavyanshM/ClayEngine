@@ -12,18 +12,16 @@ namespace Clay
    class PointCloud : public Model
    {
       public:
-         PointCloud() = default;
+         PointCloud() : Model() {};
+         PointCloud(const glm::vec4& color, const Ref<Model>& parent);
          PointCloud(const std::string& filename, const glm::vec4& color, const Ref<Model>& parent);
 
          void Upload() override;
          void Reset() override;
          void Insert(float x, float y, float z);
 
-         uint32_t GetSize() const { return _index;}
 
 
-      private:
-         uint32_t _index = 0;
    };
 }
 

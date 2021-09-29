@@ -13,8 +13,8 @@ namespace Clay
    class OpenGLVertexBuffer : public VertexBuffer
    {
       public:
-         explicit OpenGLVertexBuffer(uint32_t size);
-         OpenGLVertexBuffer(float* vertices, uint32_t size);
+         explicit OpenGLVertexBuffer(uint32_t count);
+         OpenGLVertexBuffer(float* vertices, uint32_t count);
          virtual ~OpenGLVertexBuffer();
 
          virtual void Bind() const override;

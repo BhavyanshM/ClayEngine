@@ -6,7 +6,7 @@
 
 namespace Clay {
 
-   Model::Model(const Ref<Model>& parent) : _transformToParent(1.0f), _color({0.3f, 7.0f, 0.2f, 1.0f})
+   Model::Model(const Ref<Model>& parent, bool geometry, uint32_t count, RendererAPI::MODE type) : _transformToParent(1.0f)
    {
       if(parent == nullptr)
       {
@@ -16,6 +16,13 @@ namespace Clay {
       {
          _parent = parent;
          _transformToWorld = parent->GetTransformToWorld();
+      }
+      if(geometry) {
+         _mesh = std::make_shared<Mesh>(count, type);
+      }
+      else
+      {
+         _mesh = nullptr;
       }
    }
 

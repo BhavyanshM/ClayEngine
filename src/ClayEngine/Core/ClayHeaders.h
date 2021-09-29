@@ -24,15 +24,16 @@
 #include <iomanip>
 #include <limits>
 
-#include "glm/glm.hpp"
-#include <ext/matrix_transform.hpp>
 #include <execinfo.h>
-#include <glm/gtc/type_ptr.hpp>
 #include <csignal>
 #include <cstdlib>
 #include "unistd.h"
 #include <boost/stacktrace.hpp>
-#include <gtx/string_cast.hpp>
+
+#include "glm/glm.hpp"
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 
 #endif //CLAYENGINE_CLAYHEADERS_H

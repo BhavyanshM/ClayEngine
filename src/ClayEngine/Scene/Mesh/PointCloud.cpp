@@ -7,12 +7,12 @@
 
 namespace Clay
 {
-   PointCloud::PointCloud(const std::string& filename, const glm::vec4& color, const Ref<Model>& parent) : Model(parent)
+   PointCloud::PointCloud(const std::string& filename, const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
    {
       CLAY_LOG_INFO("Creating PointCloud!");
 
-      _color = color;
-      _type = RendererAPI::MODE::Points;
+      _mesh->_color = color;
+      _mesh->_type = RendererAPI::MODE::Points;
 
       /* Read and Fill.*/
       std::ifstream pcdFile;
@@ -44,15 +44,21 @@ namespace Clay
       Upload();
    }
 
+   PointCloud::PointCloud(const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
+   {
+      _mesh->_color = color;
+      _mesh->_type = RendererAPI::MODE::Points;
+   }
+
    void PointCloud::Insert(float x, float y, float z)
    {
-      if(_index < MAX_POINTS - 10)
+      if(_mesh->_index < _mesh->MAX_POINTS - 10)
       {
-         _indices[_index] = _index;
-         _vertices[_index * 3 + 0] = x;
-         _vertices[_index * 3 + 1] = y;
-         _vertices[_index * 3 + 2] = z;
-         _index++;
+         _mesh->_indices.emplace_back(_mesh->_index);
+         _mesh->_vertices.emplace_back(x);
+         _mesh->_vertices.emplace_back(y);
+         _mesh->_vertices.emplace_back(z);
+         _mesh->_index++;
       }
    }
 
@@ -60,19 +66,19 @@ namespace Clay
    {
       /* Setup for Vertex Array */
       BufferLayout layout = {{ShaderDataType::Float3, "a_Position"}};
-      _vertexArray = VertexArray::Create();
-      _vertexBuffer = VertexBuffer::Create(_vertices, sizeof(_vertices));
-      _indexBuffer = IndexBuffer::Create(_indices, sizeof(_indices) / sizeof(uint32_t));
-
-      _vertexBuffer->SetLayout(layout);
-
-      _vertexArray->AddVertexBuffer(_vertexBuffer);
-      _vertexArray->SetIndexBuffer(_indexBuffer);
+      _mesh->_vertexArray = VertexArray::Create();
+      _mesh->_vertexBuffer = VertexBuffer::Create(_mesh->_vertices.data(), _mesh->_index);
+      _mesh->_indexBuffer = IndexBuffer::Create(_mesh->_indices.data(), _mesh->_index);
+      _mesh->_vertexBuffer->SetLayout(layout);
+      _mesh->_vertexArray->AddVertexBuffer(_mesh->_vertexBuffer);
+      _mesh->_vertexArray->SetIndexBuffer(_mesh->_indexBuffer);
    }
 
    void PointCloud::Reset()
    {
-      _index = 0;
+      _mesh->_vertices.clear();
+      _mesh->_indices.clear();
+      _mesh->_index = 0;
    }
 
 
