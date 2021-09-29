@@ -4,6 +4,7 @@ project(ClayEngine)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenGL REQUIRED)
+find_package(SWIG REQUIRED)
 
 include_directories(src/ClayEngine/)
 include_directories(Vendor/spdlog/include/)
@@ -95,7 +96,13 @@ set(SOURCES src/ClayEngine/Core/Application.cpp
         src/ClayEngine/Renderer/CameraController.cpp
         src/ClayEngine/Renderer/Renderer2D.cpp
         src/ClayEngine/Renderer/PerspectiveCamera.cpp
-        src/ClayEngine/Scene/Mesh/PointCloud.cpp src/ClayEngine/Scene/Mesh/Model.cpp src/ClayEngine/Scene/Mesh/Model.h src/ClayEngine/Tools/FileTools.cpp src/ClayEngine/Tools/FileTools.h)
+        src/ClayEngine/Scene/Mesh/PointCloud.cpp
+        src/ClayEngine/Scene/Mesh/Model.cpp
+        src/ClayEngine/Scene/Mesh/Model.h
+        src/ClayEngine/Tools/FileTools.cpp
+        src/ClayEngine/Tools/FileTools.h
+        src/ClayEngine/Tools/JavaTools.cpp
+        src/ClayEngine/Tools/JavaTools.h)
 
 add_library(ClayEngine ${HEADERS} ${SOURCES})
 target_include_directories(ClayEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
