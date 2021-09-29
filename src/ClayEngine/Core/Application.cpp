@@ -73,6 +73,7 @@ namespace Clay
    void Application::Run()
    {
       CLAY_PROFILE_FUNCTION();
+      _running = true;
       while (_running)
       {
          double time = glfwGetTime();
