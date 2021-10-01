@@ -4,12 +4,14 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
 
+
 namespace Clay {
 
    class CameraController
    {
       public:
-         CameraController(float aspectRatio, bool rotation = false);
+         CameraController() = default;
+         CameraController(float aspectRatio, Ref<Model> cameraModel, bool rotation = false);
 
          void OnUpdate(Timestep ts);
          void OnEvent(Event& e);
@@ -21,6 +23,8 @@ namespace Clay {
 
          float GetZoomLevel() const { return m_ZoomLevel; }
          void SetZoomLevel(float level) { m_ZoomLevel = level; }
+         void SetAspectRatio(float aspectRatio) {m_AspectRatio = aspectRatio;}
+
       private:
          bool OnMouseScrolled(MouseScrolledEvent& e);
          bool OnWindowResized(WindowResizeEvent& e);
@@ -33,6 +37,7 @@ namespace Clay {
          float m_AspectRatio;
          float m_ZoomLevel = 1.0f;
          Camera m_Camera;
+
 
          bool _mouseLeftButtonPressed = false;
          bool _mouseRightButtonPressed = false;

@@ -14,8 +14,9 @@
 namespace Clay
 {
 
-   CameraController::CameraController(float aspectRatio, bool rotation) : m_AspectRatio(aspectRatio)
+   CameraController::CameraController(float aspectRatio, Ref<Model> cameraModel, bool rotation) : m_AspectRatio(aspectRatio)
    {
+      m_Camera.SetModel(cameraModel);
       m_Camera.SetPerspective(glm::radians(80.0f), m_AspectRatio, 0.01f, 1000.0f);
       m_Camera.TranslateLocal({0.0f, 0.0f, -0.1f});
       CLAY_LOG_INFO("Initializing Camera Controller!");

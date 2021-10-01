@@ -48,6 +48,8 @@ namespace Clay
          Ref <IndexBuffer> GetIndexBuffer() const { return _mesh->_indexBuffer;}
          const glm::mat4& GetTransformToParent() const { return _transformToParent;}
          const glm::mat4& GetTransformToWorld() const { return _transformToWorld;}
+         void SetTransformToWorld(const glm::mat4& transform) {_transformToWorld = transform;}
+         void SetTransformToParent(const glm::mat4& transform) {_transformToParent = transform;}
          const glm::vec4& GetColor() const { return _mesh->_color;}
          RendererAPI::MODE GetType() const {return _mesh->_type;}
          Ref <Shader> GetShader() const { return _mesh->_shader;}

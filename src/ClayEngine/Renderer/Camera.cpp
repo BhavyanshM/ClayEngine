@@ -20,9 +20,9 @@ namespace Clay
    void Camera::SetPerspective(float FOV, float aspect, float near, float far)
    {
       _type = CameraType::Perspective;
-      _transform = glm::translate(glm::mat4(1.0f), {0,0,1}) * glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+      m_Model->SetTransformToWorld(glm::translate(glm::mat4(1.0f), {0,0,1}) * glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1)));
       _ProjectionMatrix = glm::perspective(FOV, aspect, near, far);
-      _ViewMatrix = glm::inverse(_transform);
+      _ViewMatrix = glm::inverse(m_Model->GetTransformToWorld());
       _ViewProjectionMatrix = _ProjectionMatrix * _ViewMatrix;
    }
 
@@ -37,40 +37,38 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
 
-      _ViewMatrix = glm::inverse(_transform);
+      _ViewMatrix = glm::inverse(m_Model->GetTransformToParent());
       _ViewProjectionMatrix = _ProjectionMatrix * _ViewMatrix;
-//      CLAY_LOG_INFO("Transform: {}", glm::to_string(_transform));
+//      CLAY_LOG_INFO("Transform: {}", glm::to_string(m_Model->GetTransformToParent()));
    }
 
    void Camera::RotateLocal(float angle, const glm::vec3& axis, bool radians)
    {
-      _transform = glm::rotate(glm::mat4(1.0f), angle, axis) * _transform;
+      m_Model->RotateLocal(angle, axis, radians);
       RecalculateViewMatrix();
    }
 
    void Camera::RotateLocalX(float angle, bool radians)
    {
-      RotateLocal(angle, glm::vec3(1.0f,0.0f,0.0f), radians);
+      m_Model->RotateLocalX(angle, radians);
+      RecalculateViewMatrix();
    }
 
    void Camera::RotateLocalY(float angle, bool radians)
    {
-      RotateLocal(angle, glm::vec3(0,1,0), radians);
+      m_Model->RotateLocalY(angle, radians);
+      RecalculateViewMatrix();
    }
 
    void Camera::RotateLocalZ(float angle, bool radians)
    {
-      RotateLocal(angle, glm::vec3(0,0,1), radians);
+      m_Model->RotateLocalZ(angle, radians);
+      RecalculateViewMatrix();
    }
 
    void Camera::TranslateLocal(const glm::vec3& translation)
    {
-//      _transform = glm::transpose(glm::translate(glm::mat4(1.0f), translation)) * _transform;
-
-      _transform[3][0] += translation[0];
-      _transform[3][1] += translation[1];
-      _transform[3][2] += translation[2];
-
+      m_Model->TranslateLocal(translation);
       RecalculateViewMatrix();
    }
 }

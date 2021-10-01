@@ -7,6 +7,7 @@
 
 #include "Core/Core.h"
 #include "glm/glm.hpp"
+#include "Scene/Mesh/Model.h"
 
 namespace Clay
 {
@@ -39,6 +40,8 @@ namespace Clay
          const glm::mat4& GetViewProjectionMatrix() const { return _ViewProjectionMatrix; }
 
          CameraType GetCameraType() {return _type;}
+         Ref<Model> GetModel() const {return m_Model;}
+         void SetModel(Ref<Model> model) { m_Model = model;}
 
       private:
          void RecalculateViewMatrix();
@@ -49,7 +52,7 @@ namespace Clay
          glm::mat4 _ViewMatrix;
          glm::mat4 _ViewProjectionMatrix;
 
-         glm::mat4 _transform;
+         Ref<Model> m_Model;
 
    };
 

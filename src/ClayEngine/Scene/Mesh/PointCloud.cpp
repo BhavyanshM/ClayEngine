@@ -9,18 +9,21 @@ namespace Clay
 {
    PointCloud::PointCloud(const std::string& filename, const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
    {
-      CLAY_LOG_INFO("Creating PointCloud!");
+      CLAY_LOG_INFO("Creating PointCloud! File: {}", filename);
 
       _mesh->_color = color;
       _mesh->_type = RendererAPI::MODE::Points;
 
       /* Read and Fill.*/
       std::ifstream pcdFile;
-      std::string filePath = std::string(ASSETS_PATH) + "Meshes/bunny.pcd";
+//      std::string filePath = std::string(ASSETS_PATH) + "Meshes/bunny.pcd";
+      std::string filePath = filename;
       pcdFile.open(filePath);
       std::string line;
       bool startPoints = false;
       float x, y, z;
+
+      CLAY_LOG_INFO("Reading Points Now.");
       while (std::getline(pcdFile, line))
       {
          std::istringstream iss(line);
@@ -33,15 +36,17 @@ namespace Clay
             std::vector<std::string> words;
             boost::algorithm::split(words, line, boost::is_any_of(" "));
 
-            x = atof(words[0].c_str());
-            y = atof(words[1].c_str());
-            z = atof(words[2].c_str());
+            z = -atof(words[0].c_str());
+            x = -atof(words[1].c_str());
+            y = atof(words[2].c_str());
             Insert(x,y,z);
+
          }
       }
       pcdFile.close();
 
       Upload();
+      CLAY_LOG_INFO("PointCloud Created with {} points.!", GetSize());
    }
 
    PointCloud::PointCloud(const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
