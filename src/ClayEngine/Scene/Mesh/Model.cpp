@@ -16,6 +16,7 @@ namespace Clay {
       {
          _parent = parent;
          _transformToWorld = parent->GetTransformToWorld();
+         _parent->AddChild(std::shared_ptr<Model>(this));
       }
       if(geometry) {
          _mesh = std::make_shared<Mesh>(count, type);
@@ -29,30 +30,39 @@ namespace Clay {
    void Model::RotateLocal(float angle, const glm::vec3& axis, bool radians)
    {
       _transformToParent = glm::rotate(glm::mat4(1.0f), angle, axis) * _transformToParent;
+      Update();
    }
 
    void Model::RotateLocalX(float angle, bool radians)
    {
+      CLAY_LOG_INFO("RotateLocalX");
       RotateLocal(angle, glm::vec3(1.0f,0.0f,0.0f), radians);
+      Update();
    }
 
    void Model::RotateLocalY(float angle, bool radians)
    {
+      CLAY_LOG_INFO("RotateLocalY");
       RotateLocal(angle, glm::vec3(0,1,0), radians);
+      Update();
    }
 
    void Model::RotateLocalZ(float angle, bool radians)
    {
+      CLAY_LOG_INFO("RotateLocalZ");
       RotateLocal(angle, glm::vec3(0,0,1), radians);
+      Update();
    }
 
    void Model::TranslateLocal(const glm::vec3& translation)
    {
+      CLAY_LOG_INFO("TranslateLocal: ({}, {}, {})", translation.x, translation.y, translation.z);
       //      _transformToParent = glm::transpose(glm::translate(glm::mat4(1.0f), translation)) * _transformToParent;
 
       _transformToParent[3][0] += translation[0];
       _transformToParent[3][1] += translation[1];
       _transformToParent[3][2] += translation[2];
+      Update();
    }
 
    void Model::Update()

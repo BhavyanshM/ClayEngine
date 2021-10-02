@@ -54,11 +54,17 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       glBindVertexArray(_rendererId);
+      _indexBuffer->Bind();
+      for(Ref<VertexBuffer> buffer : _vertexBuffers)
+         buffer->Bind();
    }
 
    void OpenGLVertexArray::Unbind()
    {
       CLAY_PROFILE_FUNCTION();
+      _indexBuffer->Unbind();
+      for(Ref<VertexBuffer> buffer : _vertexBuffers)
+         buffer->Unbind();
       glBindVertexArray(0);
    }
 
@@ -80,6 +86,7 @@ namespace Clay
          index++;
       }
       _vertexBuffers.push_back(vertexBuffer);
+      vertexBuffer->Unbind();
    }
 
    void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
@@ -89,6 +96,7 @@ namespace Clay
       indexBuffer->Bind();
 
       _indexBuffer = indexBuffer;
+      indexBuffer->Unbind();
    }
 
    VertexArray *OpenGLVertexArray::Create()

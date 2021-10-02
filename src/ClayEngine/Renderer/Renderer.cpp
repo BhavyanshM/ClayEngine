@@ -111,9 +111,9 @@ namespace Clay
    {
       Ref<Shader> shader = model->GetShader();
       shader->Bind();
-      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", model->GetTransformToWorld());
-      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", model->GetColor());
+      shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      shader->SetMat4("u_Transform", model->GetTransformToWorld());
+      shader->SetFloat4("u_Color", model->GetColor());
 
       Ref<VertexArray> vertexArray = model->GetVertexArray();
       vertexArray->Bind();

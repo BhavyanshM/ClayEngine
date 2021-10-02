@@ -33,7 +33,7 @@ namespace Clay
          Ref <Shader> _shader;
    };
 
-   class Model
+   class Model : public std::enable_shared_from_this<Model>
    {
       public:
          Model() : _transformToParent(1.0f), _transformToWorld(1.0f) {_mesh = nullptr;};
@@ -46,6 +46,7 @@ namespace Clay
          Ref <VertexBuffer> GetVertexBuffer() const { return _mesh->_vertexBuffer;}
          Ref <VertexArray> GetVertexArray() const { return _mesh->_vertexArray;}
          Ref <IndexBuffer> GetIndexBuffer() const { return _mesh->_indexBuffer;}
+         Ref <Model> GetParent() const { return _parent;}
          const glm::mat4& GetTransformToParent() const { return _transformToParent;}
          const glm::mat4& GetTransformToWorld() const { return _transformToWorld;}
          void SetTransformToWorld(const glm::mat4& transform) {_transformToWorld = transform;}
@@ -54,6 +55,8 @@ namespace Clay
          RendererAPI::MODE GetType() const {return _mesh->_type;}
          Ref <Shader> GetShader() const { return _mesh->_shader;}
          uint32_t GetSize() const { return _mesh->_index;}
+         void AddChild(Ref<Model> child) {children.emplace_back(child);}
+
 
 
          void SetShader(const Ref <Shader>& shader){_mesh->_shader = shader;}

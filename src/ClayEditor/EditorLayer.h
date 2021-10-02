@@ -40,6 +40,7 @@ namespace Clay
          Ref<Texture2D> _texture;
 
          std::vector<Ref<Model>> _models;
+         Ref<Model> _rootPCL;
 
 
          struct ProfileResult

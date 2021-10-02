@@ -23,21 +23,26 @@ namespace Clay
    {
       signal(SIGSEGV, handler);
 
-      Ref<Model> rootPCL = std::make_shared<Model>();
-      Ref<Model> cameraModel = std::make_shared<Model>(rootPCL);
+      _rootPCL = std::make_shared<Model>();
+      Ref<Model> cameraGrandParent = std::make_shared<Model>(_rootPCL);
+      Ref<Model> cameraParent = std::make_shared<Model>(cameraGrandParent);
+      Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>("/home/quantum/Workspace/Volume/catkin_ws/src/MapSenseROS/Extras/Clouds/Scan_4", glm::vec4(0.3,0.8,0.3,1), rootPCL);
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>("/home/quantum/Workspace/Volume/catkin_ws/src/MapSenseROS/Extras/Clouds/Scan_4", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
       Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>("/home/quantum/Workspace/Volume/catkin_ws/src/MapSenseROS/Extras/Clouds/Scan_8", glm::vec4(0.8,0.4,0.6,1), secondPCL);
+
+//      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
+//      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
       thirdPCL->RotateLocalY(0.1f);
       thirdPCL->RotateLocalX(0.1f);
       thirdPCL->TranslateLocal({0.1f, 0.1f, -0.2f});
 
-//      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(rootPCL->GetTransformToWorld()));
+//      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(_rootPCL->GetTransformToWorld()));
 //      CLAY_LOG_INFO("Second World Transform: {}", glm::to_string(secondPCL->GetTransformToWorld()));
 
-//      _models.emplace_back(std::dynamic_pointer_cast<Model>(rootPCL));
+//      _models.emplace_back(std::dynamic_pointer_cast<Model>(_rootPCL));
       _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
       _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
    }
@@ -78,12 +83,10 @@ namespace Clay
 
       Renderer::BeginScene(_cameraController.GetCamera());
 
+      _rootPCL->Update();
       _currentTime += ts.GetMilliseconds() / 1000.0f;
       for(Ref<Model> model : _models)
       {
-//         model->RotateLocalY(0.1f);
-//         model->TranslateLocal({sin(_currentTime) * 0.008f, 0, cos(_currentTime) * 0.008f});
-         model->Update();
          model->SetShader(_shader);
          Renderer::Submit(model);
       }

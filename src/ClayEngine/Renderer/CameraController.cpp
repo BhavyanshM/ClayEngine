@@ -48,7 +48,7 @@ namespace Clay
    bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
    {
       CLAY_PROFILE_FUNCTION();
-      m_Camera.TranslateLocal({0.0f, 0.0f, e.GetOffsetY() * 0.1f});
+      m_Camera.TranslateLocalZ({0.0f, 0.0f, e.GetOffsetY() * 0.1f});
       return false;
    }
 
@@ -65,23 +65,23 @@ namespace Clay
 
       if (_firstClick)
       {
-         _lastX = e.GetX();
-         _lastY = e.GetY();
          _firstClick = false;
       }
-      else if (_mouseLeftButtonPressed)
+      if (_mouseLeftButtonPressed)
       {
-         m_Camera.RotateLocalY(0.01f * (_lastX - e.GetX()), true);
-//         m_Camera.RotateLocalX(0.01f * (_lastY - e.GetY()), true);
-         _lastX = e.GetX();
-         _lastY = e.GetY();
+         m_Camera.RotateLocalY(0.01f * (_lastX - e.GetX()));
+         m_Camera.RotateLocalX(0.01f * (_lastY - e.GetY()));
       }
-      else if(_mouseMiddleButtonPressed)
+      if(_mouseMiddleButtonPressed)
       {
-         m_Camera.TranslateLocal({0.0f, -0.005f * (_lastY - e.GetY()), 0.0f});
-         _lastX = e.GetX();
-         _lastY = e.GetY();
+         m_Camera.TranslateLocal({0.0f, -0.01f * (_lastY - e.GetY()), 0.0f});
       }
+      if(_mouseRightButtonPressed)
+      {
+         m_Camera.TranslateLocalXY({0.005f * (_lastX - e.GetX()), 0, 0.005f * (_lastY - e.GetY())});
+      }
+      _lastX = e.GetX();
+      _lastY = e.GetY();
 
       return false;
    }

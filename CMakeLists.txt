@@ -135,17 +135,6 @@ INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/Vendor DESTINATION include/ClayEngine FIL
 
 INSTALL (DIRECTORY ${CMAKE_SOURCE_DIR}/src/ClayEngine/Assets DESTINATION include/ClayEngine)
 
-add_executable(ClayGameApp
-        src/Example/ExampleLayer.cpp
-        src/Example/ExampleLayer.h
-        src/Example/GameSandbox.cpp
-        src/Example/GameSandbox.h
-        src/Example/Example2D.cpp
-        src/Example/Example2D.h
-        )
-target_link_libraries(ClayGameApp
-        ClayEngine)
-
 add_executable(ClayEditor
         src/ClayEditor/ClayEditorApp.cpp
         src/ClayEditor/ClayEditorApp.h

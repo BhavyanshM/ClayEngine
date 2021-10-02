@@ -77,6 +77,7 @@ namespace Clay
       _mesh->_vertexBuffer->SetLayout(layout);
       _mesh->_vertexArray->AddVertexBuffer(_mesh->_vertexBuffer);
       _mesh->_vertexArray->SetIndexBuffer(_mesh->_indexBuffer);
+      _mesh->_vertexArray->Unbind();
    }
 
    void PointCloud::Reset()

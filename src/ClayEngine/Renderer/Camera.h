@@ -28,10 +28,10 @@ namespace Clay
          void RotateLocal(float angle, const glm::vec3& axis, bool radians = true);
          void RotateLocalX(float angle, bool radians = true);
          void RotateLocalY(float angle, bool radians = true);
-         void RotateLocalZ(float angle, bool radians = true);
 
+         void TranslateLocalXY(const glm::vec3& translation);
+         void TranslateLocalZ(const glm::vec3& translation);
          void TranslateLocal(const glm::vec3& translation);
-
 
          void SetProjection(float left, float right, float bottom, float top);
 

@@ -37,7 +37,7 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
 
-      _ViewMatrix = glm::inverse(m_Model->GetTransformToParent());
+      _ViewMatrix = glm::inverse(m_Model->GetTransformToWorld());
       _ViewProjectionMatrix = _ProjectionMatrix * _ViewMatrix;
 //      CLAY_LOG_INFO("Transform: {}", glm::to_string(m_Model->GetTransformToParent()));
    }
@@ -50,25 +50,31 @@ namespace Clay
 
    void Camera::RotateLocalX(float angle, bool radians)
    {
-      m_Model->RotateLocalX(angle, radians);
+      m_Model->GetParent()->RotateLocalX(angle, true);
       RecalculateViewMatrix();
    }
 
    void Camera::RotateLocalY(float angle, bool radians)
    {
-      m_Model->RotateLocalY(angle, radians);
-      RecalculateViewMatrix();
-   }
-
-   void Camera::RotateLocalZ(float angle, bool radians)
-   {
-      m_Model->RotateLocalZ(angle, radians);
+      m_Model->GetParent()->GetParent()->RotateLocalY(angle, true);
       RecalculateViewMatrix();
    }
 
    void Camera::TranslateLocal(const glm::vec3& translation)
    {
+      m_Model->GetParent()->GetParent()->TranslateLocal(translation);
+      RecalculateViewMatrix();
+   }
+
+   void Camera::TranslateLocalZ(const glm::vec3& translation)
+   {
       m_Model->TranslateLocal(translation);
+      RecalculateViewMatrix();
+   }
+
+   void Camera::TranslateLocalXY(const glm::vec3& translation)
+   {
+      m_Model->GetParent()->TranslateLocal(translation);
       RecalculateViewMatrix();
    }
 }
