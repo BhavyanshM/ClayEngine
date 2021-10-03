@@ -32,10 +32,11 @@ namespace Clay
          static void Flush();
          static void FlushAndReset();
          static void EndScene();
+
          static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f), uint32_t mode = RendererAPI::MODE::Triangles);
-         //         static void Submit(const Ref<PointCloud>& cloud);
          static void Submit(const Ref<Model>& model);
          static void SubmitPoints(const Ref<Model>& model);
+         static void SubmitLines(const Ref<Model>& model);
 
          inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI();}
 
@@ -68,6 +69,7 @@ namespace Clay
    {
       glm::vec3 Position;
       glm::vec4 Color;
+      int Id;
    };
 
    struct LineVertex
@@ -100,6 +102,8 @@ namespace Clay
 
       static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
 
+      int CloudId = 0;
+
       Ref<VertexArray> PointVertexArray;
       Ref<VertexBuffer> PointVertexBuffer;
 
@@ -124,6 +128,8 @@ namespace Clay
       uint32_t PointIndexCount = 0;
       T* PointVertexBufferBase = nullptr;
       T* PointVertexBufferPtr = nullptr;
+
+      std::vector<glm::mat4> Transforms;
 
       std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
       uint32_t TextureSlotIndex = 1; // 0: WhiteTexture

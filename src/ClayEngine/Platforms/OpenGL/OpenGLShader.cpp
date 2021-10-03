@@ -169,12 +169,6 @@ namespace Clay
       glUniform1i(location, value);
    }
 
-   void OpenGLShader::UploadUniformIntArray(const std::string& name, int *values, uint32_t count)
-   {
-      GLint location = glGetUniformLocation(_rendererId, name.c_str());
-      glUniform1iv(location, count, values);
-   }
-
    void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
    {
       GLint location = glGetUniformLocation(_rendererId, name.c_str());
@@ -211,6 +205,18 @@ namespace Clay
       glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
    }
 
+   void OpenGLShader::UploadUniformIntArray(const std::string& name, int *values, uint32_t count)
+   {
+      GLint location = glGetUniformLocation(_rendererId, name.c_str());
+      glUniform1iv(location, count, values);
+   }
+
+   void OpenGLShader::UploadUniformMat4Array(const std::string& name, const std::vector<glm::mat4>& values, uint32_t count)
+   {
+      GLint location = glGetUniformLocation(_rendererId, name.c_str());
+      glUniformMatrix4fv(location, count, GL_FALSE, glm::value_ptr(values[0]));
+   }
+
    void OpenGLShader::SetFloat(const std::string& name, float value)
    {
       CLAY_PROFILE_FUNCTION();
@@ -245,5 +251,11 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       UploadUniformIntArray(name, values, count);
+   }
+
+   void OpenGLShader::SetMat4Array(const std::string& name, const std::vector<glm::mat4>& values, uint32_t count)
+   {
+      CLAY_PROFILE_FUNCTION();
+      UploadUniformMat4Array(name, values, count);
    }
 }
