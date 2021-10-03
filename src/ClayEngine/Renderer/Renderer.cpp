@@ -4,60 +4,39 @@
 
 
 #include "Renderer.h"
-#include "Renderer2D.h"
-#include "RenderCommand.h"
-#include "VertexArray.h"
-
-
 
 namespace Clay
 {
-
-   struct PointVertex
-   {
-      glm::vec3 Position;
-      glm::vec4 Color;
-   };
-
-   struct TriangleVertex
-   {
-      glm::vec3 Position;
-      glm::vec4 Color;
-      glm::vec2 TexCoord;
-      float TexIndex;
-   };
-
-   template <typename T> // PointVertex or TriangleVertex
-   struct RendererData
-   {
-      static const uint32_t MaxTriangles = 20000;
-      static const uint32_t MaxVertices = MaxTriangles * 3;
-      static const uint32_t MaxIndices = MaxTriangles * 3;
-      static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
-
-      Ref<VertexArray> TriangleVertexArray;
-      Ref<VertexBuffer> TriangleVertexBuffer;
-      Ref<Shader> TextureShader;
-      Ref<Texture2D> WhiteTexture;
-
-      uint32_t QuadIndexCount = 0;
-      T* VertexBufferBase = nullptr;
-      T* VertexBufferPtr = nullptr;
-
-      std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
-      uint32_t TextureSlotIndex = 1; // 0: WhiteTexture
-
-      Renderer::Statistics Stats;
-   };
-
-   static RendererData<PointVertex> s_Data;
 
    Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
 
    void Renderer::Init()
    {
       RenderCommand::Init();
-      Renderer2D::Init();
+//      Renderer2D::Init();
+
+      s_PointData.PointVertexArray = VertexArray::Create();
+      s_PointData.PointVertexBuffer = VertexBuffer::Create(s_PointData.MaxPointVertices * sizeof(PointVertex));
+
+      BufferLayout layout = {
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float4, "a_Color"}
+      };
+      s_PointData.PointVertexBuffer->SetLayout(layout);
+      s_PointData.PointVertexArray->AddVertexBuffer(s_PointData.PointVertexBuffer);
+      s_PointData.PointVertexBufferBase = new PointVertex[s_PointData.MaxPointVertices];
+
+      uint32_t* pointIndices = new uint32_t[s_PointData.MaxPointIndices];
+      for(uint32_t i = 0; i< s_PointData.MaxPointIndices; i++)
+      {
+         pointIndices[i] = i;
+      }
+      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_PointData.MaxPointIndices);
+      s_PointData.PointVertexArray->SetIndexBuffer(indexBuffer);
+      delete[] pointIndices;
+
+      s_PointData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/PointCloudShader.glsl"));
+      s_PointData.MeshShader->Bind();
    }
 
    void Renderer::Shutdown()
@@ -72,11 +51,34 @@ namespace Clay
 
    void Renderer::BeginScene(Camera& camera)
    {
+      s_PointData.MeshShader->Bind();
+      s_PointData.MeshShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+
+      s_PointData.PointIndexCount = 0;
+      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
    }
 
    void Renderer::EndScene()
    {
+      uint32_t dataSize = (uint8_t*)s_PointData.PointVertexBufferPtr - (uint8_t*) s_PointData.PointVertexBufferBase;
+      s_PointData.PointVertexBuffer->SetData(s_PointData.PointVertexBufferBase, dataSize);
+
+      Flush();
+   }
+
+   void Renderer::Flush()
+   {
+      RenderCommand::DrawIndexed(s_PointData.PointVertexArray, s_PointData.PointIndexCount, RendererAPI::MODE::Points);
+      s_PointData.Stats.DrawCalls++;
+   }
+
+   void Renderer::FlushAndReset()
+   {
+      EndScene();
+      CLAY_LOG_INFO("FlushAndReset(): {}", s_PointData.PointIndexCount);
+      s_PointData.PointIndexCount = 0;
+      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
    }
 
    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform, uint32_t mode)
@@ -88,24 +90,9 @@ namespace Clay
 
       vertexArray->Bind();
       RenderCommand::DrawIndexed(vertexArray, 0, mode);
-      s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
-      s_Data.Stats.DrawCalls++;
+      s_PointData.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
+      s_PointData.Stats.DrawCalls++;
    }
-
-//   void Renderer::Submit(const Ref<PointCloud>& cloud)
-//   {
-//      Ref<Shader> shader = cloud->GetShader();
-//      shader->Bind();
-//      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-//      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", cloud->GetTransformToWorld());
-//      std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformFloat4("u_Color", cloud->GetColor());
-//
-//      Ref<VertexArray> vertexArray = cloud->GetVertexArray();
-//      vertexArray->Bind();
-//      RenderCommand::DrawIndexed(vertexArray, 0, RendererAPI::MODE::Points);
-//      s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
-//      s_Data.Stats.DrawCalls++;
-//   }
 
    void Renderer::Submit(const Ref<Model>& model)
    {
@@ -120,19 +107,43 @@ namespace Clay
       RenderCommand::DrawIndexed(vertexArray, 0, model->GetType());
       vertexArray->Unbind();
       shader->Unbind();
-      s_Data.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
-      s_Data.Stats.DrawCalls++;
+      s_PointData.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
+      s_PointData.Stats.DrawCalls++;
+   }
+
+   void Renderer::SubmitPoints(const Ref<Model>& model)
+   {
+      CLAY_PROFILE_FUNCTION();
+
+      s_PointData.MeshShader->Bind();
+      s_PointData.MeshShader->SetMat4("u_Transform", model->GetTransformToWorld());
+
+      CLAY_LOG_INFO("Points: {}", model->GetSize());
+
+      if(s_PointData.PointIndexCount + model->GetSize() >= s_PointData.MaxPointIndices)
+         FlushAndReset();
+
+      for(uint32_t i = 0; i<model->GetSize(); i++)
+      {
+         s_PointData.PointVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+                                                       model->GetMesh()->_vertices[i*3 + 1],
+                                                       model->GetMesh()->_vertices[i*3 + 2]};
+         s_PointData.PointVertexBufferPtr->Color = model->GetColor();
+         s_PointData.PointVertexBufferPtr++;
+      }
+      s_PointData.PointIndexCount += model->GetSize();
+      s_PointData.Stats.VertexCount += model->GetSize();
    }
 
    Renderer::Statistics Renderer::GetStats()
    {
-      return s_Data.Stats;
+      return s_PointData.Stats;
    }
 
    void Renderer::ResetStats()
    {
-      s_Data.Stats.TriangleCount = 0;
-      s_Data.Stats.DrawCalls = 0;
-      s_Data.Stats.VertexCount = 0;
+      s_PointData.Stats.TriangleCount = 0;
+      s_PointData.Stats.DrawCalls = 0;
+      s_PointData.Stats.VertexCount = 0;
    }
 }

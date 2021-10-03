@@ -45,7 +45,6 @@ namespace Clay
       }
       pcdFile.close();
 
-      Upload();
       CLAY_LOG_INFO("PointCloud Created with {} points.!", GetSize());
    }
 

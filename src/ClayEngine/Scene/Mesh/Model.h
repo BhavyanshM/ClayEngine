@@ -55,10 +55,9 @@ namespace Clay
          RendererAPI::MODE GetType() const {return _mesh->_type;}
          Ref <Shader> GetShader() const { return _mesh->_shader;}
          uint32_t GetSize() const { return _mesh->_index;}
+         Ref<Mesh> GetMesh() const { return _mesh; }
+
          void AddChild(Ref<Model> child) {children.emplace_back(child);}
-
-
-
          void SetShader(const Ref <Shader>& shader){_mesh->_shader = shader;}
          void SetColor(const glm::vec4& color){_mesh->_color = color;}
 

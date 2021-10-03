@@ -87,8 +87,7 @@ namespace Clay
       _currentTime += ts.GetMilliseconds() / 1000.0f;
       for(Ref<Model> model : _models)
       {
-         model->SetShader(_shader);
-         Renderer::Submit(model);
+         Renderer::SubmitPoints(model);
       }
 
       Renderer::EndScene();

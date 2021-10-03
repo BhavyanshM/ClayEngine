@@ -20,8 +20,6 @@ namespace Clay
          void Reset() override;
          void Insert(float x, float y, float z);
 
-
-
    };
 }
 
