@@ -48,8 +48,25 @@ namespace Clay
    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount, uint32_t mode)
    {
       uint32_t count = (vertexArray->GetIndexBuffer()->GetCount() != 0) ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
-      if(mode == RendererAPI::MODE::Points) glPointSize(2.0);
-      glDrawElements(mode == RendererAPI::MODE::Triangles ? GL_TRIANGLES : GL_POINTS, count, GL_UNSIGNED_INT, nullptr);
+      switch(mode)
+      {
+         case RendererAPI::MODE::Points:
+         {
+            glDrawElements(GL_POINTS, count, GL_UNSIGNED_INT, nullptr);
+            glPointSize(2.0);
+            break;
+         }
+         case RendererAPI::MODE::Triangles:
+         {
+            glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+            break;
+         }
+         case RendererAPI::MODE::Lines:
+         {
+            glDrawElements(GL_LINES, count, GL_UNSIGNED_INT, nullptr);
+            break;
+         }
+      }
       glBindTexture(GL_TEXTURE_2D, 0);
    }
 }

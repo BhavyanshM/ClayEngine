@@ -87,6 +87,7 @@ namespace Clay
       }
       _vertexBuffers.push_back(vertexBuffer);
       vertexBuffer->Unbind();
+      glBindVertexArray(0);
    }
 
    void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)

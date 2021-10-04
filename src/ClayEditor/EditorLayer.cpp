@@ -29,8 +29,8 @@ namespace Clay
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>("/home/quantum/Workspace/Volume/catkin_ws/src/MapSenseROS/Extras/Clouds/Scan_4", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
-      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>("/home/quantum/Workspace/Volume/catkin_ws/src/MapSenseROS/Extras/Clouds/Scan_8", glm::vec4(0.8,0.4,0.6,1), secondPCL);
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
+      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
 //      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
 //      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
@@ -42,7 +42,6 @@ namespace Clay
 //      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(_rootPCL->GetTransformToWorld()));
 //      CLAY_LOG_INFO("Second World Transform: {}", glm::to_string(secondPCL->GetTransformToWorld()));
 
-//      _models.emplace_back(std::dynamic_pointer_cast<Model>(_rootPCL));
       _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
       _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
    }

@@ -18,7 +18,7 @@ namespace Clay
    {
       m_Camera.SetModel(cameraModel);
       m_Camera.SetPerspective(glm::radians(80.0f), m_AspectRatio, 0.01f, 1000.0f);
-      m_Camera.TranslateLocal({0.0f, 0.0f, -0.1f});
+      m_Camera.TranslateLocal({0.0f, 0.0f, 0.1f});
       CLAY_LOG_INFO("Initializing Camera Controller!");
    }
 

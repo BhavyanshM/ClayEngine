@@ -24,7 +24,9 @@ namespace Clay
       public:
 
          static void Init();
-
+         static void InitPointData();
+         static void InitLineData();
+         static void InitTriangleData();
          static void Shutdown();
          static void OnWindowResize(uint32_t width, uint32_t height);
 
@@ -75,7 +77,6 @@ namespace Clay
    struct LineVertex
    {
       glm::vec3 Position;
-      glm::vec4 Color;
    };
 
    struct TriangleVertex
@@ -89,16 +90,18 @@ namespace Clay
    template <typename T> // PointVertex or TriangleVertex
    struct RendererData
    {
-      static const uint32_t MaxEntities = 200000;
+      static const uint32_t MaxPoints = 200000;
+      static const uint32_t MaxLines = 20000;
+      static const uint32_t MaxTriangles = 100000;
 
-      static const uint32_t MaxPointVertices = MaxEntities;
-      static const uint32_t MaxPointIndices = MaxEntities;
+      static const uint32_t MaxPointVertices = MaxPoints;
+      static const uint32_t MaxPointIndices = MaxPoints;
 
-      static const uint32_t MaxLineVertices = MaxEntities * 2;
-      static const uint32_t MaxLineIndices = MaxEntities * 2;
+      static const uint32_t MaxLineVertices = MaxLines * 2;
+      static const uint32_t MaxLineIndices = MaxLines * 2;
 
-      static const uint32_t MaxTriangleVertices = MaxEntities * 3;
-      static const uint32_t MaxTriangleIndices = MaxEntities * 3;
+      static const uint32_t MaxTriangleVertices = MaxTriangles * 3;
+      static const uint32_t MaxTriangleIndices = MaxTriangles * 3;
 
       static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
 

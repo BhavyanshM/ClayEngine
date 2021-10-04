@@ -20,8 +20,7 @@ namespace Clay
 
          enum MODE
          {
-               Triangles = 0,
-               Points = 1
+               Triangles = 0, Points = 1, Lines = 2
          };
 
          virtual void Init() = 0;
