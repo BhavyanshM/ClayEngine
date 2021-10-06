@@ -90,7 +90,7 @@ namespace Clay
    template <typename T> // PointVertex or TriangleVertex
    struct RendererData
    {
-      static const uint32_t MaxPoints = 200000;
+      static const uint32_t MaxPoints = 100000;
       static const uint32_t MaxLines = 20000;
       static const uint32_t MaxTriangles = 100000;
 
