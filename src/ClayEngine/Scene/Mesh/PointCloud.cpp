@@ -39,7 +39,9 @@ namespace Clay
             z = -atof(words[0].c_str());
             x = -atof(words[1].c_str());
             y = atof(words[2].c_str());
-            Insert(x,y,z);
+
+            if(!(abs(x) < 0.0001 && abs(y) < 0.0001 && abs(z) < 0.0001))
+               Insert(x,y,z);
 
          }
       }
