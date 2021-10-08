@@ -65,6 +65,16 @@ namespace Clay {
       Update();
    }
 
+   void Model::TransformLocal(const glm::mat4& transform)
+   {
+      _transformToParent = _transformToWorld * transform;
+   }
+
+   void Model::TransformGlobal(const glm::mat4& transform)
+   {
+      _transformToWorld = _transformToWorld * transform;
+   }
+
    void Model::Update()
    {
       if(_parent != nullptr)

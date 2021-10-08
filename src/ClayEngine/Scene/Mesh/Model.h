@@ -66,6 +66,8 @@ namespace Clay
          void RotateLocalY(float angle, bool radians = true);
          void RotateLocalZ(float angle, bool radians = true);
          void TranslateLocal(const glm::vec3& translation);
+         void TransformLocal(const glm::mat4& transform);
+         void TransformGlobal(const glm::mat4& transform);
 
       protected:
          std::vector<Ref<Model>> children;
