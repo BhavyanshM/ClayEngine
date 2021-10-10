@@ -67,7 +67,7 @@ namespace Clay {
 
    void Model::TransformLocal(const glm::mat4& transform)
    {
-      _transformToParent = _transformToWorld * transform;
+      _transformToParent = _transformToParent * transform;
    }
 
    void Model::TransformGlobal(const glm::mat4& transform)
