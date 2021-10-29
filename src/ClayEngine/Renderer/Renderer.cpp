@@ -191,6 +191,35 @@ namespace Clay
       s_PointData.CloudId++;
    }
 
+   void Renderer::SubmitPointCloudComponents(const Ref<Model>& model)
+   {
+      CLAY_PROFILE_FUNCTION();
+      s_PointData.MeshShader->Bind();
+      if(s_PointData.PointIndexCount + model->GetSize() >= s_PointData.MaxPointIndices)
+         FlushAndReset();
+
+      s_PointData.MeshShader->Bind();
+      s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
+      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 32);
+      for(uint32_t i = 0; i<model->GetSize(); i++)
+      {
+         s_PointData.PointVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+                                                       model->GetMesh()->_vertices[i*3 + 1],
+                                                       model->GetMesh()->_vertices[i*3 + 2]};
+         s_PointData.PointVertexBufferPtr->Color = {(float)(model->GetMesh()->_partIds[i] * 123 % 255) / 255.0f,
+                                                    (float)(model->GetMesh()->_partIds[i] * 321 % 255) / 255.0f,
+                                                    (float)(model->GetMesh()->_partIds[i] * 432 % 255) / 255.0f,
+                                                    1.0f};
+//         s_PointData.PointVertexBufferPtr->Color = {1.0f, 0.0f, 1.0f,1.0f};
+         s_PointData.PointVertexBufferPtr->Id = s_PointData.CloudId;
+         s_PointData.PointVertexBufferPtr++;
+      }
+      s_PointData.PointIndexCount += model->GetSize();
+      s_PointData.Stats.VertexCount += model->GetSize();
+      s_PointData.CloudId++;
+   }
+
    void Renderer::SubmitLines(const Ref<Model>& model)
    {
       CLAY_PROFILE_FUNCTION();

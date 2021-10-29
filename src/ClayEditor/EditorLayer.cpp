@@ -30,20 +30,28 @@ namespace Clay
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
       Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
-      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
+//      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
 //      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
 //      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
-      thirdPCL->RotateLocalY(0.1f);
-      thirdPCL->RotateLocalX(0.1f);
-      thirdPCL->TranslateLocal({0.1f, 0.1f, -0.2f});
+//      thirdPCL->RotateLocalY(0.1f);
+//      thirdPCL->RotateLocalX(0.1f);
+//      thirdPCL->TranslateLocal({0.1f, 0.1f, -0.2f});
 
 //      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(_rootPCL->GetTransformToWorld()));
 //      CLAY_LOG_INFO("Second World Transform: {}", glm::to_string(secondPCL->GetTransformToWorld()));
 
+
+      std::vector<int> partIds(secondPCL->GetSize(), 0);
+      for(int i = 0; i<partIds.size(); i++)
+      {
+         partIds[i] = i / 2000;
+      }
+      secondPCL->SetPartIds(partIds);
+
       _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
-      _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
+//      _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
    }
 
    void EditorLayer::OnAttach()
@@ -86,7 +94,7 @@ namespace Clay
       _currentTime += ts.GetMilliseconds() / 1000.0f;
       for(Ref<Model> model : _models)
       {
-         Renderer::SubmitPoints(model);
+         Renderer::SubmitPointCloudComponents(model);
       }
 
       Renderer::EndScene();

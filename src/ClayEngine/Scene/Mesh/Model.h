@@ -31,6 +31,7 @@ namespace Clay
          Ref <IndexBuffer> _indexBuffer;
          Ref <VertexBuffer> _vertexBuffer;
          Ref <Shader> _shader;
+         std::vector<int> _partIds;
    };
 
    class Model : public std::enable_shared_from_this<Model>
@@ -60,6 +61,7 @@ namespace Clay
          void AddChild(Ref<Model> child) {children.emplace_back(child);}
          void SetShader(const Ref <Shader>& shader){_mesh->_shader = shader;}
          void SetColor(const glm::vec4& color){_mesh->_color = color;}
+         void SetPartIds(const std::vector<int>& partIds) {_mesh->_partIds = partIds;}
 
          void RotateLocal(float angle, const glm::vec3& axis, bool radians = true);
          void RotateLocalX(float angle, bool radians = true);
