@@ -31,6 +31,7 @@ namespace Clay
 
       Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
       secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/Square.pcd");
+      secondPCL->Print();
 //      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
 //      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);

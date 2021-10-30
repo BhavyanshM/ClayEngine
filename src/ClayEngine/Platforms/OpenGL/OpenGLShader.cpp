@@ -11,6 +11,8 @@ namespace Clay
          return GL_VERTEX_SHADER;
       if(type == "fragment" || type == "pixel")
          return GL_FRAGMENT_SHADER;
+      if(type == "geometry")
+         return GL_GEOMETRY_SHADER;
 
       CLAY_LOG_ERROR("Unknown Shader Type!");
       return 0;
@@ -30,12 +32,13 @@ namespace Clay
       _name = filePath.substr(lastSlash, count);
    }
 
-   OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : _name(name)
+   OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, const std::string& geometrySrc) : _name(name)
    {
       CLAY_PROFILE_FUNCTION();
       std::unordered_map<GLenum, std::string> sources;
       sources[GL_VERTEX_SHADER] = vertexSrc;
       sources[GL_FRAGMENT_SHADER] = fragmentSrc;
+      sources[GL_GEOMETRY_SHADER] = geometrySrc;
       Compile(sources);
    }
 
@@ -114,7 +117,7 @@ namespace Clay
             glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
             glDeleteShader(shader);
 
-            CLAY_LOG_ERROR("Vertex Shader Compilation Failed: ");
+            CLAY_LOG_ERROR("Shader Compilation Failed: ");
             CLAY_LOG_ERROR("{0}", infoLog.data());
             break;
          }

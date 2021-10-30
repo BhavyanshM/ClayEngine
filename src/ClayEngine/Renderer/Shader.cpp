@@ -27,7 +27,7 @@ namespace Clay
       return nullptr;
    }
 
-   Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+   Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, const std::string& geometrySrc)
    {
       switch (Renderer::GetAPI())
       {
@@ -38,7 +38,7 @@ namespace Clay
          }
          case RendererAPI::API::OpenGL:
          {
-            return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+            return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc, geometrySrc);
          }
       }
       CLAY_LOG_INFO("Could not find RendererAPI. ");

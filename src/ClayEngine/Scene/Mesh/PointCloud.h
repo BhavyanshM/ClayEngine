@@ -18,6 +18,7 @@ namespace Clay
          void Load(const std::string& filename) override;
          void Reset() override;
          void Insert(float x, float y, float z);
+         void Print() override;
 
    };
 }

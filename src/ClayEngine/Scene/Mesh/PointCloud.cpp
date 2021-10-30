@@ -12,7 +12,7 @@ namespace Clay
       _mesh->_color = color;
       _mesh->_type = RendererAPI::MODE::Points;
 
-      CLAY_LOG_INFO("PointCloud Created with {} points.!", GetSize());
+
    }
 
    void PointCloud::Insert(float x, float y, float z)
@@ -70,6 +70,16 @@ namespace Clay
          }
       }
       pcdFile.close();
+
+      CLAY_LOG_INFO("PointCloud Created with {} points.!", GetSize());
+   }
+
+   void PointCloud::Print()
+   {
+      for(int i = 0; i<GetSize(); i++)
+      {
+         CLAY_LOG_INFO("Point: {} {} {}", _mesh->_vertices[i*3], _mesh->_vertices[i*3+1], _mesh->_vertices[i*3+2]);
+      }
    }
 
 }

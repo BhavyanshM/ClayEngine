@@ -43,6 +43,7 @@ namespace Clay
          void Update();
          virtual void Load(const std::string& filename) {};
          virtual void Reset() {};
+         virtual void Print() {};
 
          Ref <VertexBuffer> GetVertexBuffer() const { return _mesh->_vertexBuffer;}
          Ref <VertexArray> GetVertexArray() const { return _mesh->_vertexArray;}
