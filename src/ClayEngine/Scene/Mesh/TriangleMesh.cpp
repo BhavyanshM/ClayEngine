@@ -3,19 +3,19 @@
 //
 
 
-#include "PointCloud.h"
+#include "TriangleMesh.h"
 
 namespace Clay
 {
-   PointCloud::PointCloud(const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
+   TriangleMesh::TriangleMesh(const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
    {
       _mesh->_color = color;
       _mesh->_type = RendererAPI::MODE::Points;
 
-      CLAY_LOG_INFO("PointCloud Created with {} points.!", GetSize());
+      CLAY_LOG_INFO("TriangleMesh Created with {} points.!", GetSize());
    }
 
-   void PointCloud::Insert(float x, float y, float z)
+   void TriangleMesh::Insert(float x, float y, float z)
    {
       if(_mesh->_index < _mesh->MAX_POINTS - 10)
       {
@@ -27,16 +27,16 @@ namespace Clay
       }
    }
 
-   void PointCloud::Reset()
+   void TriangleMesh::Reset()
    {
       _mesh->_vertices.clear();
       _mesh->_indices.clear();
       _mesh->_index = 0;
    }
 
-   void PointCloud::Load(const std::string& filename)
+   void TriangleMesh::Load(const std::string& filename)
    {
-      CLAY_LOG_INFO("Loading PointCloud from: {}", filename);
+      CLAY_LOG_INFO("Loading TriangleMesh from: {}", filename);
 
       /* Read and Fill.*/
       std::ifstream pcdFile;
@@ -70,6 +70,8 @@ namespace Clay
          }
       }
       pcdFile.close();
+
    }
+
 
 }

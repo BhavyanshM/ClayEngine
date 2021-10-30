@@ -2,18 +2,18 @@
 // Created by quantum on 9/24/21.
 //
 
-#ifndef CLAYENGINE_POINTCLOUD_H
-#define CLAYENGINE_POINTCLOUD_H
+#ifndef CLAYENGINE_TRIANGLEMESH_H
+#define CLAYENGINE_TRIANGLEMESH_H
 
 #include "Scene/Mesh/Model.h"
 
 namespace Clay
 {
-   class PointCloud : public Model
+   class TriangleMesh : public Model
    {
       public:
-         PointCloud() : Model() {};
-         PointCloud(const glm::vec4& color, const Ref<Model>& parent);
+         TriangleMesh() : Model() {};
+         TriangleMesh(const glm::vec4& color, const Ref<Model>& parent);
 
          void Load(const std::string& filename) override;
          void Reset() override;
@@ -22,4 +22,4 @@ namespace Clay
    };
 }
 
-#endif //CLAYENGINE_POINTCLOUD_H
+#endif //CLAYENGINE_TRIANGLEMESH_H

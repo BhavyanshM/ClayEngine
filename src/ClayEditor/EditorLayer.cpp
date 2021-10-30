@@ -29,7 +29,8 @@ namespace Clay
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
+      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/Square.pcd");
 //      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
 //      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.3,0.8,0.3,1), _rootPCL);
@@ -94,7 +95,7 @@ namespace Clay
       _currentTime += ts.GetMilliseconds() / 1000.0f;
       for(Ref<Model> model : _models)
       {
-         Renderer::SubmitPointCloudComponents(model);
+         Renderer::SubmitTriangles(model);
       }
 
       Renderer::EndScene();

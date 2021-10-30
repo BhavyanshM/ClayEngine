@@ -15,8 +15,9 @@ namespace Clay
       RenderCommand::Init();
 //      Renderer2D::Init();
 
-      Renderer::InitPointData();
+//      Renderer::InitPointData();
 //      Renderer::InitLineData();
+      Renderer::InitTriangleData();
 
    }
 
@@ -75,6 +76,36 @@ namespace Clay
       s_PointData.MeshShader->Bind();
    }
 
+   void Renderer::InitTriangleData()
+   {
+      s_TriangleData.TriangleVertexArray = VertexArray::Create();
+      s_TriangleData.TriangleVertexBuffer = VertexBuffer::Create(s_TriangleData.MaxTriangleVertices * sizeof(TriangleVertex));
+
+      BufferLayout layout = {
+            {ShaderDataType::Float3, "a_Position"}
+      };
+      s_TriangleData.TriangleVertexBuffer->SetLayout(layout);
+      s_TriangleData.TriangleVertexArray->AddVertexBuffer(s_TriangleData.TriangleVertexBuffer);
+      s_TriangleData.TriangleVertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangleVertices];
+
+
+      uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangleIndices];
+      uint32_t offset = 0;
+      for(uint32_t i = 0; i< s_TriangleData.MaxTriangleIndices; i+=3)
+      {
+         pointIndices[i+0] = offset + 0;
+         pointIndices[i+1] = offset + 1;
+         pointIndices[i+2] = offset + 2;
+         offset += 3;
+      }
+      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangleIndices);
+      s_TriangleData.TriangleVertexArray->SetIndexBuffer(indexBuffer);
+      delete[] pointIndices;
+
+      s_TriangleData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/TriangleShader.glsl"));
+      s_TriangleData.MeshShader->Bind();
+   }
+
    void Renderer::Shutdown()
    {
       Renderer2D::Shutdown();
@@ -91,36 +122,37 @@ namespace Clay
 
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
-      s_PointData.PointIndexCount = 0;
-      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
+//      s_PointData.PointIndexCount = 0;
+//      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
 
 //      s_LineData.LineIndexCount = 0;
 //      s_LineData.LineVertexBufferPtr = s_LineData.LineVertexBufferBase;
 
-//      s_TriangleData.TriangleIndexCount = 0;
-//      s_TriangleData.TriangleVertexBufferPtr = s_TriangleData.TriangleVertexBufferBase;
+      s_TriangleData.TriangleIndexCount = 0;
+      s_TriangleData.TriangleVertexBufferPtr = s_TriangleData.TriangleVertexBufferBase;
    }
 
    void Renderer::EndScene()
    {
       uint32_t dataSize = 0;
 
-      dataSize = (uint8_t*)s_PointData.PointVertexBufferPtr - (uint8_t*) s_PointData.PointVertexBufferBase;
-      s_PointData.PointVertexBuffer->SetData(s_PointData.PointVertexBufferBase, dataSize);
+//      dataSize = (uint8_t*)s_PointData.PointVertexBufferPtr - (uint8_t*) s_PointData.PointVertexBufferBase;
+//      s_PointData.PointVertexBuffer->SetData(s_PointData.PointVertexBufferBase, dataSize);
 
 //      dataSize = (uint8_t*)s_LineData.LineVertexBufferPtr - (uint8_t*) s_LineData.LineVertexBufferBase;
 //      s_LineData.LineVertexBuffer->SetData(s_LineData.LineVertexBufferBase, dataSize);
 
-//      dataSize = (uint8_t*)s_TriangleData.TriangleVertexBufferPtr - (uint8_t*) s_TriangleData.TriangleVertexBufferBase;
-//      s_TriangleData.TriangleVertexBuffer->SetData(s_TriangleData.TriangleVertexBufferBase, dataSize);
+      dataSize = (uint8_t*)s_TriangleData.TriangleVertexBufferPtr - (uint8_t*) s_TriangleData.TriangleVertexBufferBase;
+      s_TriangleData.TriangleVertexBuffer->SetData(s_TriangleData.TriangleVertexBufferBase, dataSize);
 
       Flush();
    }
 
    void Renderer::Flush()
    {
-      RenderCommand::DrawIndexed(s_PointData.PointVertexArray, s_PointData.PointIndexCount, RendererAPI::MODE::Points);
+//      RenderCommand::DrawIndexed(s_PointData.PointVertexArray, s_PointData.PointIndexCount, RendererAPI::MODE::Points);
 //      RenderCommand::DrawIndexed(s_LineData.LineVertexArray, s_LineData.LineIndexCount, RendererAPI::MODE::Lines);
+      RenderCommand::DrawIndexed(s_TriangleData.TriangleVertexArray, s_TriangleData.TriangleIndexCount, RendererAPI::MODE::Triangles);
       s_PointData.Stats.DrawCalls++;
       s_PointData.Transforms.clear();
       s_PointData.CloudId = 0;
@@ -129,11 +161,14 @@ namespace Clay
    void Renderer::FlushAndReset()
    {
       EndScene();
-      s_PointData.PointIndexCount = 0;
-      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
+//      s_PointData.PointIndexCount = 0;
+//      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
 
 //      s_LineData.LineIndexCount = 0;
 //      s_LineData.LineVertexBufferPtr = s_LineData.LineVertexBufferBase;
+
+      s_TriangleData.TriangleIndexCount = 0;
+      s_TriangleData.TriangleVertexBufferPtr = s_TriangleData.TriangleVertexBufferBase;
    }
 
    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform, uint32_t mode)
@@ -241,6 +276,29 @@ namespace Clay
       }
       s_LineData.LineIndexCount += model->GetSize();
       s_LineData.Stats.VertexCount += model->GetSize();
+   }
+
+   void Renderer::SubmitTriangles(const Ref<Model>& model)
+   {
+      CLAY_PROFILE_FUNCTION();
+      s_TriangleData.MeshShader->Bind();
+      if(s_TriangleData.TriangleIndexCount + model->GetSize() >= s_TriangleData.MaxTriangleIndices)
+         FlushAndReset();
+
+      s_TriangleData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      s_TriangleData.MeshShader->SetMat4("u_Transform", model->GetTransformToWorld());
+      s_TriangleData.MeshShader->SetFloat4("u_Color", model->GetColor());
+
+      s_TriangleData.MeshShader->Bind();
+      for(uint32_t i = 0; i<model->GetSize(); i++)
+      {
+         s_TriangleData.TriangleVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+                                                     model->GetMesh()->_vertices[i*3 + 1],
+                                                     model->GetMesh()->_vertices[i*3 + 2]};
+         s_TriangleData.TriangleVertexBufferPtr++;
+      }
+      s_TriangleData.TriangleIndexCount += model->GetSize();
+      s_TriangleData.Stats.VertexCount += model->GetSize();
    }
 
    Renderer::Statistics Renderer::GetStats()
