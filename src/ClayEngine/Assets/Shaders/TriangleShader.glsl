@@ -18,8 +18,19 @@ void main(){
 layout (triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
+in vec3 v_Position[3];
+
+out vec3 v_Normal;
+out vec3 f_Position;
+
 void main()
 {
+    vec3 a = vec3(gl_in[0].gl_Position) - vec3(gl_in[1].gl_Position);
+    vec3 b = vec3(gl_in[2].gl_Position) - vec3(gl_in[1].gl_Position);
+    vec3 normal = normalize(cross(a, b));
+    f_Position = v_Position[0];
+    v_Normal = normal;
+
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 
@@ -37,10 +48,23 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-in vec3 v_Position;
+in vec3 f_Position;
+in vec3 v_Normal;
 
-uniform vec4 u_Color;
+uniform vec4 u_ObjectColor;
+uniform vec4 u_LightColor;
+uniform float u_AmbientStrength;
 
 void main(){
-    color = u_Color;
+    vec3 lightPos = vec3(-2.1, 3.2, 5.3);
+    vec3 norm = normalize(v_Normal);
+    vec3 lightDir = normalize(lightPos - f_Position);
+
+    vec4 ambient = u_AmbientStrength * u_LightColor;
+
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec4 diffuse = diff * u_ObjectColor;
+
+    vec4 result = (ambient + diffuse) * u_ObjectColor;
+    color = result;
 }

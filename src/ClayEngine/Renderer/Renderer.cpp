@@ -287,7 +287,9 @@ namespace Clay
 
       s_TriangleData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       s_TriangleData.MeshShader->SetMat4("u_Transform", model->GetTransformToWorld());
-      s_TriangleData.MeshShader->SetFloat4("u_Color", model->GetColor());
+      s_TriangleData.MeshShader->SetFloat4("u_ObjectColor", model->GetColor());
+      s_TriangleData.MeshShader->SetFloat4("u_LightColor", {0.4, 0.9, 0.9, 1.0});
+      s_TriangleData.MeshShader->SetFloat("u_AmbientStrength", 0.5);
 
       s_TriangleData.MeshShader->Bind();
       for(uint32_t i = 0; i<model->GetSize(); i++)
