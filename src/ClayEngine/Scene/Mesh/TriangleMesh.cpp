@@ -12,13 +12,14 @@ namespace Clay
       _mesh->_color = color;
       _mesh->_type = RendererAPI::MODE::Points;
 
-      CLAY_LOG_INFO("TriangleMesh Created with {} points.!", GetSize());
+
    }
 
    void TriangleMesh::Insert(float x, float y, float z)
    {
       if(_mesh->_index < _mesh->MAX_POINTS - 10)
       {
+         CLAY_LOG_INFO("Inserting: {} {} {}", x, y, z);
          _mesh->_indices.emplace_back(_mesh->_index);
          _mesh->_vertices.emplace_back(x);
          _mesh->_vertices.emplace_back(y);
@@ -64,13 +65,14 @@ namespace Clay
             x = -atof(words[1].c_str());
             y = atof(words[2].c_str());
 
-            if(!(abs(x) < 0.0001 && abs(y) < 0.0001 && abs(z) < 0.0001))
+            if( x*x + y*y + z*z > 0.0001 )
                Insert(x,y,z);
 
          }
       }
       pcdFile.close();
 
+      CLAY_LOG_INFO("TriangleMesh Created with {} points.!", GetSize());
    }
 
 
