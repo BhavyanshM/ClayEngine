@@ -15,91 +15,91 @@ namespace Clay
       RenderCommand::Init();
 //      Renderer2D::Init();
 
-      Renderer::InitPointData();
+//      Renderer::InitPointData();
 //      Renderer::InitLineData();
-//      Renderer::InitTriangleData();
+      Renderer::InitTriangleData();
 
-   }
-
-   void Renderer::InitLineData()
-   {
-      s_LineData.LineVertexArray = VertexArray::Create();
-      s_LineData.LineVertexBuffer = VertexBuffer::Create(s_LineData.MaxLineVertices * sizeof(LineVertex));
-
-      BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"}
-      };
-      s_LineData.LineVertexBuffer->SetLayout(layout);
-      s_LineData.LineVertexArray->AddVertexBuffer(s_LineData.LineVertexBuffer);
-      s_LineData.LineVertexBufferBase = new LineVertex[s_LineData.MaxLineVertices];
-
-      uint32_t* lineIndices = new uint32_t[s_LineData.MaxLineIndices];
-      uint32_t offset = 0;
-      for(uint32_t i = 0; i< s_LineData.MaxLineIndices; i+=2)
-      {
-         lineIndices[i+0] = offset + 0;
-         lineIndices[i+1] = offset + 1;
-         offset += 2;
-      }
-      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(lineIndices, s_LineData.MaxLineIndices);
-      s_LineData.LineVertexArray->SetIndexBuffer(indexBuffer);
-      delete[] lineIndices;
-
-      s_LineData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/LineShader.glsl"));
-      s_LineData.MeshShader->Bind();
    }
 
    void Renderer::InitPointData()
    {
-      s_PointData.PointVertexArray = VertexArray::Create();
-      s_PointData.PointVertexBuffer = VertexBuffer::Create(s_PointData.MaxPointVertices * sizeof(PointVertex));
+      s_PointData.vertexArray = VertexArray::Create();
+      s_PointData.vertexBuffer = VertexBuffer::Create(s_PointData.MaxPoints * sizeof(PointVertex));
 
       BufferLayout layout = {
             {ShaderDataType::Float3, "a_Position"},
             {ShaderDataType::Float4, "a_Color"},
             {ShaderDataType::Int, "a_Id"}
       };
-      s_PointData.PointVertexBuffer->SetLayout(layout);
-      s_PointData.PointVertexArray->AddVertexBuffer(s_PointData.PointVertexBuffer);
-      s_PointData.PointVertexBufferBase = new PointVertex[s_PointData.MaxPointVertices];
+      s_PointData.vertexBuffer->SetLayout(layout);
+      s_PointData.vertexArray->AddVertexBuffer(s_PointData.vertexBuffer);
+      s_PointData.vertexBufferBase = new PointVertex[s_PointData.MaxPoints];
 
-      uint32_t* pointIndices = new uint32_t[s_PointData.MaxPointIndices];
-      for(uint32_t i = 0; i< s_PointData.MaxPointIndices; i++)
+      uint32_t* pointIndices = new uint32_t[s_PointData.MaxPoints];
+      for(uint32_t i = 0; i< s_PointData.MaxPoints; i++)
       {
          pointIndices[i] = i;
       }
-      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_PointData.MaxPointIndices);
-      s_PointData.PointVertexArray->SetIndexBuffer(indexBuffer);
+      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_PointData.MaxPoints);
+      s_PointData.vertexArray->SetIndexBuffer(indexBuffer);
       delete[] pointIndices;
 
       s_PointData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/PointCloudShader.glsl"));
       s_PointData.MeshShader->Bind();
    }
 
-   void Renderer::InitTriangleData()
+   void Renderer::InitLineData()
    {
-      s_TriangleData.TriangleVertexArray = VertexArray::Create();
-      s_TriangleData.TriangleVertexBuffer = VertexBuffer::Create(s_TriangleData.MaxTriangleVertices * sizeof(TriangleVertex));
+      s_LineData.vertexArray = VertexArray::Create();
+      s_LineData.vertexBuffer = VertexBuffer::Create(s_LineData.MaxLines * 2 * sizeof(LineVertex));
 
       BufferLayout layout = {
             {ShaderDataType::Float3, "a_Position"}
       };
-      s_TriangleData.TriangleVertexBuffer->SetLayout(layout);
-      s_TriangleData.TriangleVertexArray->AddVertexBuffer(s_TriangleData.TriangleVertexBuffer);
-      s_TriangleData.TriangleVertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangleVertices];
+      s_LineData.vertexBuffer->SetLayout(layout);
+      s_LineData.vertexArray->AddVertexBuffer(s_LineData.vertexBuffer);
+      s_LineData.vertexBufferBase = new LineVertex[s_LineData.MaxLines * 2];
 
-
-      uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangleIndices];
+      uint32_t* lineIndices = new uint32_t[s_LineData.MaxLines * 2];
       uint32_t offset = 0;
-      for(uint32_t i = 0; i< 12; i+=3)
+      for(uint32_t i = 0; i< s_LineData.MaxLines * 2; i+=2)
+      {
+         lineIndices[i+0] = offset + 0;
+         lineIndices[i+1] = offset + 1;
+         offset += 2;
+      }
+      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(lineIndices, s_LineData.MaxLines * 2);
+      s_LineData.vertexArray->SetIndexBuffer(indexBuffer);
+      delete[] lineIndices;
+
+      s_LineData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/LineShader.glsl"));
+      s_LineData.MeshShader->Bind();
+   }
+
+   void Renderer::InitTriangleData()
+   {
+      s_TriangleData.vertexArray = VertexArray::Create();
+      s_TriangleData.vertexBuffer = VertexBuffer::Create(s_TriangleData.MaxTriangles * 3 * sizeof(TriangleVertex));
+
+      BufferLayout layout = {
+            {ShaderDataType::Float3, "a_Position"}
+      };
+      s_TriangleData.vertexBuffer->SetLayout(layout);
+      s_TriangleData.vertexArray->AddVertexBuffer(s_TriangleData.vertexBuffer);
+      s_TriangleData.vertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangles * 3];
+
+
+      uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangles * 3];
+      uint32_t offset = 0;
+      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
       {
          pointIndices[i+0] = 0;
          pointIndices[i+1] = offset + 1;
          pointIndices[i+2] = offset + 2;
          offset += 1;
       }
-      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangleIndices);
-      s_TriangleData.TriangleVertexArray->SetIndexBuffer(indexBuffer);
+      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangles * 3);
+      s_TriangleData.vertexArray->SetIndexBuffer(indexBuffer);
       delete[] pointIndices;
 
       s_TriangleData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/TriangleShader.glsl"));
@@ -122,53 +122,63 @@ namespace Clay
 
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
-      s_PointData.PointIndexCount = 0;
-      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
+//      s_PointData.IndexCount = 0;
+//      s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
 
-//      s_LineData.LineIndexCount = 0;
-//      s_LineData.LineVertexBufferPtr = s_LineData.LineVertexBufferBase;
+//      s_LineData.IndexCount = 0;
+//      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
 //
-//      s_TriangleData.TriangleIndexCount = 0;
-//      s_TriangleData.TriangleVertexBufferPtr = s_TriangleData.TriangleVertexBufferBase;
+      s_TriangleData.IndexCount = 0;
+      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+   }
+
+   void Renderer::FlushAndReset()
+   {
+      EndScene();
+      //      s_PointData.IndexCount = 0;
+      //      s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
+
+      //      s_LineData.IndexCount = 0;
+      //      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
+      //
+      s_TriangleData.IndexCount = 0;
+      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
    }
 
    void Renderer::EndScene()
    {
       uint32_t dataSize = 0;
 
-      dataSize = (uint8_t*)s_PointData.PointVertexBufferPtr - (uint8_t*) s_PointData.PointVertexBufferBase;
-      s_PointData.PointVertexBuffer->SetData(s_PointData.PointVertexBufferBase, dataSize);
+//      dataSize = (uint8_t*)s_PointData.vertexBufferPtr - (uint8_t*) s_PointData.vertexBufferBase;
+//      s_PointData.vertexBuffer->SetData(s_PointData.vertexBufferBase, dataSize);
 
-//      dataSize = (uint8_t*)s_LineData.LineVertexBufferPtr - (uint8_t*) s_LineData.LineVertexBufferBase;
-//      s_LineData.LineVertexBuffer->SetData(s_LineData.LineVertexBufferBase, dataSize);
+//      dataSize = (uint8_t*)s_LineData.vertexBufferPtr - (uint8_t*) s_LineData.vertexBufferBase;
+//      s_LineData.vertexBuffer->SetData(s_LineData.vertexBufferBase, dataSize);
 //
-//      dataSize = (uint8_t*)s_TriangleData.TriangleVertexBufferPtr - (uint8_t*) s_TriangleData.TriangleVertexBufferBase;
-//      s_TriangleData.TriangleVertexBuffer->SetData(s_TriangleData.TriangleVertexBufferBase, dataSize);
+      dataSize = (uint8_t*)s_TriangleData.vertexBufferPtr - (uint8_t*) s_TriangleData.vertexBufferBase;
+      s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
 
       Flush();
    }
 
    void Renderer::Flush()
    {
-      RenderCommand::DrawIndexed(s_PointData.PointVertexArray, s_PointData.PointIndexCount, RendererAPI::MODE::Points);
-//      RenderCommand::DrawIndexed(s_LineData.LineVertexArray, s_LineData.LineIndexCount, RendererAPI::MODE::Lines);
-//      RenderCommand::DrawIndexed(s_TriangleData.TriangleVertexArray, s_TriangleData.TriangleIndexCount, RendererAPI::MODE::Triangles);
+//      RenderCommand::DrawIndexed(s_PointData.vertexArray, s_PointData.IndexCount, RendererAPI::MODE::Points);
+//      RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
+      RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.IndexCount, RendererAPI::MODE::Triangles);
+
+
       s_PointData.Stats.DrawCalls++;
       s_PointData.Transforms.clear();
       s_PointData.CloudId = 0;
-   }
 
-   void Renderer::FlushAndReset()
-   {
-      EndScene();
-      s_PointData.PointIndexCount = 0;
-      s_PointData.PointVertexBufferPtr = s_PointData.PointVertexBufferBase;
+      s_LineData.Stats.DrawCalls++;
+      s_LineData.Transforms.clear();
+      s_LineData.CloudId = 0;
 
-//      s_LineData.LineIndexCount = 0;
-//      s_LineData.LineVertexBufferPtr = s_LineData.LineVertexBufferBase;
-//
-//      s_TriangleData.TriangleIndexCount = 0;
-//      s_TriangleData.TriangleVertexBufferPtr = s_TriangleData.TriangleVertexBufferBase;
+      s_TriangleData.Stats.DrawCalls++;
+      s_TriangleData.Transforms.clear();
+      s_TriangleData.CloudId = 0;
    }
 
    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform, uint32_t mode)
@@ -205,7 +215,7 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       s_PointData.MeshShader->Bind();
-      if(s_PointData.PointIndexCount + model->GetSize() >= s_PointData.MaxPointIndices)
+      if(s_PointData.IndexCount + model->GetSize() >= s_PointData.MaxPoints)
          FlushAndReset();
 
       s_PointData.MeshShader->Bind();
@@ -214,14 +224,14 @@ namespace Clay
       s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 32);
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
-         s_PointData.PointVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+         s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
                                                        model->GetMesh()->_vertices[i*3 + 1],
                                                        model->GetMesh()->_vertices[i*3 + 2]};
-         s_PointData.PointVertexBufferPtr->Color = model->GetColor();
-         s_PointData.PointVertexBufferPtr->Id = s_PointData.CloudId;
-         s_PointData.PointVertexBufferPtr++;
+         s_PointData.vertexBufferPtr->Color = model->GetColor();
+         s_PointData.vertexBufferPtr->Id = s_PointData.CloudId;
+         s_PointData.vertexBufferPtr++;
       }
-      s_PointData.PointIndexCount += model->GetSize();
+      s_PointData.IndexCount += model->GetSize();
       s_PointData.Stats.VertexCount += model->GetSize();
       s_PointData.CloudId++;
    }
@@ -230,7 +240,7 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       s_PointData.MeshShader->Bind();
-      if(s_PointData.PointIndexCount + model->GetSize() >= s_PointData.MaxPointIndices)
+      if(s_PointData.IndexCount + model->GetSize() >= s_PointData.MaxPoints)
          FlushAndReset();
 
       s_PointData.MeshShader->Bind();
@@ -239,18 +249,18 @@ namespace Clay
       s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 32);
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
-         s_PointData.PointVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+         s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
                                                        model->GetMesh()->_vertices[i*3 + 1],
                                                        model->GetMesh()->_vertices[i*3 + 2]};
-         s_PointData.PointVertexBufferPtr->Color = {(float)(model->GetMesh()->_partIds[i] * 123 % 255) / 255.0f,
+         s_PointData.vertexBufferPtr->Color = {(float)(model->GetMesh()->_partIds[i] * 123 % 255) / 255.0f,
                                                     (float)(model->GetMesh()->_partIds[i] * 321 % 255) / 255.0f,
                                                     (float)(model->GetMesh()->_partIds[i] * 432 % 255) / 255.0f,
                                                     1.0f};
-//         s_PointData.PointVertexBufferPtr->Color = {1.0f, 0.0f, 1.0f,1.0f};
-         s_PointData.PointVertexBufferPtr->Id = s_PointData.CloudId;
-         s_PointData.PointVertexBufferPtr++;
+//         s_PointData.vertexBufferPtr->Color = {1.0f, 0.0f, 1.0f,1.0f};
+         s_PointData.vertexBufferPtr->Id = s_PointData.CloudId;
+         s_PointData.vertexBufferPtr++;
       }
-      s_PointData.PointIndexCount += model->GetSize();
+      s_PointData.IndexCount += model->GetSize();
       s_PointData.Stats.VertexCount += model->GetSize();
       s_PointData.CloudId++;
    }
@@ -259,7 +269,7 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       s_LineData.MeshShader->Bind();
-      if(s_LineData.LineIndexCount + model->GetSize() >= s_LineData.MaxLineIndices)
+      if(s_LineData.IndexCount + model->GetSize() >= s_LineData.MaxLines * 2)
          FlushAndReset();
 
       s_LineData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
@@ -269,12 +279,12 @@ namespace Clay
       s_LineData.MeshShader->Bind();
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
-         s_LineData.LineVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+         s_LineData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
                                                        model->GetMesh()->_vertices[i*3 + 1],
                                                        model->GetMesh()->_vertices[i*3 + 2]};
-         s_LineData.LineVertexBufferPtr++;
+         s_LineData.vertexBufferPtr++;
       }
-      s_LineData.LineIndexCount += model->GetSize();
+      s_LineData.IndexCount += model->GetSize();
       s_LineData.Stats.VertexCount += model->GetSize();
    }
 
@@ -282,7 +292,7 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       s_TriangleData.MeshShader->Bind();
-      if(s_TriangleData.TriangleIndexCount + model->GetSize() >= s_TriangleData.MaxTriangleIndices)
+      if(s_TriangleData.IndexCount + model->GetSize() >= s_TriangleData.MaxTriangles * 3)
          FlushAndReset();
 
       s_TriangleData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
@@ -294,24 +304,33 @@ namespace Clay
       s_TriangleData.MeshShader->Bind();
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
-         s_TriangleData.TriangleVertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+         s_TriangleData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
                                                      model->GetMesh()->_vertices[i*3 + 1],
                                                      model->GetMesh()->_vertices[i*3 + 2]};
-         s_TriangleData.TriangleVertexBufferPtr++;
+         s_TriangleData.vertexBufferPtr++;
       }
-      s_TriangleData.TriangleIndexCount += model->GetSize();
+      s_TriangleData.IndexCount += model->GetSize();
+      s_TriangleData.Stats.TriangleCount = s_TriangleData.IndexCount;
       s_TriangleData.Stats.VertexCount += model->GetSize();
    }
 
-   Renderer::Statistics Renderer::GetStats()
-   {
-      return s_PointData.Stats;
-   }
+   Renderer::Statistics Renderer::GetPointStats() { return s_PointData.Stats; }
+   Renderer::Statistics Renderer::GetLlineStats() { return s_LineData.Stats; }
+   Renderer::Statistics Renderer::GetTriangleStats() { return s_TriangleData.Stats; }
 
    void Renderer::ResetStats()
    {
       s_PointData.Stats.TriangleCount = 0;
       s_PointData.Stats.DrawCalls = 0;
       s_PointData.Stats.VertexCount = 0;
+
+      s_LineData.Stats.TriangleCount = 0;
+      s_LineData.Stats.DrawCalls = 0;
+      s_LineData.Stats.VertexCount = 0;
+
+      s_TriangleData.Stats.TriangleCount = 0;
+      s_TriangleData.Stats.DrawCalls = 0;
+      s_TriangleData.Stats.VertexCount = 0;
+
    }
 }

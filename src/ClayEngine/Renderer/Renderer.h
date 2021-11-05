@@ -54,7 +54,10 @@ namespace Clay
             uint32_t GetTotalIndexCount() {return TriangleCount * 3;}
          };
 
-         static Statistics GetStats();
+         static Statistics GetPointStats();
+         static Statistics GetLlineStats();
+         static Statistics GetTriangleStats();
+
          static void ResetStats();
 
       private:
@@ -84,9 +87,6 @@ namespace Clay
    struct TriangleVertex
    {
       glm::vec3 Position;
-      glm::vec4 Color;
-      glm::vec2 TexCoord;
-      float TexIndex;
    };
 
    template <typename T> // PointVertex or TriangleVertex
@@ -95,44 +95,20 @@ namespace Clay
       static const uint32_t MaxPoints = 100000;
       static const uint32_t MaxLines = 20000;
       static const uint32_t MaxTriangles = 100000;
-
-      static const uint32_t MaxPointVertices = MaxPoints;
-      static const uint32_t MaxPointIndices = MaxPoints;
-
-      static const uint32_t MaxLineVertices = MaxLines * 2;
-      static const uint32_t MaxLineIndices = MaxLines * 2;
-
-      static const uint32_t MaxTriangleVertices = MaxTriangles * 3;
-      static const uint32_t MaxTriangleIndices = MaxTriangles * 3;
-
       static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
 
       int CloudId = 0;
 
-      Ref<VertexArray> PointVertexArray;
-      Ref<VertexBuffer> PointVertexBuffer;
-
-      Ref<VertexArray> LineVertexArray;
-      Ref<VertexBuffer> LineVertexBuffer;
-
-      Ref<VertexArray> TriangleVertexArray;
-      Ref<VertexBuffer> TriangleVertexBuffer;
-
+      Ref<VertexArray> vertexArray;
+      Ref<VertexBuffer> vertexBuffer;
+      Ref<IndexBuffer> indexBuffer;
       Ref<Shader> MeshShader;
       Ref<Shader> TextureShader;
       Ref<Texture2D> WhiteTexture;
 
-      uint32_t TriangleIndexCount = 0;
-      T* TriangleVertexBufferBase = nullptr;
-      T* TriangleVertexBufferPtr = nullptr;
-
-      uint32_t LineIndexCount = 0;
-      T* LineVertexBufferBase = nullptr;
-      T* LineVertexBufferPtr = nullptr;
-
-      uint32_t PointIndexCount = 0;
-      T* PointVertexBufferBase = nullptr;
-      T* PointVertexBufferPtr = nullptr;
+      uint32_t IndexCount = 0;
+      T* vertexBufferBase = nullptr;
+      T* vertexBufferPtr = nullptr;
 
       std::vector<glm::mat4> Transforms;
 
