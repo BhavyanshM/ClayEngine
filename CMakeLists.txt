@@ -65,7 +65,8 @@ set(HEADERS src/ClayEngine/Core/Instrumentor.h
         src/ClayEngine/Core/Timer.h
         src/ClayEngine/Renderer/PerspectiveCamera.h
         src/ClayEngine/Scene/Mesh/PointCloud.h
-        src/ClayEngine/Scene/Mesh/TriangleMesh.h)
+        src/ClayEngine/Scene/Mesh/TriangleMesh.h
+        src/ClayEngine/Scene/Mesh/MeshTools.h)
 
 set(SOURCES src/ClayEngine/Core/Application.cpp
         src/ClayEngine/Core/Log.cpp
@@ -101,7 +102,8 @@ set(SOURCES src/ClayEngine/Core/Application.cpp
         src/ClayEngine/Scene/Mesh/Model.cpp
         src/ClayEngine/Scene/Mesh/Model.h
         src/ClayEngine/Tools/FileTools.cpp
-        src/ClayEngine/Tools/FileTools.h)
+        src/ClayEngine/Tools/FileTools.h
+        src/ClayEngine/Scene/Mesh/MeshTools.cpp)
 
 add_library(ClayEngine ${HEADERS} ${SOURCES})
 target_include_directories(ClayEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")

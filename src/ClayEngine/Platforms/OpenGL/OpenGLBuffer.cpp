@@ -74,6 +74,22 @@ namespace Clay
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
    }
 
+   void OpenGLIndexBuffer::AddIndex(uint32_t index)
+   {
+      _pointIndices.emplace_back(index);
+   }
+
+   void OpenGLIndexBuffer::Upload(uint32_t count)
+   {
+      CLAY_PROFILE_FUNCTION();
+      uint32_t totalIndices = (count == 0 ? _pointIndices.size() : count);
+      _count = totalIndices;
+      glCreateBuffers(1, &_rendererId);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _rendererId);
+      glBufferData(GL_ELEMENT_ARRAY_BUFFER, totalIndices *  sizeof(uint32_t), _pointIndices.data(), GL_STATIC_DRAW);
+      _pointIndices.clear();
+   }
+
    OpenGLIndexBuffer::~OpenGLIndexBuffer()
    {
       CLAY_PROFILE_FUNCTION();

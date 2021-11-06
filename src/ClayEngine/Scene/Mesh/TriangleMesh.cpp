@@ -11,8 +11,6 @@ namespace Clay
    {
       _mesh->_color = color;
       _mesh->_type = RendererAPI::MODE::Points;
-
-
    }
 
    void TriangleMesh::Insert(float x, float y, float z)

@@ -90,15 +90,28 @@ namespace Clay
 
 
       uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangles * 3];
+      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create();
       uint32_t offset = 0;
+
       for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
       {
-         pointIndices[i+0] = 0;
-         pointIndices[i+1] = offset + 1;
-         pointIndices[i+2] = offset + 2;
+         indexBuffer->AddIndex(0);
+         indexBuffer->AddIndex(offset + 1);
+         indexBuffer->AddIndex(offset + 2);
          offset += 1;
+//         if(i < 30) printf("%d %d %d", 0, offset+1, offset+2);
       }
-      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangles * 3);
+//      printf("\n");
+      indexBuffer->Upload();
+
+//      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
+//      {
+//         pointIndices[i+0] = 0;
+//         pointIndices[i+1] = offset + 1;
+//         pointIndices[i+2] = offset + 2;
+//         offset += 1;
+//      }
+      //      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangles * 3);
       s_TriangleData.vertexArray->SetIndexBuffer(indexBuffer);
       delete[] pointIndices;
 

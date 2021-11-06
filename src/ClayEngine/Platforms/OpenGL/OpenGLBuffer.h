@@ -26,6 +26,8 @@ namespace Clay
 
          virtual uint32_t GetCount() const override {return _count;}
 
+
+
       private:
          uint32_t _rendererId;
          uint32_t _count;
@@ -37,10 +39,13 @@ namespace Clay
    {
       public:
          OpenGLIndexBuffer(uint32_t * indices, uint32_t count);
+         OpenGLIndexBuffer(){};
          virtual ~OpenGLIndexBuffer();
 
          virtual void Bind() const;
          virtual void Unbind() const;
+         virtual void Upload(uint32_t count = 0);
+         virtual void AddIndex(uint32_t index);
 
 
 

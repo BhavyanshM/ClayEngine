@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-N = 12
+N = 24
 theta = np.linspace(0, 360, N)
 x = np.sin(theta / 180 * np.pi)
 y = np.cos(theta / 180 * np.pi)

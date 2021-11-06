@@ -153,6 +153,8 @@ namespace Clay
          {
          };
 
+         virtual void Upload(uint32_t count = 0) = 0;
+
          virtual void Bind() const = 0;
 
          virtual void Unbind() const = 0;
@@ -160,6 +162,14 @@ namespace Clay
          virtual uint32_t GetCount() const = 0;
 
          static Ref<IndexBuffer> Create(uint32_t *indices, uint32_t count);
+
+         static Ref<IndexBuffer> Create();
+
+         virtual void AddIndex(uint32_t index)  = 0;
+
+      protected:
+         std::vector<uint32_t> _pointIndices;
+
    };
 }
 
