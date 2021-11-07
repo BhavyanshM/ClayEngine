@@ -17,7 +17,8 @@ namespace Clay
 
          void Load(const std::string& filename) override;
          void Reset() override;
-         void Insert(float x, float y, float z);
+         void InsertVertex(float x, float y, float z) override;
+         void InsertIndex(uint32_t index) override;
          void Print() override;
 
    };

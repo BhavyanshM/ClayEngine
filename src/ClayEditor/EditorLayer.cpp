@@ -4,7 +4,7 @@
 #include <Scene/Mesh/TriangleMesh.h>
 #include "EditorLayer.h"
 #include "Core/Timer.h"
-
+#include "Scene/Mesh/MeshTools.h"
 
 
 namespace Clay
@@ -30,33 +30,21 @@ namespace Clay
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<TriangleMesh> secondPCL = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.5,0.6,1), _rootPCL);
-      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/Circle.pcd");
-      secondPCL->Print();
-
-      //      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
+      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.5,0.6,1), _rootPCL);
+      MeshTools::Cylinder(modelMesh, 40, 4.0f);
+//      modelMesh->Load(std::string(ASSETS_PATH) + "Meshes/Circle.pcd");
+      modelMesh->Print();
 
 //      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
 //      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd");
-//      Ref<PointCloud> thirdPCL = std::make_shared<PointCloud>(std::string(ASSETS_PATH) + "Meshes/bunny.pcd", glm::vec4(0.8,0.4,0.6,1), secondPCL);
 
-//      thirdPCL->RotateLocalY(0.1f);
-//      thirdPCL->RotateLocalX(0.1f);
-//      thirdPCL->TranslateLocal({0.1f, 0.1f, -0.2f});
-
-//      CLAY_LOG_INFO("Root World Transform: {}", glm::to_string(_rootPCL->GetTransformToWorld()));
-//      CLAY_LOG_INFO("Second World Transform: {}", glm::to_string(secondPCL->GetTransformToWorld()));
-
-
-      std::vector<int> partIds(secondPCL->GetSize(), 0);
+      std::vector<int> partIds(modelMesh->GetSize(), 0);
       for(int i = 0; i<partIds.size(); i++)
       {
          partIds[i] = i / 2000;
       }
-      secondPCL->SetPartIds(partIds);
-
-      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
-//      _models.emplace_back(std::dynamic_pointer_cast<Model>(thirdPCL));
+      modelMesh->SetPartIds(partIds);
+      _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
    }
 
    void EditorLayer::OnAttach()

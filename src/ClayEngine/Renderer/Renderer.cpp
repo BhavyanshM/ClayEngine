@@ -89,20 +89,19 @@ namespace Clay
       s_TriangleData.vertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangles * 3];
 
 
-      uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangles * 3];
-      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create();
+      s_TriangleData.indexBuffer = IndexBuffer::Create();
       uint32_t offset = 0;
 
-      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
-      {
-         indexBuffer->AddIndex(0);
-         indexBuffer->AddIndex(offset + 1);
-         indexBuffer->AddIndex(offset + 2);
-         offset += 1;
-//         if(i < 30) printf("%d %d %d", 0, offset+1, offset+2);
-      }
-//      printf("\n");
-      indexBuffer->Upload();
+//      uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangles * 3];
+
+//      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
+//      {
+//         indexBuffer->AddIndex(0);
+//         indexBuffer->AddIndex(offset + 1);
+//         indexBuffer->AddIndex(offset + 2);
+//         offset += 1;
+//      }
+//      indexBuffer->Upload();
 
 //      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
 //      {
@@ -112,8 +111,8 @@ namespace Clay
 //         offset += 1;
 //      }
       //      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangles * 3);
-      s_TriangleData.vertexArray->SetIndexBuffer(indexBuffer);
-      delete[] pointIndices;
+      s_TriangleData.vertexArray->SetIndexBuffer(s_TriangleData.indexBuffer);
+//      delete[] pointIndices;
 
       s_TriangleData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/TriangleShader.glsl"));
       s_TriangleData.MeshShader->Bind();
@@ -322,6 +321,13 @@ namespace Clay
                                                      model->GetMesh()->_vertices[i*3 + 2]};
          s_TriangleData.vertexBufferPtr++;
       }
+
+      for(uint32_t i = 0; i< model->GetMesh()->_indices.size(); i++)
+      {
+         s_TriangleData.indexBuffer->AddIndex(model->GetMesh()->_indices[i]);
+      }
+      s_TriangleData.indexBuffer->Upload();
+
       s_TriangleData.IndexCount += model->GetSize();
       s_TriangleData.Stats.TriangleCount = s_TriangleData.IndexCount;
       s_TriangleData.Stats.VertexCount += model->GetSize();

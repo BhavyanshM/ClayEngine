@@ -15,15 +15,22 @@ namespace Clay
 
    }
 
-   void PointCloud::Insert(float x, float y, float z)
+   void PointCloud::InsertVertex(float x, float y, float z)
    {
       if(_mesh->_index < _mesh->MAX_POINTS - 10)
       {
-         _mesh->_indices.emplace_back(_mesh->_index);
          _mesh->_vertices.emplace_back(x);
          _mesh->_vertices.emplace_back(y);
          _mesh->_vertices.emplace_back(z);
          _mesh->_index++;
+      }
+   }
+
+   void PointCloud::InsertIndex(uint32_t index)
+   {
+      if(index < _mesh->MAX_POINTS - 10)
+      {
+         _mesh->_indices.emplace_back(index);
       }
    }
 
@@ -65,7 +72,9 @@ namespace Clay
             y = atof(words[2].c_str());
 
             if(!(abs(x) < 0.0001 && abs(y) < 0.0001 && abs(z) < 0.0001))
-               Insert(x,y,z);
+            {
+               InsertVertex(x,y,z);
+            }
 
          }
       }

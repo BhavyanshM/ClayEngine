@@ -44,6 +44,8 @@ namespace Clay
          virtual void Load(const std::string& filename) {};
          virtual void Reset() {};
          virtual void Print() {};
+         virtual void InsertVertex(float x, float y, float z) {};
+         virtual void InsertIndex(uint32_t index) {};
 
          Ref <VertexBuffer> GetVertexBuffer() const { return _mesh->_vertexBuffer;}
          Ref <VertexArray> GetVertexArray() const { return _mesh->_vertexArray;}

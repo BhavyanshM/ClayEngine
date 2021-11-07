@@ -13,16 +13,23 @@ namespace Clay
       _mesh->_type = RendererAPI::MODE::Points;
    }
 
-   void TriangleMesh::Insert(float x, float y, float z)
+   void TriangleMesh::InsertVertex(float x, float y, float z)
    {
       if(_mesh->_index < _mesh->MAX_POINTS - 10)
       {
-         CLAY_LOG_INFO("Inserting: {} {} {}", x, y, z);
-         _mesh->_indices.emplace_back(_mesh->_index);
+//         CLAY_LOG_INFO("Inserting: {} {} {}", x, y, z);
          _mesh->_vertices.emplace_back(x);
          _mesh->_vertices.emplace_back(y);
          _mesh->_vertices.emplace_back(z);
          _mesh->_index++;
+      }
+   }
+
+   void TriangleMesh::InsertIndex(uint32_t index)
+   {
+      if(index < _mesh->MAX_POINTS - 10)
+      {
+         _mesh->_indices.emplace_back(index);
       }
    }
 
@@ -64,7 +71,9 @@ namespace Clay
             y = atof(words[2].c_str());
 
             if( x*x + y*y + z*z > 0.0001 )
-               Insert(x,y,z);
+            {
+               InsertVertex(x,y,z);
+            }
 
          }
       }
