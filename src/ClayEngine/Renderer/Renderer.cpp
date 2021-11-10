@@ -15,9 +15,9 @@ namespace Clay
       RenderCommand::Init();
 //      Renderer2D::Init();
 
-//      Renderer::InitPointData();
+      Renderer::InitPointData();
 //      Renderer::InitLineData();
-      Renderer::InitTriangleData();
+//      Renderer::InitTriangleData();
 
    }
 
@@ -134,50 +134,50 @@ namespace Clay
 
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
-//      s_PointData.IndexCount = 0;
-//      s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
+      s_PointData.IndexCount = 0;
+      s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
 
 //      s_LineData.IndexCount = 0;
 //      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
 //
-      s_TriangleData.IndexCount = 0;
-      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+//      s_TriangleData.IndexCount = 0;
+//      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
    }
 
    void Renderer::FlushAndReset()
    {
       EndScene();
-      //      s_PointData.IndexCount = 0;
-      //      s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
+            s_PointData.IndexCount = 0;
+            s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
 
       //      s_LineData.IndexCount = 0;
       //      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
       //
-      s_TriangleData.IndexCount = 0;
-      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+//      s_TriangleData.IndexCount = 0;
+//      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
    }
 
    void Renderer::EndScene()
    {
       uint32_t dataSize = 0;
 
-//      dataSize = (uint8_t*)s_PointData.vertexBufferPtr - (uint8_t*) s_PointData.vertexBufferBase;
-//      s_PointData.vertexBuffer->SetData(s_PointData.vertexBufferBase, dataSize);
+      dataSize = (uint8_t*)s_PointData.vertexBufferPtr - (uint8_t*) s_PointData.vertexBufferBase;
+      s_PointData.vertexBuffer->SetData(s_PointData.vertexBufferBase, dataSize);
 
 //      dataSize = (uint8_t*)s_LineData.vertexBufferPtr - (uint8_t*) s_LineData.vertexBufferBase;
 //      s_LineData.vertexBuffer->SetData(s_LineData.vertexBufferBase, dataSize);
 //
-      dataSize = (uint8_t*)s_TriangleData.vertexBufferPtr - (uint8_t*) s_TriangleData.vertexBufferBase;
-      s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
+//      dataSize = (uint8_t*)s_TriangleData.vertexBufferPtr - (uint8_t*) s_TriangleData.vertexBufferBase;
+//      s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
 
       Flush();
    }
 
    void Renderer::Flush()
    {
-//      RenderCommand::DrawIndexed(s_PointData.vertexArray, s_PointData.IndexCount, RendererAPI::MODE::Points);
+      RenderCommand::DrawIndexed(s_PointData.vertexArray, s_PointData.IndexCount, RendererAPI::MODE::Points);
 //      RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
-      RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.IndexCount, RendererAPI::MODE::Triangles);
+//      RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.IndexCount, RendererAPI::MODE::Triangles);
 
 
       s_PointData.Stats.DrawCalls++;

@@ -30,21 +30,21 @@ namespace Clay
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.5,0.6,1), _rootPCL);
-      MeshTools::Cylinder(modelMesh, 40, 4.0f);
+//      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.5,0.6,1), _rootPCL);
+//      MeshTools::Cylinder(modelMesh, 40, 4.0f);
 //      modelMesh->Load(std::string(ASSETS_PATH) + "Meshes/Circle.pcd");
-      modelMesh->Print();
+//      modelMesh->Print();
 
-//      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
-//      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd");
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
+      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd");
 
-      std::vector<int> partIds(modelMesh->GetSize(), 0);
+      std::vector<int> partIds(secondPCL->GetSize(), 0);
       for(int i = 0; i<partIds.size(); i++)
       {
          partIds[i] = i / 2000;
       }
-      modelMesh->SetPartIds(partIds);
-      _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
+      secondPCL->SetPartIds(partIds);
+      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
    }
 
    void EditorLayer::OnAttach()
@@ -87,7 +87,7 @@ namespace Clay
       _currentTime += ts.GetMilliseconds() / 1000.0f;
       for(Ref<Model> model : _models)
       {
-         Renderer::SubmitTriangles(model);
+         Renderer::SubmitPointCloudComponents(model);
       }
 
       Renderer::EndScene();
