@@ -15,7 +15,7 @@ namespace Clay
       public:
          static void Circle(Ref<TriangleMesh>& model, uint16_t vertices);
          static void Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float height = 1.0f);
-
+         static void Cuboid(Ref<TriangleMesh>& model, float height, float width, float length);
 
       private:
 

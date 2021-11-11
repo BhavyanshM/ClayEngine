@@ -73,4 +73,50 @@ namespace Clay
          model->InsertIndex((i+1) % vertices);
       }
    }
+
+   void MeshTools::Cuboid(Ref<TriangleMesh>& model, float height, float width, float length)
+   {
+      // Generate Vertex Buffer for both top and bottom circles.
+
+      model->InsertVertex(height/2, width/2, length/2);
+      model->InsertVertex(height/2, -width/2, length/2);
+      model->InsertVertex(-height/2, -width/2, length/2);
+      model->InsertVertex(-height/2, width/2, length/2);
+
+      model->InsertVertex(height/2, width/2, -length/2);
+      model->InsertVertex(height/2, -width/2, -length/2);
+      model->InsertVertex(-height/2, -width/2, -length/2);
+      model->InsertVertex(-height/2, width/2, -length/2);
+
+      // Set up Index Buffer for both top-bottom and side quads.
+      uint16_t vertices = 4;
+      int offset = 0;
+      for(uint16_t i = 0; i< vertices - 2; i++)
+      {
+         model->InsertIndex(0);
+         model->InsertIndex(offset + 1);
+         model->InsertIndex(offset + 2);
+         offset++;
+      }
+      offset = vertices;
+      for(uint16_t i = 0; i< (vertices - 2) * 3; i+=3)
+      {
+         model->InsertIndex(vertices);
+         model->InsertIndex(offset + 1);
+         model->InsertIndex(offset + 2);
+         offset++;
+      }
+      for(uint16_t i = 0; i<vertices; i++)
+      {
+         model->InsertIndex(i % vertices);
+         model->InsertIndex(vertices + (i % vertices));
+         model->InsertIndex(vertices + ((i+1) % (vertices)));
+      }
+      for(uint16_t i = 0; i<vertices; i++)
+      {
+         model->InsertIndex(i % vertices);
+         model->InsertIndex(vertices + ((i+1) % (vertices)));
+         model->InsertIndex((i+1) % vertices);
+      }
+   }
 }

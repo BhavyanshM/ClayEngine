@@ -66,5 +66,5 @@ void main(){
     vec4 diffuse = diff * u_ObjectColor;
 
     vec4 result = (ambient + diffuse) * u_ObjectColor;
-    color = result;
+    color = vec4(result.xyz, 1.0);
 }
