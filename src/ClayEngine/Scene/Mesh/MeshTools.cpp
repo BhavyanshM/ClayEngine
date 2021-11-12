@@ -171,4 +171,20 @@ namespace Clay
          }
       }
    }
+
+   void MeshTools::Surface(Ref<TriangleMesh>& model, int uStepCount, int vStepCount)
+   {
+      float uStep = 1.0f / uStepCount;
+      float vStep = 1.0f / vStepCount;
+      float uPos, vPos;
+      for(int u = 0; u<uStepCount; u++)
+      {
+         u = u * uStep - 1.0f;
+         for(int v = 0; v<vStepCount; v++)
+         {
+            v = v * vStep - 1.0f;
+         }
+      }
+   }
+
 }
