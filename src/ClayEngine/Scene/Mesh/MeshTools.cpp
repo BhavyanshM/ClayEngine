@@ -119,4 +119,56 @@ namespace Clay
          model->InsertIndex((i+1) % vertices);
       }
    }
+
+   void MeshTools::Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks)
+   {
+      // Generate Vertex Buffer for both top and bottom circles.
+
+      float stackStep = M_PI / stacks;
+      float sectorStep = 2 * M_PI / sectors;
+
+      float stackAngle, sectorAngle, x, y, xy, z;
+
+      for(uint16_t i = 0; i<=stacks; i++)
+      {
+         stackAngle = M_PI / 2 - i * stackStep;
+         xy = radius * cosf(stackAngle);
+         z = radius * sinf(stackAngle);
+
+         for(uint16_t j = 0; j<=sectors; j++)
+         {
+            sectorAngle = j * sectorStep;
+            x = xy * cosf(sectorAngle);
+            y = xy * sinf(sectorAngle);
+            model->InsertVertex(x, y, z);
+         }
+      }
+
+      // Set up Index Buffer for both top-bottom and side quads.
+      uint16_t k1, k2;
+      for(uint16_t i = 0; i < stacks; ++i)
+      {
+         k1 = i * (sectors + 1);     // beginning of current stack
+         k2 = k1 + sectors + 1;      // beginning of next stack
+
+         for(int j = 0; j < sectors; ++j, ++k1, ++k2)
+         {
+            // 2 triangles per sector excluding first and last stacks
+            // k1 => k2 => k1+1
+            if(i != 0)
+            {
+               model->InsertIndex(k2);
+               model->InsertIndex(k1);
+               model->InsertIndex(k1 + 1);
+            }
+            // k1+1 => k2 => k2+1
+            if(i != (stacks-1))
+            {
+               model->InsertIndex(k2);
+               model->InsertIndex(k1 + 1);
+               model->InsertIndex(k2 + 1);
+            }
+         }
+      }
+   }
 }
