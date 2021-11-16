@@ -31,7 +31,7 @@ namespace Clay
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
       Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.5,0.6,1.0), _rootPCL);
-      MeshTools::Sphere(modelMesh, 4.0f, 20, 20);
+      MeshTools::Surface(modelMesh, 20, 20);
       _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
 //      modelMesh->Load(std::string(ASSETS_PATH) + "Meshes/Circle.pcd");
 //      modelMesh->Print();

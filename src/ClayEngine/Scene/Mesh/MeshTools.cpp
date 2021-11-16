@@ -174,17 +174,49 @@ namespace Clay
 
    void MeshTools::Surface(Ref<TriangleMesh>& model, int uStepCount, int vStepCount)
    {
-      float uStep = 1.0f / uStepCount;
-      float vStep = 1.0f / vStepCount;
+      float uStep = 1.0f / (float)uStepCount;
+      float vStep = 1.0f / (float)vStepCount;
       float uPos, vPos;
       for(int u = 0; u<uStepCount; u++)
       {
-         u = u * uStep - 1.0f;
+         uPos = u * uStep - 0.5f;
          for(int v = 0; v<vStepCount; v++)
          {
-            v = v * vStep - 1.0f;
+            vPos = v * vStep - 0.5f;
+            float zPos = 4 * pow(uPos, 3) + 3 * pow(vPos, 2);
+            model->InsertVertex(uPos, zPos, vPos);
          }
       }
+
+      for(int u = 0; u<uStepCount-1; u++)
+      {
+         for(int v = 0; v<vStepCount-1; v++)
+         {
+            model->InsertIndex(u * uStepCount + v);
+            model->InsertIndex(((u+1) % uStepCount) * uStepCount + v);
+            model->InsertIndex((u) * uStepCount + ((v+1) % vStepCount));
+
+            model->InsertIndex((u) * uStepCount + ((v+1) % vStepCount));
+            model->InsertIndex(((u+1) % uStepCount) * uStepCount + v);
+            model->InsertIndex(((u+1) % uStepCount) * uStepCount + ((v+1) % vStepCount));
+         }
+      }
+
+
+
    }
 
 }
+
+
+/*
+ * 0 - 1 - 2 - 3
+ * 4 - 5 - 6 - 7
+ * 8 - 9 - 10 - 11
+ * 12 - 13 - 14 - 15
+ *
+ * 0 - 4 - 1
+ * 1 - 5 - 2
+ * 2 - 6 - 3
+ *
+ * */
