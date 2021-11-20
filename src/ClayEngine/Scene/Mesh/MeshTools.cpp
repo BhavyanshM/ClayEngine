@@ -4,9 +4,32 @@
 
 #include "MeshTools.h"
 
-
 namespace Clay
 {
+   static OpenCLManager* _openCL = new OpenCLManager(std::string(ASSETS_PATH) + "/Kernels/kernels.cpp");
+
+   void MeshTools::LaunchKernel()
+   {
+      uint8_t bufferA = _openCL->CreateBufferInt(60);
+      uint8_t bufferB = _openCL->CreateBufferInt(60);
+      uint8_t bufferC = _openCL->CreateBufferInt(60);
+
+      _openCL->SetArgument("surfaceKernel", 0, bufferA);
+      _openCL->SetArgument("surfaceKernel", 1, bufferB);
+      _openCL->SetArgument("surfaceKernel", 2, bufferC);
+
+      _openCL->commandQueue.enqueueNDRangeKernel(_openCL->kernels["surfaceKernel"], cl::NullRange, cl::NDRange(60), cl::NullRange);
+
+      int result[60];
+      _openCL->ReadBufferInt(bufferC, result, 60);
+
+      for(int i = 0; i<60; i++)
+      {
+         printf("%d ", result[i]);
+      }
+      printf("\n");
+   }
+
    void MeshTools::Circle(Ref<TriangleMesh>& model, uint16_t vertices)
    {
       float theta = 0;
@@ -123,6 +146,8 @@ namespace Clay
    void MeshTools::Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks)
    {
       // Generate Vertex Buffer for both top and bottom circles.
+
+      MeshTools::LaunchKernel();
 
       float stackStep = M_PI / stacks;
       float sectorStep = 2 * M_PI / sectors;

@@ -1,0 +1,4 @@
+set(TOOLS_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileTools.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileTools.h
+        PARENT_SCOPE)

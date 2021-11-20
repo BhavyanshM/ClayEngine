@@ -1,0 +1,27 @@
+set(RENDERER_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/Shader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Renderer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/VertexArray.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RendererAPI.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderCommand.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Camera.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Texture.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FrameBuffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CameraController.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Renderer2D.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PerspectiveCamera.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GraphicsContext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Shader.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Renderer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/VertexArray.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RendererAPI.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RenderCommand.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Camera.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Texture.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FrameBuffer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CameraController.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Renderer2D.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/PerspectiveCamera.h
+        PARENT_SCOPE)

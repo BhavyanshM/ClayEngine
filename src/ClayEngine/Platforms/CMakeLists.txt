@@ -1,0 +1,23 @@
+set(PLATFORMS_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/Linux/LinuxWindow.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Linux/LinuxInput.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLContext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLBuffer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLVertexArray.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLRendererAPI.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLShader.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLTexture.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLFrameBuffer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenCL/OpenCLManager.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenCL/OpenCLManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Linux/LinuxWindow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Linux/LinuxInput.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLContext.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLBuffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLBuffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLVertexArray.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLRendererAPI.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLShader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLTexture.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLFrameBuffer.cpp
+        PARENT_SCOPE)
