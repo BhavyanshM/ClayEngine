@@ -82,5 +82,43 @@ namespace Clay
       CLAY_LOG_INFO("TriangleMesh Created with {} points.!", GetSize());
    }
 
+   void TriangleMesh::LoadOBJ(const std::string& filename)
+   {
+      std::ifstream objFile;
+      objFile.open(filename);
+      std::string line;
+
+      bool startPoints = false;
+      float x, y, z;
+
+      while(std::getline(objFile, line))
+      {
+         std::istringstream iss(line);
+         std::vector<std::string> words;
+         boost::algorithm::split(words, line, boost::is_any_of(" "));
+
+         if(words[0] == "v")
+         {
+
+            x = atof(words[1].c_str());
+            y = atof(words[2].c_str());
+            z = atof(words[3].c_str());
+
+            InsertVertex(x,y,z);
+         }
+
+         if(words[0] == "f")
+         {
+            x = atoi(words[1].c_str());
+            y = atoi(words[2].c_str());
+            z = atoi(words[3].c_str());
+            InsertIndex(y-1);
+            InsertIndex(x-1);
+            InsertIndex(z-1);
+         }
+
+      }
+   }
+
 
 }

@@ -16,6 +16,7 @@ namespace Clay
          TriangleMesh(const glm::vec4& color, const Ref<Model>& parent);
 
          void Load(const std::string& filename) override;
+         void LoadOBJ(const std::string& filename);
          void Reset() override;
          void InsertVertex(float x, float y, float z) override;
          void InsertIndex(uint32_t index) override;
