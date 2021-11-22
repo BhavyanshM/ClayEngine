@@ -37,6 +37,10 @@ namespace Clay
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
             modelMesh->LoadOBJ(ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
         }
+        if(ImGui::Button("Clear All Primitives"))
+        {
+            _models.erase(_models.begin());
+        }
         if(modelMesh != nullptr)_models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
         ImGui::End();
     }
