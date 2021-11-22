@@ -223,22 +223,5 @@ namespace Clay
             model->InsertIndex(((u+1) % uStepCount) * uStepCount + ((v+1) % vStepCount));
          }
       }
-
-
-
    }
-
 }
-
-
-/*
- * 0 - 1 - 2 - 3
- * 4 - 5 - 6 - 7
- * 8 - 9 - 10 - 11
- * 12 - 13 - 14 - 15
- *
- * 0 - 4 - 1
- * 1 - 5 - 2
- * 2 - 6 - 3
- *
- * */

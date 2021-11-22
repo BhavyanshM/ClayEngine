@@ -27,6 +27,11 @@ namespace Clay
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
             MeshTools::Surface(modelMesh, 20, 20);
         }
+        if(ImGui::Button("Add Cuboid"))
+        {
+            modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
+            MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.3f);
+        }
         if(ImGui::Button("Add OBJ"))
         {
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
