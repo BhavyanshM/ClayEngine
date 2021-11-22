@@ -85,6 +85,9 @@ add_executable(ClayEditor
 target_link_libraries(ClayEditor
         ClayEngine)
 
+SET(CPACK_GENERATOR "DEB")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "BM") #required
+INCLUDE(CPack)
 
 
 
