@@ -31,6 +31,7 @@ namespace Clay
          virtual void SetFloat4(const std::string& name, const glm::vec4& value) override;
          virtual void SetMat4(const std::string& name, const glm::mat4& value) override;
          virtual void SetMat4Array(const std::string& name, const std::vector<glm::mat4>& values, uint32_t count) override;
+         virtual void SetFloat4Array(const std::string& name, const std::vector<glm::vec4>& values, uint32_t count) override;
 
          virtual const std::string& GetName() const override {return _name;};
 
@@ -41,6 +42,7 @@ namespace Clay
          void UploadUniformFloat4(const std::string& name, const glm::vec4& value);
          void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);
          void UploadUniformMat4Array(const std::string& name, const std::vector<glm::mat4>& values, uint32_t count);
+         void UploadUniformFloat4Array(const std::string& name, const std::vector<glm::vec4>& values, uint32_t count);
 
          void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
          void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);

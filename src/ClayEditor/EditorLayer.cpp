@@ -30,19 +30,18 @@ namespace Clay
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.7,0.4,0.4,1.0), _rootPCL);
-      MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 1.5f);
-      modelMesh->Print();
+      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
+      MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.05f);
 //      modelMesh->LoadOBJ(ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
-      modelMesh->RotateLocalZ(0.2f);
-      modelMesh->RotateLocalY(0.0f);
-      modelMesh->RotateLocalZ(0.5f);
+      modelMesh->RotateLocalY(0.3f);
+      modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
       _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
 
-      Ref<TriangleMesh> modelMesh2 = std::make_shared<TriangleMesh>(glm::vec4(0.2,0.8,0.4,1.0), _rootPCL);
-      MeshTools::Cuboid(modelMesh2, 0.1f, 1.2f, 0.2f);
-      modelMesh2->Print();
-//      modelMesh2->LoadOBJ(ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
+      Ref<TriangleMesh> modelMesh2 = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.6,0.4,1.0), _rootPCL);
+//      MeshTools::Cuboid(modelMesh2, 0.1f, 1.2f, 0.2f);
+      modelMesh2->LoadOBJ(ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
+      modelMesh2->RotateLocalZ(-1.1f);
+      modelMesh2->RotateLocalX(-0.21f);
       _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh2));
 
 //      modelMesh->Load(std::string(ASSETS_PATH) + "Meshes/Circle.pcd");

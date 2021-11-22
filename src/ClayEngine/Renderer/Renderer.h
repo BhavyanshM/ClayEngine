@@ -87,7 +87,8 @@ namespace Clay
    struct TriangleVertex
    {
       glm::vec3 Position;
-      int Id;
+      glm::vec4 Color;
+      float Id;
    };
 
    template <typename T> // PointVertex or TriangleVertex
@@ -98,7 +99,7 @@ namespace Clay
       static const uint32_t MaxTriangles = 1000000;
       static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
 
-      int CloudId = 0;
+      uint32_t CloudId = 0;
       int LastIndex = 0;
 
       Ref<VertexArray> vertexArray;
@@ -113,6 +114,7 @@ namespace Clay
       T* vertexBufferPtr = nullptr;
 
       std::vector<glm::mat4> Transforms;
+      std::vector<glm::vec4> Colors;
 
       std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
       uint32_t TextureSlotIndex = 1; // 0: WhiteTexture

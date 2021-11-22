@@ -220,6 +220,12 @@ namespace Clay
       glUniformMatrix4fv(location, count, GL_FALSE, glm::value_ptr(values[0]));
    }
 
+   void OpenGLShader::UploadUniformFloat4Array(const std::string& name, const std::vector<glm::vec4>& values, uint32_t count)
+   {
+      GLint location = glGetUniformLocation(_rendererId, name.c_str());
+      glUniform4fv(location, count, glm::value_ptr(values[0]));
+   }
+
    void OpenGLShader::SetFloat(const std::string& name, float value)
    {
       CLAY_PROFILE_FUNCTION();
@@ -260,5 +266,11 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       UploadUniformMat4Array(name, values, count);
+   }
+
+   void OpenGLShader::SetFloat4Array(const std::string& name, const std::vector<glm::vec4>& values, uint32_t count)
+   {
+      CLAY_PROFILE_FUNCTION();
+      UploadUniformFloat4Array(name, values, count);
    }
 }
