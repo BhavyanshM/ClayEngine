@@ -57,5 +57,7 @@ namespace Clay
          bool _viewportFocused = false;
          bool _viewportHovered = false;
    };
+
+
 }
 #endif //CLAYENGINE_EDITORLAYER_H

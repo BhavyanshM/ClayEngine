@@ -5,25 +5,12 @@
 #include "EditorLayer.h"
 #include "Core/Timer.h"
 #include "Scene/Mesh/MeshTools.h"
-
+#include "ImGui/ImGuiMenu.h"
 
 namespace Clay
 {
-   void handler(int sig)
-   {
-      void *array[1000];
-      size_t size;
-      size = backtrace(array, 1000);
-      fprintf(stderr, "Error: signal %d:\n", sig);
-      backtrace_symbols_fd(array, size, STDERR_FILENO);
-      std::cout << boost::stacktrace::stacktrace();
-      exit(1);
-   }
-
    EditorLayer::EditorLayer() : Layer("Sandbox2D")
    {
-      signal(SIGSEGV, handler);
-
       _rootPCL = std::make_shared<Model>();
       Ref<Model> cameraGrandParent = std::make_shared<Model>(_rootPCL);
       Ref<Model> cameraParent = std::make_shared<Model>(cameraGrandParent);
@@ -57,59 +44,6 @@ namespace Clay
 //      }
 //      secondPCL->SetPartIds(partIds);
 //      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
-   }
-
-   void EditorLayer::OnAttach()
-   {
-      CLAY_PROFILE_FUNCTION();
-
-      _shader = Clay::Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/PointCloudShader.glsl"));
-      _texture = Texture2D::Create(std::string(ASSETS_PATH) + std::string("Textures/Checkerboard.png"));
-
-      FramebufferSpecification fbSpec;
-      fbSpec.width = 1000;
-      fbSpec.height = 1000;
-      _frameBuffer = FrameBuffer::Create(fbSpec);
-   }
-
-   void EditorLayer::OnDetach()
-   {
-      CLAY_PROFILE_FUNCTION();
-      Layer::OnDetach();
-   }
-
-   void EditorLayer::OnUpdate(Timestep ts)
-   {
-      CLAY_PROFILE_FUNCTION();
-
-      if (_viewportFocused)
-      {
-         _cameraController.OnUpdate(ts);
-      }
-
-      Renderer::ResetStats();
-
-      _frameBuffer->Bind();
-      RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
-      RenderCommand::Clear();
-
-      Renderer::BeginScene(_cameraController.GetCamera());
-
-      _rootPCL->Update();
-      _currentTime += ts.GetMilliseconds() / 1000.0f;
-      for(Ref<Model> model : _models)
-      {
-         Renderer::SubmitTriangles(model);
-      }
-
-      Renderer::EndScene();
-
-      _frameBuffer->Unbind();
-   }
-
-   void EditorLayer::OnEvent(Event& e)
-   {
-      _cameraController.OnEvent(e);
    }
 
    void EditorLayer::OnImGuiRender()
@@ -164,16 +98,16 @@ namespace Clay
          ImGui::EndMenuBar();
       }
 
-      /* Renderer ImGui Stats and Settings */
-      ImGui::Begin("Renderer");
+
+      /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       * ------------ All ImGui Menu options go here. ------------
+       * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       * */
+
       ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
-      auto stats = Renderer::GetTriangleStats();
-      ImGui::Text("Renderer Stats:");
-      ImGui::Text("Draw Calls: %d", stats.GetTotalDrawCallCount());
-      ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-      ImGui::Text("Triangle Count: %d", stats.GetTotalTriangleCount());
-      ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-      ImGui::End();
+      ImGuiMenu::RendererOptions();
+      ImGuiMenu::MeshPrimitiveOptions(_models);
+
 
       /* Viewport Region */
       ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
@@ -202,4 +136,61 @@ namespace Clay
 
       ImGui::End();
    }
+
+    void EditorLayer::OnUpdate(Timestep ts)
+    {
+        CLAY_PROFILE_FUNCTION();
+
+        if (_viewportFocused)
+        {
+            _cameraController.OnUpdate(ts);
+        }
+
+        Renderer::ResetStats();
+
+        _frameBuffer->Bind();
+        RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
+        RenderCommand::Clear();
+        Renderer::BeginScene(_cameraController.GetCamera());
+        _rootPCL->Update();
+        _currentTime += ts.GetMilliseconds() / 1000.0f;
+        for(Ref<Model> model : _models)
+        {
+            Renderer::SubmitTriangles(model);
+        }
+        Renderer::EndScene();
+        _frameBuffer->Unbind();
+    }
+
+    void EditorLayer::OnAttach()
+    {
+        _shader = Clay::Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/PointCloudShader.glsl"));
+        _texture = Texture2D::Create(std::string(ASSETS_PATH) + std::string("Textures/Checkerboard.png"));
+
+        FramebufferSpecification fbSpec;
+        fbSpec.width = 1000;
+        fbSpec.height = 1000;
+        _frameBuffer = FrameBuffer::Create(fbSpec);
+    }
+
+    void handler(int sig)
+    {
+        void *array[1000];
+        size_t size;
+        size = backtrace(array, 1000);
+        fprintf(stderr, "Error: signal %d:\n", sig);
+        backtrace_symbols_fd(array, size, STDERR_FILENO);
+        std::cout << boost::stacktrace::stacktrace();
+        exit(1);
+    }
+
+    void EditorLayer::OnDetach()
+    {
+        Layer::OnDetach();
+    }
+
+    void EditorLayer::OnEvent(Event& e)
+    {
+        _cameraController.OnEvent(e);
+    }
 }

@@ -48,20 +48,20 @@ namespace Clay
       }
    }
 
-   void MeshTools::Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float height)
+   void MeshTools::Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float radius, float height)
    {
       // Generate Vertex Buffer for both top and bottom circles.
       float theta = 0;
       float angle = 360.0 / (float) vertices;
       for(uint16_t i = 0; i<vertices; i++)
       {
-         model->InsertVertex(height/2, sin(theta / 180 * M_PI), cos(theta / 180 * M_PI));
+         model->InsertVertex(height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
          theta += angle;
       }
       theta = 0;
       for(uint16_t i = 0; i<vertices; i++)
       {
-         model->InsertVertex(-height/2, sin(theta / 180 * M_PI), cos(theta / 180 * M_PI));
+         model->InsertVertex(-height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
          theta += angle;
       }
 
@@ -146,9 +146,6 @@ namespace Clay
    void MeshTools::Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks)
    {
       // Generate Vertex Buffer for both top and bottom circles.
-
-      MeshTools::LaunchKernel();
-
       float stackStep = M_PI / stacks;
       float sectorStep = 2 * M_PI / sectors;
 
