@@ -132,7 +132,6 @@ namespace Clay
 
    void Renderer::BeginScene(Camera& camera)
    {
-      printf("BeginScene\n");
 
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
@@ -149,7 +148,6 @@ namespace Clay
 
    void Renderer::FlushAndReset()
    {
-      printf("FlushAndReset\n");
       EndScene();
 //            s_PointData.IndexCount = 0;
 //            s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
@@ -164,7 +162,6 @@ namespace Clay
 
    void Renderer::EndScene()
    {
-      printf("EndScene\n");
       uint32_t dataSize = 0;
 
 //      dataSize = (uint8_t*)s_PointData.vertexBufferPtr - (uint8_t*) s_PointData.vertexBufferBase;
@@ -337,14 +334,6 @@ namespace Clay
          s_TriangleData.indexBuffer->AddIndex(model->GetMesh()->_indices[i] + s_TriangleData.LastIndex);
       }
 
-
-      int countVertex = (int)(s_TriangleData.vertexBufferPtr - s_TriangleData.vertexBufferBase);
-      printf("Count(%d): %d %d %d %d\n",s_TriangleData.CloudId, s_TriangleData.LastIndex, model->GetMesh()->_vertices.size()/3, model->GetMesh()->_indices.size(),
-             countVertex);
-
-      for(int i = 0; i<s_TriangleData.Transforms.size(); i++){
-         CLAY_LOG_INFO("{}\n", glm::to_string(s_TriangleData.Transforms[i]));
-      }
 
       s_TriangleData.LastIndex += model->GetMesh()->_vertices.size() / 3;
       s_TriangleData.IndexCount += model->GetMesh()->_indices.size() / 3;

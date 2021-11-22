@@ -52,6 +52,8 @@ namespace Clay
 
             uint32_t GetTotalVertexCount() {return (VertexCount != 0) ? VertexCount : TriangleCount * 3;}
             uint32_t GetTotalIndexCount() {return TriangleCount * 3;}
+            uint32_t GetTotalTriangleCount() {return TriangleCount;}
+            uint32_t GetTotalDrawCallCount() {return DrawCalls;}
          };
 
          static Statistics GetPointStats();

@@ -102,7 +102,6 @@ namespace Clay
          Renderer::SubmitTriangles(model);
       }
 
-      printf("EndScene Called\n");
       Renderer::EndScene();
 
       _frameBuffer->Unbind();
@@ -170,9 +169,9 @@ namespace Clay
       ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
       auto stats = Renderer::GetTriangleStats();
       ImGui::Text("Renderer Stats:");
-      ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-      ImGui::Text("Quad Count: %d", stats.TriangleCount);
+      ImGui::Text("Draw Calls: %d", stats.GetTotalDrawCallCount());
       ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+      ImGui::Text("Triangle Count: %d", stats.GetTotalTriangleCount());
       ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
       ImGui::End();
 
