@@ -87,17 +87,19 @@ namespace Clay
    struct TriangleVertex
    {
       glm::vec3 Position;
+      int Id;
    };
 
    template <typename T> // PointVertex or TriangleVertex
    struct RendererData
    {
       static const uint32_t MaxPoints = 100000;
-      static const uint32_t MaxLines = 20000;
-      static const uint32_t MaxTriangles = 100000;
+      static const uint32_t MaxLines = 200000;
+      static const uint32_t MaxTriangles = 1000000;
       static const uint32_t MaxTextureSlots = 32; // TODO: Renderer Capabilities
 
       int CloudId = 0;
+      int LastIndex = 0;
 
       Ref<VertexArray> vertexArray;
       Ref<VertexBuffer> vertexBuffer;

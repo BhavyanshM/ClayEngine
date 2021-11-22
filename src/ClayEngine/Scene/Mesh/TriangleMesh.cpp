@@ -120,5 +120,13 @@ namespace Clay
       }
    }
 
+   void TriangleMesh::Print()
+   {
+      for(int i = 0; i<GetSize(); i++)
+      {
+         CLAY_LOG_INFO("Point: {} {} {}", _mesh->_vertices[i*3], _mesh->_vertices[i*3+1], _mesh->_vertices[i*3+2]);
+      }
+   }
+
 
 }

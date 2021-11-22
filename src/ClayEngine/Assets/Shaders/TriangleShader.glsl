@@ -2,6 +2,7 @@
 #version 450 core
 
 layout(location = 0) in vec3 a_Position;
+layout(location = 1) in int a_Id;
 
 out vec3 v_Position;
 
@@ -10,7 +11,7 @@ uniform mat4 u_Transforms[32];
 
 void main(){
     v_Position = a_Position;
-    gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+    gl_Position = u_ViewProjection * u_Transforms[0] * vec4(a_Position, 1.0);
 }
 
 #type geometry

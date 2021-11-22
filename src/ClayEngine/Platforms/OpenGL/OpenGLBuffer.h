@@ -48,7 +48,7 @@ namespace Clay
          virtual void AddIndex(uint32_t index);
 
 
-
+         virtual const std::vector<uint32_t>& GetIndices() const override {return _pointIndices;};
          virtual uint32_t GetCount() const override {return _count;}
 
       private:

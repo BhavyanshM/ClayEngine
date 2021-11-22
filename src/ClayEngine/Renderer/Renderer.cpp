@@ -82,7 +82,8 @@ namespace Clay
       s_TriangleData.vertexBuffer = VertexBuffer::Create(s_TriangleData.MaxTriangles * 3 * sizeof(TriangleVertex));
 
       BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"}
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Int, "a_Id"}
       };
       s_TriangleData.vertexBuffer->SetLayout(layout);
       s_TriangleData.vertexArray->AddVertexBuffer(s_TriangleData.vertexBuffer);
@@ -130,7 +131,7 @@ namespace Clay
 
    void Renderer::BeginScene(Camera& camera)
    {
-
+      printf("BeginScene\n");
 
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
@@ -141,11 +142,13 @@ namespace Clay
 //      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
 //
       s_TriangleData.IndexCount = 0;
+      s_TriangleData.LastIndex = 0;
       s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
    }
 
    void Renderer::FlushAndReset()
    {
+      printf("FlushAndReset\n");
       EndScene();
 //            s_PointData.IndexCount = 0;
 //            s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
@@ -154,11 +157,13 @@ namespace Clay
       //      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
       //
       s_TriangleData.IndexCount = 0;
+      s_TriangleData.LastIndex = 0;
       s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
    }
 
    void Renderer::EndScene()
    {
+      printf("EndScene\n");
       uint32_t dataSize = 0;
 
 //      dataSize = (uint8_t*)s_PointData.vertexBufferPtr - (uint8_t*) s_PointData.vertexBufferBase;
@@ -177,8 +182,10 @@ namespace Clay
    {
 //      RenderCommand::DrawIndexed(s_PointData.vertexArray, s_PointData.IndexCount, RendererAPI::MODE::Points);
 //      RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
-      RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.IndexCount, RendererAPI::MODE::Triangles);
 
+      s_TriangleData.indexBuffer->Upload();
+      RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.indexBuffer->GetCount(), RendererAPI::MODE::Triangles);
+      printf("VAO IndexCount: %d\n", s_TriangleData.vertexArray->GetIndexBuffer()->GetCount());
 
       s_PointData.Stats.DrawCalls++;
       s_PointData.Transforms.clear();
@@ -308,29 +315,39 @@ namespace Clay
          FlushAndReset();
 
       s_TriangleData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-      s_TriangleData.MeshShader->SetMat4("u_Transform", model->GetTransformToWorld());
+      s_TriangleData.Transforms.emplace_back(model->GetTransformToWorld());
+      s_TriangleData.MeshShader->SetMat4Array("u_Transforms", s_TriangleData.Transforms, 32);
       s_TriangleData.MeshShader->SetFloat4("u_ObjectColor", model->GetColor());
       s_TriangleData.MeshShader->SetFloat4("u_LightColor", {0.4, 0.9, 0.9, 1.0});
       s_TriangleData.MeshShader->SetFloat("u_AmbientStrength", 0.5);
 
-      s_TriangleData.MeshShader->Bind();
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
          s_TriangleData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
                                                      model->GetMesh()->_vertices[i*3 + 1],
                                                      model->GetMesh()->_vertices[i*3 + 2]};
+         s_TriangleData.vertexBufferPtr->Id = s_TriangleData.CloudId;
+         printf("ID: %d\n", s_TriangleData.vertexBufferPtr->Id);
          s_TriangleData.vertexBufferPtr++;
       }
 
       for(uint32_t i = 0; i< model->GetMesh()->_indices.size(); i++)
       {
-         s_TriangleData.indexBuffer->AddIndex(model->GetMesh()->_indices[i]);
+         s_TriangleData.indexBuffer->AddIndex(model->GetMesh()->_indices[i] + s_TriangleData.LastIndex);
+         printf("%d ", s_TriangleData.indexBuffer->GetIndices()[i]);
       }
-      s_TriangleData.indexBuffer->Upload();
+      printf(" Total Count = %d\n", s_TriangleData.indexBuffer->GetIndices().size());
 
-      s_TriangleData.IndexCount += model->GetSize();
+
+      int countVertex = (int)(s_TriangleData.vertexBufferPtr - s_TriangleData.vertexBufferBase);
+      printf("Count(%d): %d %d %d %d\n",s_TriangleData.CloudId, s_TriangleData.LastIndex, model->GetMesh()->_vertices.size()/3, model->GetMesh()->_indices.size(),
+             countVertex);
+
+      s_TriangleData.LastIndex += model->GetMesh()->_vertices.size() / 3;
+      s_TriangleData.IndexCount += model->GetMesh()->_indices.size() / 3;
       s_TriangleData.Stats.TriangleCount = s_TriangleData.IndexCount;
       s_TriangleData.Stats.VertexCount += model->GetSize();
+      s_TriangleData.CloudId++;
    }
 
    void Renderer::ResetStats()

@@ -20,6 +20,7 @@ namespace Clay
          void Reset() override;
          void InsertVertex(float x, float y, float z) override;
          void InsertIndex(uint32_t index) override;
+         void Print() override;
 
    };
 }
