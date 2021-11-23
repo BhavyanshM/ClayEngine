@@ -10,7 +10,7 @@ namespace Clay
    TriangleMesh::TriangleMesh(const glm::vec4& color, const Ref<Model>& parent) : Model(parent, true, 400000)
    {
       _mesh->_color = color;
-      _mesh->_type = RendererAPI::MODE::Points;
+      _mesh->_type = RendererAPI::MODE::Triangles;
    }
 
    void TriangleMesh::InsertVertex(float x, float y, float z)

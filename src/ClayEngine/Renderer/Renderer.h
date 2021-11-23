@@ -70,6 +70,10 @@ namespace Clay
 
          static SceneData* s_SceneData;
 
+         const static bool EN_TRIANGLES = true;
+         const static bool EN_POINTS = true;
+         const static bool EN_LINES = false;
+
    };
 
    // Vertex Types and Renderer Data +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,7 +82,7 @@ namespace Clay
    {
       glm::vec3 Position;
       glm::vec4 Color;
-      int Id;
+      float Id;
    };
 
    struct LineVertex

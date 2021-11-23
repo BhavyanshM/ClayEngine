@@ -17,7 +17,6 @@ namespace Clay
       glCreateBuffers(1, &_rendererId);
       glBindBuffer(GL_ARRAY_BUFFER, _rendererId);
       glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
    }
 
    OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, uint32_t count) : _count(count)

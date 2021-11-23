@@ -15,9 +15,9 @@ namespace Clay
       RenderCommand::Init();
 //      Renderer2D::Init();
 
-//      Renderer::InitPointData();
-//      Renderer::InitLineData();
-      Renderer::InitTriangleData();
+      if(EN_LINES) Renderer::InitLineData();
+      if(EN_POINTS) Renderer::InitPointData();
+      if(EN_TRIANGLES) Renderer::InitTriangleData();
 
    }
 
@@ -29,7 +29,7 @@ namespace Clay
       BufferLayout layout = {
             {ShaderDataType::Float3, "a_Position"},
             {ShaderDataType::Float4, "a_Color"},
-            {ShaderDataType::Int, "a_Id"}
+            {ShaderDataType::Float, "a_Id"}
       };
       s_PointData.vertexBuffer->SetLayout(layout);
       s_PointData.vertexArray->AddVertexBuffer(s_PointData.vertexBuffer);
@@ -46,6 +46,29 @@ namespace Clay
 
       s_PointData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/PointCloudShader.glsl"));
       s_PointData.MeshShader->Bind();
+   }
+
+   void Renderer::InitTriangleData()
+   {
+      s_TriangleData.vertexArray = VertexArray::Create();
+      s_TriangleData.vertexBuffer = VertexBuffer::Create(s_TriangleData.MaxTriangles * 3 * sizeof(TriangleVertex));
+
+      BufferLayout layout = {
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float4, "a_Color"},
+            {ShaderDataType::Float, "a_Id"}
+      };
+      s_TriangleData.vertexBuffer->SetLayout(layout);
+      s_TriangleData.vertexArray->AddVertexBuffer(s_TriangleData.vertexBuffer);
+      s_TriangleData.vertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangles * 3];
+
+
+      s_TriangleData.indexBuffer = IndexBuffer::Create();
+      uint32_t offset = 0;
+
+      s_TriangleData.vertexArray->SetIndexBuffer(s_TriangleData.indexBuffer);
+      s_TriangleData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/TriangleShader.glsl"));
+      s_TriangleData.MeshShader->Bind();
    }
 
    void Renderer::InitLineData()
@@ -76,50 +99,6 @@ namespace Clay
       s_LineData.MeshShader->Bind();
    }
 
-   void Renderer::InitTriangleData()
-   {
-      s_TriangleData.vertexArray = VertexArray::Create();
-      s_TriangleData.vertexBuffer = VertexBuffer::Create(s_TriangleData.MaxTriangles * 3 * sizeof(TriangleVertex));
-
-      BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"},
-            {ShaderDataType::Float4, "a_Color"},
-            {ShaderDataType::Float, "a_Id"}
-      };
-      s_TriangleData.vertexBuffer->SetLayout(layout);
-      s_TriangleData.vertexArray->AddVertexBuffer(s_TriangleData.vertexBuffer);
-      s_TriangleData.vertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangles * 3];
-
-
-      s_TriangleData.indexBuffer = IndexBuffer::Create();
-      uint32_t offset = 0;
-
-//      uint32_t* pointIndices = new uint32_t[s_TriangleData.MaxTriangles * 3];
-
-//      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
-//      {
-//         indexBuffer->AddIndex(0);
-//         indexBuffer->AddIndex(offset + 1);
-//         indexBuffer->AddIndex(offset + 2);
-//         offset += 1;
-//      }
-//      indexBuffer->Upload();
-
-//      for(uint32_t i = 0; i< s_TriangleData.MaxTriangles * 3; i+=3)
-//      {
-//         pointIndices[i+0] = 0;
-//         pointIndices[i+1] = offset + 1;
-//         pointIndices[i+2] = offset + 2;
-//         offset += 1;
-//      }
-      //      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(pointIndices, s_TriangleData.MaxTriangles * 3);
-      s_TriangleData.vertexArray->SetIndexBuffer(s_TriangleData.indexBuffer);
-//      delete[] pointIndices;
-
-      s_TriangleData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/TriangleShader.glsl"));
-      s_TriangleData.MeshShader->Bind();
-   }
-
    void Renderer::Shutdown()
    {
       Renderer2D::Shutdown();
@@ -135,66 +114,100 @@ namespace Clay
 
       s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
-//      s_PointData.IndexCount = 0;
-//      s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
+      if(EN_TRIANGLES){
+         s_TriangleData.IndexCount = 0;
+         s_TriangleData.LastIndex = 0;
+         s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+      }
+      if(EN_POINTS){
+         s_PointData.IndexCount = 0;
+         s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
+      }
 
-//      s_LineData.IndexCount = 0;
-//      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
-//
-      s_TriangleData.IndexCount = 0;
-      s_TriangleData.LastIndex = 0;
-      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+      if(EN_LINES){
+         s_LineData.IndexCount = 0;
+         s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
+      }
+
    }
 
    void Renderer::FlushAndReset()
    {
       EndScene();
-//            s_PointData.IndexCount = 0;
-//            s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
 
-      //      s_LineData.IndexCount = 0;
-      //      s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
-      //
-      s_TriangleData.IndexCount = 0;
-      s_TriangleData.LastIndex = 0;
-      s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+      if(EN_TRIANGLES){
+         s_TriangleData.IndexCount = 0;
+         s_TriangleData.LastIndex = 0;
+         s_TriangleData.vertexBufferPtr = s_TriangleData.vertexBufferBase;
+      }
+
+      if(EN_POINTS){
+         s_PointData.IndexCount = 0;
+         s_PointData.vertexBufferPtr = s_PointData.vertexBufferBase;
+      }
+
+      if(EN_LINES){
+         s_LineData.IndexCount = 0;
+         s_LineData.vertexBufferPtr = s_LineData.vertexBufferBase;
+      }
+
    }
 
    void Renderer::EndScene()
    {
       uint32_t dataSize = 0;
 
-//      dataSize = (uint8_t*)s_PointData.vertexBufferPtr - (uint8_t*) s_PointData.vertexBufferBase;
-//      s_PointData.vertexBuffer->SetData(s_PointData.vertexBufferBase, dataSize);
+      if(EN_TRIANGLES){
+         dataSize = (uint8_t *) s_TriangleData.vertexBufferPtr - (uint8_t *) s_TriangleData.vertexBufferBase;
+         s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
+      }
 
-//      dataSize = (uint8_t*)s_LineData.vertexBufferPtr - (uint8_t*) s_LineData.vertexBufferBase;
-//      s_LineData.vertexBuffer->SetData(s_LineData.vertexBufferBase, dataSize);
-//
-      dataSize = (uint8_t*)s_TriangleData.vertexBufferPtr - (uint8_t*) s_TriangleData.vertexBufferBase;
-      s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
+      if(EN_POINTS){
+         dataSize = (uint8_t *) s_PointData.vertexBufferPtr - (uint8_t *) s_PointData.vertexBufferBase;
+         s_PointData.vertexBuffer->SetData(s_PointData.vertexBufferBase, dataSize);
+      }
+
+      if(EN_LINES){
+         dataSize = (uint8_t *) s_LineData.vertexBufferPtr - (uint8_t *) s_LineData.vertexBufferBase;
+         s_LineData.vertexBuffer->SetData(s_LineData.vertexBufferBase, dataSize);
+      }
 
       Flush();
    }
 
    void Renderer::Flush()
    {
-//      RenderCommand::DrawIndexed(s_PointData.vertexArray, s_PointData.IndexCount, RendererAPI::MODE::Points);
-//      RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
+      if(EN_TRIANGLES){
+         s_TriangleData.MeshShader->Bind();
+         s_TriangleData.indexBuffer->Upload();
+         s_TriangleData.vertexArray->Bind();
+         RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.indexBuffer->GetCount(), RendererAPI::MODE::Triangles);
+         s_TriangleData.vertexArray->Unbind();
+         s_TriangleData.MeshShader->Unbind();
+         s_TriangleData.Stats.DrawCalls++;
+         s_TriangleData.Transforms.clear();
+         s_TriangleData.CloudId = 0;
+      }
 
-      s_TriangleData.indexBuffer->Upload();
-      RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.indexBuffer->GetCount(), RendererAPI::MODE::Triangles);
+      if(EN_POINTS){
+         s_PointData.MeshShader->Bind();
+         s_PointData.vertexArray->Bind();
+         RenderCommand::DrawIndexed(s_PointData.vertexArray, s_PointData.IndexCount, RendererAPI::MODE::Points);
+         s_PointData.vertexArray->Unbind();
+         s_PointData.MeshShader->Unbind();
+         s_PointData.Stats.DrawCalls++;
+         s_PointData.Transforms.clear();
+         s_PointData.CloudId = 0;
+      }
 
-      s_PointData.Stats.DrawCalls++;
-      s_PointData.Transforms.clear();
-      s_PointData.CloudId = 0;
 
-      s_LineData.Stats.DrawCalls++;
-      s_LineData.Transforms.clear();
-      s_LineData.CloudId = 0;
 
-      s_TriangleData.Stats.DrawCalls++;
-      s_TriangleData.Transforms.clear();
-      s_TriangleData.CloudId = 0;
+      if(EN_LINES){
+         //      RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
+         s_LineData.Stats.DrawCalls++;
+         s_LineData.Transforms.clear();
+         s_LineData.CloudId = 0;
+      }
    }
 
    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform, uint32_t mode)
@@ -212,19 +225,18 @@ namespace Clay
 
    void Renderer::Submit(const Ref<Model>& model)
    {
-      Ref<Shader> shader = model->GetShader();
-      shader->Bind();
-      shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-      shader->SetMat4("u_Transform", model->GetTransformToWorld());
-      shader->SetFloat4("u_Color", model->GetColor());
-
-      Ref<VertexArray> vertexArray = model->GetVertexArray();
-      vertexArray->Bind();
-      RenderCommand::DrawIndexed(vertexArray, 0, model->GetType());
-      vertexArray->Unbind();
-      shader->Unbind();
-      s_PointData.Stats.VertexCount += vertexArray->GetIndexBuffer()->GetCount();
-      s_PointData.Stats.DrawCalls++;
+      if(model->GetType() == RendererAPI::MODE::Triangles && EN_TRIANGLES)
+      {
+         SubmitTriangles(model);
+      }
+      if(model->GetType() == RendererAPI::MODE::Lines && EN_LINES)
+      {
+         SubmitLines(model);
+      }
+      if(model->GetType() == RendererAPI::MODE::Points && EN_POINTS)
+      {
+         SubmitPoints(model);
+      }
    }
 
    void Renderer::SubmitPoints(const Ref<Model>& model)

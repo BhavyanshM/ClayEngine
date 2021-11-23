@@ -41,7 +41,8 @@ namespace Clay
    OpenGLVertexArray::OpenGLVertexArray()
    {
       CLAY_PROFILE_FUNCTION();
-      glCreateBuffers(1, &_rendererId);
+      glGenVertexArrays(1, &_rendererId);
+      glBindVertexArray(_rendererId);
    }
 
    OpenGLVertexArray::~OpenGLVertexArray()
@@ -54,27 +55,25 @@ namespace Clay
    {
       CLAY_PROFILE_FUNCTION();
       glBindVertexArray(_rendererId);
-      _indexBuffer->Bind();
-      for(Ref<VertexBuffer> buffer : _vertexBuffers)
-         buffer->Bind();
    }
 
    void OpenGLVertexArray::Unbind()
    {
       CLAY_PROFILE_FUNCTION();
-      _indexBuffer->Unbind();
-      for(Ref<VertexBuffer> buffer : _vertexBuffers)
-         buffer->Unbind();
       glBindVertexArray(0);
    }
 
    void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
    {
       CLAY_PROFILE_FUNCTION();
+
+      // Bind this VAO as current.
       glBindVertexArray(_rendererId);
-      vertexBuffer->Bind();
 
       uint32_t index = 0;
+
+      // Calling Bind() on VBO attaches it to the currently bound VAO
+      vertexBuffer->Bind();
       const auto& layout = vertexBuffer->GetLayout();
       for (const auto& element : layout)
       {
@@ -85,19 +84,17 @@ namespace Clay
                                layout.GetStride(), (const void *) element.Offset);
          index++;
       }
-      _vertexBuffers.push_back(vertexBuffer);
       vertexBuffer->Unbind();
+      _vertexBuffers.push_back(vertexBuffer);
       glBindVertexArray(0);
    }
 
    void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
    {
       CLAY_PROFILE_FUNCTION();
+      _indexBuffer = indexBuffer;
       glBindVertexArray(_rendererId);
       indexBuffer->Bind();
-
-      _indexBuffer = indexBuffer;
-      indexBuffer->Unbind();
    }
 
    VertexArray *OpenGLVertexArray::Create()

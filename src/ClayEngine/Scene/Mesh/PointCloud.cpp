@@ -67,11 +67,13 @@ namespace Clay
             std::vector<std::string> words;
             boost::algorithm::split(words, line, boost::is_any_of(" "));
 
+
             z = -atof(words[0].c_str());
             x = -atof(words[1].c_str());
             y = atof(words[2].c_str());
 
-            if(!(abs(x) < 0.0001 && abs(y) < 0.0001 && abs(z) < 0.0001))
+
+            if(x*x + y*y + z*z > 0.001)
             {
                InsertVertex(x,y,z);
             }

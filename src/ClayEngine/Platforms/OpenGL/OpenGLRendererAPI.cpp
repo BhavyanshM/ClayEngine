@@ -47,6 +47,7 @@ namespace Clay
 
    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount, uint32_t mode)
    {
+      vertexArray->Bind();
       uint32_t count = (vertexArray->GetIndexBuffer()->GetCount() != 0) ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
       switch(mode)
       {

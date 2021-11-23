@@ -47,14 +47,33 @@ namespace Clay
 
     void ImGuiMenu::RendererOptions()
     {
-        /* Renderer ImGui Stats and Settings */
-        ImGui::Begin("Renderer");
-        auto stats = Renderer::GetTriangleStats();
-        ImGui::Text("Renderer Stats:");
-        ImGui::Text("Draw Calls: %d", stats.GetTotalDrawCallCount());
-        ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-        ImGui::Text("Triangle Count: %d", stats.GetTotalTriangleCount());
-        ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-        ImGui::End();
+         /* Renderer ImGui Stats and Settings */
+         ImGui::Begin("Renderer");
+
+         auto triangleStats = Renderer::GetTriangleStats();
+         ImGui::Text("Triangle Stats:");
+         ImGui::Text("Draw Calls: %d", triangleStats.GetTotalDrawCallCount());
+         ImGui::Text("Vertices: %d", triangleStats.GetTotalVertexCount());
+         ImGui::Text("Triangle Count: %d", triangleStats.GetTotalTriangleCount());
+         ImGui::Text("Indices: %d", triangleStats.GetTotalIndexCount());
+         ImGui::NewLine();
+
+         auto pointStats = Renderer::GetPointStats();
+         ImGui::Text("Point Stats:");
+         ImGui::Text("Draw Calls: %d", pointStats.GetTotalDrawCallCount());
+         ImGui::Text("Vertices: %d", pointStats.GetTotalVertexCount());
+         ImGui::Text("Line Count: %d", pointStats.GetTotalTriangleCount());
+         ImGui::Text("Indices: %d", pointStats.GetTotalIndexCount());
+         ImGui::NewLine();
+
+         auto lineStats = Renderer::GetLlineStats();
+         ImGui::Text("Line Stats:");
+         ImGui::Text("Draw Calls: %d", lineStats.GetTotalDrawCallCount());
+         ImGui::Text("Vertices: %d", lineStats.GetTotalVertexCount());
+         ImGui::Text("Triangle Count: %d", lineStats.GetTotalTriangleCount());
+         ImGui::Text("Indices: %d", lineStats.GetTotalIndexCount());
+         ImGui::NewLine();
+
+         ImGui::End();
     }
 }

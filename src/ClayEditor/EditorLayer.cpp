@@ -34,8 +34,8 @@ namespace Clay
 //      modelMesh->Load(std::string(ASSETS_PATH) + "Meshes/Circle.pcd");
 //      modelMesh->Print();
 
-//      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
-//      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_02.pcd");
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.3,0.8,0.3,1), _rootPCL);
+      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd");
 
 //      std::vector<int> partIds(secondPCL->GetSize(), 0);
 //      for(int i = 0; i<partIds.size(); i++)
@@ -43,7 +43,7 @@ namespace Clay
 //         partIds[i] = i / 2000;
 //      }
 //      secondPCL->SetPartIds(partIds);
-//      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
+      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
    }
 
    void EditorLayer::OnImGuiRender()
@@ -104,7 +104,7 @@ namespace Clay
        * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
        * */
 
-      ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
+//      ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
       ImGuiMenu::RendererOptions();
       ImGuiMenu::MeshPrimitiveOptions(_models);
 
@@ -122,7 +122,6 @@ namespace Clay
 
       if (_viewportSize != *((glm::vec2 *) &viewportPanelSize))
       {
-
          _viewportSize.x = viewportPanelSize.x;
          _viewportSize.y = viewportPanelSize.y;
 
@@ -156,7 +155,7 @@ namespace Clay
         _currentTime += ts.GetMilliseconds() / 1000.0f;
         for(Ref<Model> model : _models)
         {
-            Renderer::SubmitTriangles(model);
+            Renderer::Submit(model);
         }
         Renderer::EndScene();
         _frameBuffer->Unbind();
