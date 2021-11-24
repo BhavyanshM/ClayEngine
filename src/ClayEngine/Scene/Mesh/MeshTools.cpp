@@ -224,4 +224,55 @@ namespace Clay
          }
       }
    }
+
+    void MeshTools::Torus(Ref<TriangleMesh>& model, float innerRadius, float outerRadius, int innerCount, int outerCount)
+    {
+        // Generate Vertex Buffer for both top and bottom circles.
+        float outerStep = 2 * M_PI / innerCount;
+        float innerStep = 2 * M_PI / outerCount;
+
+        float innerAngle, outerAngle, x, y, xy, z;
+
+        for(uint16_t i = 0; i<=innerCount; i++)
+        {
+            innerAngle = M_PI / 2 - i * outerStep;
+            xy = outerRadius * cosf(innerAngle);
+            z = outerRadius * sinf(innerAngle * innerAngle);
+
+            for(uint16_t j = 0; j<=outerCount; j++)
+            {
+                outerAngle = j * innerStep;
+                x = xy * cosf(outerAngle);
+                y = xy * sinf(outerAngle);
+                model->InsertVertex(x, y, z);
+            }
+        }
+
+        // Set up Index Buffer for both top-bottom and side quads.
+        uint16_t k1, k2;
+        for(uint16_t i = 0; i < innerCount; ++i)
+        {
+            k1 = i * (outerCount + 1);     // beginning of current stack
+            k2 = k1 + outerCount + 1;      // beginning of next stack
+
+            for(int j = 0; j < outerCount; ++j, ++k1, ++k2)
+            {
+                // 2 triangles per sector excluding first and last innerCount
+                // k1 => k2 => k1+1
+                if(i != 0)
+                {
+                    model->InsertIndex(k2);
+                    model->InsertIndex(k1);
+                    model->InsertIndex(k1 + 1);
+                }
+                // k1+1 => k2 => k2+1
+                if(i != (innerCount-1))
+                {
+                    model->InsertIndex(k2);
+                    model->InsertIndex(k1 + 1);
+                    model->InsertIndex(k2 + 1);
+                }
+            }
+        }
+    }
 }
