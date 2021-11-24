@@ -9,7 +9,8 @@ namespace Clay
     void ImGuiMenu::MeshPrimitiveOptions(std::vector<Ref<Model>>& _models)
     {
         ImGui::Begin("Mesh Primitives");
-        ImGui::Text("ImGuiMenu Here");
+        ImGui::Text("Models: %d", _models.size());
+
 
         Ref<TriangleMesh> modelMesh;
         if(ImGui::Button("Add Cylinder"))

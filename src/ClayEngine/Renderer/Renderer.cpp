@@ -3,6 +3,16 @@
 //
 
 
+/*
+ * RESOUCES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * StackOverFlow Responses to FAQ on VAO, VBO and binding.
+ * https://gamedev.stackexchange.com/questions/99236/what-state-is-stored-in-an-opengl-vertex-array-object-vao-and-how-do-i-use-the
+ * https://stackoverflow.com/questions/42411310/do-i-have-to-call-glvertexattribpointer-each-frame-for-each-rendered-mesh
+ * https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml
+ * https://stackoverflow.com/questions/26552642/when-is-what-bound-to-a-vao
+ * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * */
+
 #include "Renderer.h"
 
 namespace Clay
@@ -160,6 +170,7 @@ namespace Clay
       if(EN_TRIANGLES){
          dataSize = (uint8_t *) s_TriangleData.vertexBufferPtr - (uint8_t *) s_TriangleData.vertexBufferBase;
          s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
+         CLAY_LOG_INFO("Setting Triangle Data: {}", (int)(s_TriangleData.vertexBufferPtr - s_TriangleData.vertexBufferBase));
       }
 
       if(EN_POINTS){
@@ -179,8 +190,8 @@ namespace Clay
    {
       if(EN_TRIANGLES){
          s_TriangleData.MeshShader->Bind();
-         s_TriangleData.indexBuffer->Upload();
          s_TriangleData.vertexArray->Bind();
+         s_TriangleData.indexBuffer->Upload();
          RenderCommand::DrawIndexed(s_TriangleData.vertexArray, s_TriangleData.indexBuffer->GetCount(), RendererAPI::MODE::Triangles);
          s_TriangleData.vertexArray->Unbind();
          s_TriangleData.MeshShader->Unbind();
@@ -352,6 +363,9 @@ namespace Clay
       s_TriangleData.Stats.TriangleCount = s_TriangleData.IndexCount;
       s_TriangleData.Stats.VertexCount += model->GetSize();
       s_TriangleData.CloudId++;
+
+      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
+
    }
 
    void Renderer::ResetStats()
