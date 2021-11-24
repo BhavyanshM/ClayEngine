@@ -21,23 +21,11 @@ namespace Clay
       MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.05f);
       modelMesh->RotateLocalY(0.3f);
       modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
-      _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
-
-//      Ref<TriangleMesh> modelMesh2 = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.6,0.4,1.0), _rootPCL);
-//      modelMesh2->LoadOBJ(ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
-//      modelMesh2->RotateLocalZ(-1.1f);
-//      modelMesh2->RotateLocalX(-0.21f);
-//      _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh2));
-
-//      Ref<TriangleMesh> modelMesh3 = std::make_shared<TriangleMesh>(glm::vec4(0.4,0.6,0.4,1.0), _rootPCL);
-//      MeshTools::Cylinder(modelMesh3, 20, 0.04f, 0.2f);
-//      modelMesh3->RotateLocalX(0.4f);
-//      modelMesh3->TranslateLocal({0.1f, -0.5f, 0.8f});
-//      _models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh3));
+      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
 
       Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
       secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd");
-      _models.emplace_back(std::dynamic_pointer_cast<Model>(secondPCL));
+      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
 
       //      std::vector<int> partIds(secondPCL->GetSize(), 0);
       //      for(int i = 0; i<partIds.size(); i++)
@@ -140,7 +128,7 @@ namespace Clay
     void EditorLayer::OnUpdate(Timestep ts)
     {
         CLAY_PROFILE_FUNCTION();
-
+        _frameCount += 1;
         if (_viewportFocused)
         {
             _cameraController.OnUpdate(ts);
@@ -154,6 +142,12 @@ namespace Clay
         Renderer::BeginScene(_cameraController.GetCamera());
         _rootPCL->Update();
         _currentTime += ts.GetMilliseconds() / 1000.0f;
+
+//        if(_frameCount != 0)
+//        {
+//           _models[_models.size()-2]->TranslateLocal({0.1f * sin(_currentTime), 0.0f, 0.1f * cos(_currentTime)});
+//           CLAY_LOG_INFO("Time: {}", 0.1f * sin(_currentTime));
+//        }
 
         for(Ref<Model> model : _models)
         {

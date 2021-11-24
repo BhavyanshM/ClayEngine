@@ -42,7 +42,7 @@ namespace Clay
         {
             _models.erase(_models.begin());
         }
-        if(modelMesh != nullptr)_models.emplace_back(std::dynamic_pointer_cast<Model>(modelMesh));
+        if(modelMesh != nullptr)_models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
         ImGui::End();
     }
 

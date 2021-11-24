@@ -1,7 +1,3 @@
-//
-// Created by quantum on 6/17/21.
-//
-
 
 /*
  * RESOUCES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -170,7 +166,7 @@ namespace Clay
       if(EN_TRIANGLES){
          dataSize = (uint8_t *) s_TriangleData.vertexBufferPtr - (uint8_t *) s_TriangleData.vertexBufferBase;
          s_TriangleData.vertexBuffer->SetData(s_TriangleData.vertexBufferBase, dataSize);
-         CLAY_LOG_INFO("Setting Triangle Data: {}", (int)(s_TriangleData.vertexBufferPtr - s_TriangleData.vertexBufferBase));
+//         CLAY_LOG_INFO("Setting Triangle Data: {}", (int)(s_TriangleData.vertexBufferPtr - s_TriangleData.vertexBufferBase));
       }
 
       if(EN_POINTS){
@@ -267,7 +263,7 @@ namespace Clay
                                                        model->GetMesh()->_vertices[i*3 + 1],
                                                        model->GetMesh()->_vertices[i*3 + 2]};
          s_PointData.vertexBufferPtr->Color = model->GetColor();
-         s_PointData.vertexBufferPtr->Id = s_PointData.CloudId;
+         s_PointData.vertexBufferPtr->Id = (float)s_PointData.CloudId;
          s_PointData.vertexBufferPtr++;
       }
       s_PointData.IndexCount += model->GetSize();
@@ -296,7 +292,7 @@ namespace Clay
                                                     (float)(model->GetMesh()->_partIds[i] * 432 % 255) / 255.0f,
                                                     1.0f};
 //         s_PointData.vertexBufferPtr->Color = {1.0f, 0.0f, 1.0f,1.0f};
-         s_PointData.vertexBufferPtr->Id = s_PointData.CloudId;
+         s_PointData.vertexBufferPtr->Id = (float)s_PointData.CloudId;
          s_PointData.vertexBufferPtr++;
       }
       s_PointData.IndexCount += model->GetSize();
@@ -364,7 +360,7 @@ namespace Clay
       s_TriangleData.Stats.VertexCount += model->GetSize();
       s_TriangleData.CloudId++;
 
-      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
+//      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
 
    }
 

@@ -8,6 +8,7 @@
 #include "Core/Application.h"
 #include "Core/Clay.h"
 #include "Core/ClayHeaders.h"
+#include "Scene/Mesh/TriangleMesh.h"
 
 namespace Clay
 {
@@ -42,6 +43,8 @@ namespace Clay
          std::vector<Ref<Model>> _models;
          Ref<Model> _rootPCL;
 
+         Ref<TriangleMesh> cylinder;
+
 
          struct ProfileResult
          {
@@ -53,6 +56,7 @@ namespace Clay
 
          glm::vec2 _viewportSize = {0,0};
          float _currentTime = 0.0f;
+         uint32_t _frameCount = 0;
 
          bool _viewportFocused = false;
          bool _viewportHovered = false;
