@@ -1,8 +1,12 @@
 [comment]: <> (![alt text]&#40;Images/Bunny.gif&#41; ![alt text]&#40;Images/Cylinder.gif&#41; ![alt text]&#40;Images/Surface.gif&#41;)
 
-<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Bunny.gif" width="400" height="400" />
-<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Cylinder.gif" width="400" height="400" />
-<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Surface.gif" width="400" height="400" />
+
+<p float="left">
+    <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Bunny.gif" width="400" height="400" />
+    <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Cylinder.gif" width="400" height="400" />
+    <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Surface.gif" width="400" height="400" />
+</p>
+
 
 # ClayEngine
 
