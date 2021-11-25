@@ -1,14 +1,15 @@
+[comment]: <> (![alt text]&#40;Images/Bunny.gif&#41; ![alt text]&#40;Images/Cylinder.gif&#41; ![alt text]&#40;Images/Surface.gif&#41;)
+
+<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Bunny.gif" width="400" height="400" />
+<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Cylinder.gif" width="400" height="400" />
+<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Surface.gif" width="400" height="400" />
+
 # ClayEngine
 
 A 3D Rendering Engine for Real-time Visualization of Complex Geometry and Robotic Perception Maps.
 
 
-![](Images/PointCloud_MapSense.png) 
-
-
-![alt text](Images/Bunny.gif) ![alt text](Images/Cylinder.gif) ![alt text](Images/Surface.gif)
-
-<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Bunny.gif" width="400" height="400" />
+![](Images/PointCloud_MapSense.png)
 
 ## Installation
 
