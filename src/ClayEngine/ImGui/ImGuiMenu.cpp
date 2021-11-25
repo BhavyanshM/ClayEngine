@@ -33,6 +33,11 @@ namespace Clay
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
             MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.3f);
         }
+        if(ImGui::Button("Torus"))
+        {
+            modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
+            MeshTools::Torus(modelMesh, 0.1, 0.2, 40, 40);
+        }
         if(ImGui::Button("Add OBJ"))
         {
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
@@ -40,7 +45,11 @@ namespace Clay
         }
         if(ImGui::Button("Clear All Primitives"))
         {
-            _models.erase(_models.begin());
+            if(_models.size() > 0)
+            {
+                CLAY_LOG_INFO("Models Found: {}", _models.size());
+                _models.clear();
+            }
         }
         if(modelMesh != nullptr)_models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
         ImGui::End();

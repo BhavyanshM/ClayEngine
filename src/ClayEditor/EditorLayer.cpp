@@ -22,6 +22,7 @@ namespace Clay
 //      modelMesh->RotateLocalY(0.3f);
 //      modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
 //      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
+
 //      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
 //      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd");
 //      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));

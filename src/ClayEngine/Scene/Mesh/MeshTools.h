@@ -20,7 +20,7 @@ namespace Clay
          static void Cuboid(Ref<TriangleMesh>& model, float height, float width, float length);
          static void Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks);
          static void Surface(Ref<TriangleMesh>& model, int uSteps, int vSteps);
-
+         static void Torus(Ref<TriangleMesh>& model, float innerRadius, float outerRadius, int innerCount, int outerCount);
    };
 
 
