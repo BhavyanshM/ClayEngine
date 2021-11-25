@@ -7,7 +7,7 @@
 
 #include "Scene/Mesh/Model.h"
 #include "Scene/Mesh/TriangleMesh.h"
-#include "Platforms/OpenCL/OpenCLManager.h"
+
 
 namespace Clay
 {

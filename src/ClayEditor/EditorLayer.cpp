@@ -17,15 +17,14 @@ namespace Clay
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
 
-      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
-      MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.05f);
-      modelMesh->RotateLocalY(0.3f);
-      modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
-      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
-
-      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
-      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd");
-      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
+//      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
+//      MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.05f);
+//      modelMesh->RotateLocalY(0.3f);
+//      modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
+//      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
+//      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
+//      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd");
+//      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
 
       //      std::vector<int> partIds(secondPCL->GetSize(), 0);
       //      for(int i = 0; i<partIds.size(); i++)

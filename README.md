@@ -6,6 +6,10 @@ A 3D Rendering Engine for Real-time Visualization of Complex Geometry and Roboti
 ![](Images/PointCloud_MapSense.png) 
 
 
+![alt text](Images/Bunny.gif) ![alt text](Images/Cylinder.gif) ![alt text](Images/Surface.gif)
+
+<img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Bunny.gif" width="400" height="400" />
+
 ## Installation
 
 ### Build from Source

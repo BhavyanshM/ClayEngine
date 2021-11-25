@@ -8,8 +8,8 @@ set(PLATFORMS_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLShader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLTexture.h
         ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLFrameBuffer.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/OpenCL/OpenCLManager.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/OpenCL/OpenCLManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenCL/OpenCL.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/OpenCL/OpenCL.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Linux/LinuxWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Linux/LinuxInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/OpenGL/OpenGLContext.cpp
