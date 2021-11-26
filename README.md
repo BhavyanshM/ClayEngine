@@ -12,6 +12,7 @@ A 3D Rendering Engine for Real-time Visualization of Complex Geometry and Roboti
     <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Bunny.gif" width="250" height="250" />
     <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Cylinder.gif" width="250" height="250" />
     <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Surface.gif" width="250" height="250" />
+    <img src="https://github.com/BhavyanshM/ClayEngine/blob/master/Images/Cup.gif" width="250" height="250" />
 </p>
 
 

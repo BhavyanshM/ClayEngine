@@ -11,7 +11,6 @@ namespace Clay
         ImGui::Begin("Mesh Primitives");
         ImGui::Text("Models: %d", _models.size());
 
-
         Ref<TriangleMesh> modelMesh;
         if(ImGui::Button("Add Cylinder"))
         {
@@ -41,8 +40,14 @@ namespace Clay
         if(ImGui::Button("Add OBJ"))
         {
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
-            modelMesh->LoadOBJ(ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
+            MeshTools::LoadOBJ(modelMesh, ASSETS_PATH + std::string("Meshes/bunny-small.obj"));
         }
+       if(ImGui::Button("Add OFF"))
+       {
+          modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
+          MeshTools::LoadOFF(modelMesh, ASSETS_PATH + std::string("Meshes/airplane.off"));
+//          modelMesh->Print();
+       }
         if(ImGui::Button("Clear All Primitives"))
         {
             if(_models.size() > 0)

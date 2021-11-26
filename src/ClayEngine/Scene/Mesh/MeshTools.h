@@ -21,6 +21,8 @@ namespace Clay
          static void Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks);
          static void Surface(Ref<TriangleMesh>& model, int uSteps, int vSteps);
          static void Torus(Ref<TriangleMesh>& model, float innerRadius, float outerRadius, int innerCount, int outerCount);
+         static void LoadOFF(Ref<TriangleMesh>& model, const std::string& filename);
+         static void LoadOBJ(Ref<TriangleMesh>& model, const std::string& filename);
    };
 
 

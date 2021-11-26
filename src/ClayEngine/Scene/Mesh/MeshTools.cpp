@@ -276,4 +276,91 @@ namespace Clay
             }
         }
     }
+
+    void MeshTools::LoadOBJ(Ref<TriangleMesh>& model, const std::string& filename)
+    {
+       std::ifstream objFile;
+       objFile.open(filename);
+       std::string line;
+
+       bool startPoints = false;
+       float x, y, z;
+
+       while(std::getline(objFile, line))
+       {
+          std::istringstream iss(line);
+          std::vector<std::string> words;
+          boost::algorithm::split(words, line, boost::is_any_of(" "));
+
+          if(words[0] == "v")
+          {
+
+             x = atof(words[1].c_str());
+             y = atof(words[2].c_str());
+             z = atof(words[3].c_str());
+
+             model->InsertVertex(x,y,z);
+          }
+
+          if(words[0] == "f")
+          {
+             x = atoi(words[1].c_str());
+             y = atoi(words[2].c_str());
+             z = atoi(words[3].c_str());
+             model->InsertIndex(y-1);
+             model->InsertIndex(x-1);
+             model->InsertIndex(z-1);
+          }
+
+       }
+    }
+
+   void MeshTools::LoadOFF(Ref<TriangleMesh>& model, const std::string& filename)
+   {
+      std::ifstream objFile;
+      objFile.open(filename);
+      std::string line;
+
+      bool startPoints = false;
+      float x, y, z;
+      int a, b, c;
+
+      int lineCount = 0;
+
+      while(std::getline(objFile, line))
+      {
+         lineCount++;
+         std::istringstream iss(line);
+         std::vector<std::string> words;
+         boost::algorithm::split(words, line, boost::is_any_of(" "));
+
+         if(lineCount <= 2) continue;
+
+         CLAY_LOG_INFO("Words: {} {} {} {}", words[0], words[1], words[2], words[3]);
+
+         if(words.size() == 4 && words[0] != "3")
+         {
+
+            x = atof(words[0].c_str()) * 0.01;
+            y = atof(words[1].c_str()) * 0.01;
+            z = atof(words[2].c_str()) * 0.01;
+
+            model->InsertVertex(x,y,z);
+
+            CLAY_LOG_INFO("Vertex({}): ({},{},{})", lineCount, x, y, z);
+         }
+
+         if(words[0] == "3")
+         {
+            a = atoi(words[1].c_str());
+            b = atoi(words[2].c_str());
+            c = atoi(words[3].c_str());
+            model->InsertIndex(b);
+            model->InsertIndex(a);
+            model->InsertIndex(c);
+            CLAY_LOG_INFO("Index: ({},{},{})", a, b, c);
+         }
+
+      }
+   }
 }
