@@ -2,8 +2,8 @@
 
 ![](Images/ClayLogo.jpeg)
 
-A 3D Rendering Engine for Real-time Visualization of Complex Geometry and Robotic Perception Maps.
-
+Clay is a C++ 3D Rendering Engine for Robotics and Computer Vision. It supports structures such as Point Clouds, Meshes, Polynomial Surfaces, Implicit
+Surfaces, and arbitrary Two-Dimensional Manifolds.
 
 [comment]: <> (![alt text]&#40;Images/Bunny.gif&#41; ![alt text]&#40;Images/Cylinder.gif&#41; ![alt text]&#40;Images/Surface.gif&#41;)
 
