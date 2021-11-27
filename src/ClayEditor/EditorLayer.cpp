@@ -6,6 +6,7 @@
 #include "Core/Timer.h"
 #include "Scene/Mesh/MeshTools.h"
 #include "ImGui/ImGuiMenu.h"
+#include "Manifolds/SurfaceParameters.h"
 
 namespace Clay
 {
@@ -16,6 +17,9 @@ namespace Clay
       Ref<Model> cameraParent = std::make_shared<Model>(cameraGrandParent);
       Ref<Model> cameraModel = std::make_shared<Model>(cameraParent);
       _cameraController = CameraController(1000.0f / 1000.0f, cameraModel);
+
+      SurfaceParameters params;
+
 
 //      Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
 //      MeshTools::Cuboid(modelMesh, 0.1f, 0.2f, 0.05f);

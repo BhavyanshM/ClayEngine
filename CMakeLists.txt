@@ -30,13 +30,14 @@ add_subdirectory(src/ClayEngine/Platforms/)
 add_subdirectory(src/ClayEngine/ImGui/)
 add_subdirectory(src/ClayEngine/Scene/)
 add_subdirectory(src/ClayEngine/Tools/)
+add_subdirectory(src/ClayEngine/Manifolds/)
 
 set(HEADERS
         Vendor/std_image/stb_image.h)
 
 set(SOURCES
         ${CORE_SOURCES} ${EVENTS_SOURCES} ${RENDERER_SOURCES} ${PLATFORMS_SOURCES} ${IMGUI_SOURCES} ${SCENE_SOURCES} ${TOOLS_SOURCES}
-        Vendor/std_image/stb_image.cpp)
+        ${MANIFOLDS_SOURCES} Vendor/std_image/stb_image.cpp )
 
 add_library(ClayEngine ${HEADERS} ${SOURCES})
 target_include_directories(ClayEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")

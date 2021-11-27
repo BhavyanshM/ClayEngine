@@ -144,13 +144,13 @@ namespace Clay
       }
    }
 
-   void MeshTools::Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks)
+   void MeshTools::Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks, const SurfaceParameters& params)
    {
       // Generate Vertex Buffer for both top and bottom circles.
       float stackStep = M_PI / stacks;
       float sectorStep = 2 * M_PI / sectors;
 
-      float stackAngle, sectorAngle, x, y, xy, z;
+      float stackAngle, sectorAngle, x, y, xy, z, u, v, h;
 
       for(uint16_t i = 0; i<=stacks; i++)
       {
@@ -163,7 +163,13 @@ namespace Clay
             sectorAngle = j * sectorStep;
             x = xy * cosf(sectorAngle);
             y = xy * sinf(sectorAngle);
-            model->InsertVertex(x, y, z);
+
+            u = ((M_PI / 2) - stackAngle) / M_PI;
+            v = sectorAngle / (2 * M_PI);
+
+            h = params.CalculateHeight(u * 30, v * 30) * 0.1f;
+
+            model->InsertVertex(x*(1+h), y*(1+h), z*(1+h));
          }
       }
 
