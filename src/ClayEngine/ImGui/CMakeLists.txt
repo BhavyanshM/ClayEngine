@@ -4,4 +4,6 @@ set(IMGUI_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/ImGuiLayer.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ImGuiMenu.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ImGuiMenu.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileBrowserUI.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileBrowserUI.h
         PARENT_SCOPE)

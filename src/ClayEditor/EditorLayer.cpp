@@ -100,6 +100,8 @@ namespace Clay
 //      ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
       ImGuiMenu::RendererOptions();
       ImGuiMenu::MeshPrimitiveOptions(_models);
+      ImGuiMenu::FileBrowser();
+
 
 
       /* Viewport Region */

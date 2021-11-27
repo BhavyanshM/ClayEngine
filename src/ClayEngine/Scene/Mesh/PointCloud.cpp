@@ -11,13 +11,11 @@ namespace Clay
    {
       _mesh->_color = color;
       _mesh->_type = RendererAPI::MODE::Points;
-
-
    }
 
    void PointCloud::InsertVertex(float x, float y, float z)
    {
-      if(_mesh->_index < _mesh->MAX_POINTS - 10)
+      if (_mesh->_index < _mesh->MAX_POINTS - 10)
       {
          _mesh->_vertices.emplace_back(x);
          _mesh->_vertices.emplace_back(y);
@@ -28,7 +26,7 @@ namespace Clay
 
    void PointCloud::InsertIndex(uint32_t index)
    {
-      if(index < _mesh->MAX_POINTS - 10)
+      if (index < _mesh->MAX_POINTS - 10)
       {
          _mesh->_indices.emplace_back(index);
       }
@@ -61,23 +59,19 @@ namespace Clay
          if (line == "DATA ascii")
          {
             startPoints = true;
-         }
-         else if (startPoints)
+         } else if (startPoints)
          {
             std::vector<std::string> words;
             boost::algorithm::split(words, line, boost::is_any_of(" "));
-
 
             z = -atof(words[0].c_str());
             x = -atof(words[1].c_str());
             y = atof(words[2].c_str());
 
-
-            if(x*x + y*y + z*z > 0.001)
+            if (x * x + y * y + z * z > 0.001)
             {
-               InsertVertex(x,y,z);
+               InsertVertex(x, y, z);
             }
-
          }
       }
       pcdFile.close();
@@ -85,12 +79,45 @@ namespace Clay
       CLAY_LOG_INFO("PointCloud Created with {} points.!", GetSize());
    }
 
-   void PointCloud::Print()
+   void PointCloud::LoadOFFVertices(const std::string& filename)
    {
-      for(int i = 0; i<GetSize(); i++)
+      std::ifstream objFile;
+      objFile.open(filename);
+      std::string line;
+
+      bool startPoints = false;
+      float x, y, z;
+      int a, b, c;
+
+      int lineCount = 0;
+
+      while (std::getline(objFile, line))
       {
-         CLAY_LOG_INFO("Point: {} {} {}", _mesh->_vertices[i*3], _mesh->_vertices[i*3+1], _mesh->_vertices[i*3+2]);
+         lineCount++;
+         std::istringstream iss(line);
+         std::vector<std::string> words;
+         boost::algorithm::split(words, line, boost::is_any_of(" "));
+
+         if (lineCount <= 2)
+            continue;
+
+         if (words.size() == 4 && words[0] != "3" && lineCount % 5 == 0)
+         {
+
+            x = atof(words[0].c_str()) ;
+            y = atof(words[1].c_str()) ;
+            z = atof(words[2].c_str()) ;
+
+            InsertVertex(x, y, z);
+         }
       }
    }
 
+   void PointCloud::Print()
+   {
+      for (int i = 0; i < GetSize(); i++)
+      {
+         CLAY_LOG_INFO("Point: {} {} {}", _mesh->_vertices[i * 3], _mesh->_vertices[i * 3 + 1], _mesh->_vertices[i * 3 + 2]);
+      }
+   }
 }

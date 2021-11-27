@@ -342,18 +342,15 @@ namespace Clay
 
          if(lineCount <= 2) continue;
 
-         CLAY_LOG_INFO("Words: {} {} {} {}", words[0], words[1], words[2], words[3]);
-
          if(words.size() == 4 && words[0] != "3")
          {
 
-            x = atof(words[0].c_str()) * 0.01;
-            y = atof(words[1].c_str()) * 0.01;
-            z = atof(words[2].c_str()) * 0.01;
+            x = atof(words[0].c_str()) * 0.1;
+            y = atof(words[1].c_str()) * 0.1;
+            z = atof(words[2].c_str()) * 0.1;
 
             model->InsertVertex(x,y,z);
 
-            CLAY_LOG_INFO("Vertex({}): ({},{},{})", lineCount, x, y, z);
          }
 
          if(words[0] == "3")
@@ -364,7 +361,6 @@ namespace Clay
             model->InsertIndex(b);
             model->InsertIndex(a);
             model->InsertIndex(c);
-            CLAY_LOG_INFO("Index: ({},{},{})", a, b, c);
          }
 
       }

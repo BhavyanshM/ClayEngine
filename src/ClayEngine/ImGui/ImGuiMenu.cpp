@@ -3,6 +3,7 @@
 
 #include "glm/glm.hpp"
 #include "Scene/Mesh/MeshTools.h"
+#include "FileBrowserUI.h"
 
 namespace Clay
 {
@@ -12,6 +13,7 @@ namespace Clay
         ImGui::Text("Models: %d", _models.size());
 
         Ref<TriangleMesh> modelMesh;
+        Ref<PointCloud> modelCloud;
         if(ImGui::Button("Add Cylinder"))
         {
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
@@ -45,8 +47,14 @@ namespace Clay
        if(ImGui::Button("Add OFF"))
        {
           modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
-          MeshTools::LoadOFF(modelMesh, ASSETS_PATH + std::string("Meshes/airplane.off"));
+          MeshTools::LoadOFF(modelMesh, ASSETS_PATH + std::string("Meshes/car.off"));
 //          modelMesh->Print();
+       }
+       if(ImGui::Button("Load OFF Vertices"))
+       {
+          modelCloud = std::make_shared<PointCloud>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
+          modelCloud->LoadOFFVertices(ASSETS_PATH + std::string("Meshes/car.off"));
+          //          modelMesh->Print();
        }
         if(ImGui::Button("Clear All Primitives"))
         {
@@ -57,6 +65,7 @@ namespace Clay
             }
         }
         if(modelMesh != nullptr)_models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
+        if(modelCloud != nullptr)_models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelCloud)));
         ImGui::End();
     }
 
@@ -90,5 +99,12 @@ namespace Clay
          ImGui::NewLine();
 
          ImGui::End();
+    }
+
+    void ImGuiMenu::FileBrowser()
+    {
+       ImGui::Begin("File Browser");
+       FileBrowserUI::ImGuiUpdate();
+       ImGui::End();
     }
 }

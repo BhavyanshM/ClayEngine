@@ -14,6 +14,7 @@ namespace Clay
     public:
         static void MeshPrimitiveOptions(std::vector<Ref<Model>>& _models);
         static void RendererOptions();
+        static void FileBrowser();
     };
 }
 

@@ -257,6 +257,7 @@ namespace Clay
       s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
       s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 32);
+
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
          s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
