@@ -29,7 +29,7 @@ namespace Clay
    {
       if(index < _mesh->MAX_POINTS - 10)
       {
-         _mesh->_indices.emplace_back(index);
+         _mesh->_indices.emplace_back(index + _mesh->_cummulativeIndexCount);
       }
    }
 

@@ -23,6 +23,7 @@ namespace Clay
          static void Torus(Ref<TriangleMesh>& model, float innerRadius, float outerRadius, int innerCount, int outerCount);
          static void LoadOFF(Ref<TriangleMesh>& model, const std::string& filename);
          static void LoadOBJ(Ref<TriangleMesh>& model, const std::string& filename);
+         static void CoordinateAxes(Ref<TriangleMesh>& model);
    };
 
 

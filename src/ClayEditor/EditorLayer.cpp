@@ -155,6 +155,13 @@ namespace Clay
 //           CLAY_LOG_INFO("Time: {}", 0.1f * sin(_currentTime));
 //        }
 
+
+         Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
+         MeshTools::CoordinateAxes(modelMesh);
+         modelMesh->RotateLocalY(_currentTime);
+         modelMesh->TranslateLocal({3.0f * sinf(_currentTime), 3.0f * cosf(_currentTime), -0.5f});
+         _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
+
         for(Ref<Model> model : _models)
         {
             Renderer::Submit(model);

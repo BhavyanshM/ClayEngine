@@ -9,7 +9,7 @@ out vec3 v_Position;
 out vec4 v_Color;
 
 uniform mat4 u_ViewProjection;
-uniform mat4 u_Transforms[32];
+uniform mat4 u_Transforms[250];
 
 void main(){
     v_Color = a_Color;

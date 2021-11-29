@@ -20,6 +20,7 @@ namespace Clay
          void InsertIndex(uint32_t index) override;
          void Print() override;
 
+
    };
 }
 

@@ -256,7 +256,7 @@ namespace Clay
       s_PointData.MeshShader->Bind();
       s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
-      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 32);
+      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 250);
 
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
@@ -282,7 +282,7 @@ namespace Clay
       s_PointData.MeshShader->Bind();
       s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
-      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 32);
+      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 250);
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
          s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
@@ -334,7 +334,7 @@ namespace Clay
 
       s_TriangleData.Transforms.emplace_back(model->GetTransformToWorld());
       s_TriangleData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-      s_TriangleData.MeshShader->SetMat4Array("u_Transforms", s_TriangleData.Transforms, 32);
+      s_TriangleData.MeshShader->SetMat4Array("u_Transforms", s_TriangleData.Transforms, 250);
       s_TriangleData.MeshShader->SetFloat4("u_ObjectColor", model->GetColor());
       s_TriangleData.MeshShader->SetFloat4("u_LightColor", {0.4, 0.9, 0.9, 1.0});
       s_TriangleData.MeshShader->SetFloat("u_AmbientStrength", 0.5);

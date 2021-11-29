@@ -49,55 +49,6 @@ namespace Clay
       }
    }
 
-   void MeshTools::Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float radius, float height)
-   {
-      // Generate Vertex Buffer for both top and bottom circles.
-      float theta = 0;
-      float angle = 360.0 / (float) vertices;
-      for(uint16_t i = 0; i<vertices; i++)
-      {
-         model->InsertVertex(height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
-         theta += angle;
-      }
-      theta = 0;
-      for(uint16_t i = 0; i<vertices; i++)
-      {
-         model->InsertVertex(-height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
-         theta += angle;
-      }
-
-      // Set up Index Buffer for both circles and side quads.
-      uint16_t totalTriangles = 4 * vertices - 4;
-      int offset = 0;
-      for(uint16_t i = 0; i< vertices - 2; i++)
-      {
-         model->InsertIndex(0);
-         model->InsertIndex(offset + 1);
-         model->InsertIndex(offset + 2);
-         offset++;
-      }
-      offset = vertices;
-      for(uint16_t i = 0; i< (vertices - 2) * 3; i+=3)
-      {
-         model->InsertIndex(vertices);
-         model->InsertIndex(offset + 1);
-         model->InsertIndex(offset + 2);
-         offset++;
-      }
-      for(uint16_t i = 0; i<vertices; i++)
-      {
-         model->InsertIndex(i % vertices);
-         model->InsertIndex(vertices + (i % vertices));
-         model->InsertIndex(vertices + ((i+1) % (vertices)));
-      }
-      for(uint16_t i = 0; i<vertices; i++)
-      {
-         model->InsertIndex(i % vertices);
-         model->InsertIndex(vertices + ((i+1) % (vertices)));
-         model->InsertIndex((i+1) % vertices);
-      }
-   }
-
    void MeshTools::Cuboid(Ref<TriangleMesh>& model, float height, float width, float length)
    {
       // Generate Vertex Buffer for both top and bottom circles.
@@ -364,5 +315,76 @@ namespace Clay
          }
 
       }
+   }
+
+   void MeshTools::Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float radius, float height)
+   {
+      // Generate Vertex Buffer for both top and bottom circles.
+      float theta = 0;
+      float angle = 360.0 / (float) vertices;
+      for(uint16_t i = 0; i<vertices; i++)
+      {
+         model->InsertVertex(height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
+         theta += angle;
+      }
+      theta = 0;
+      for(uint16_t i = 0; i<vertices; i++)
+      {
+         model->InsertVertex(-height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
+         theta += angle;
+      }
+
+      // Set up Index Buffer for both circles and side quads.
+      uint16_t totalTriangles = 4 * vertices - 4;
+      int offset = 0;
+      for(uint16_t i = 0; i< vertices - 2; i++)
+      {
+         model->InsertIndex(0);
+         model->InsertIndex(offset + 1);
+         model->InsertIndex(offset + 2);
+         offset++;
+      }
+      offset = vertices;
+      for(uint16_t i = 0; i< (vertices - 2) * 3; i+=3)
+      {
+         model->InsertIndex(vertices);
+         model->InsertIndex(offset + 1);
+         model->InsertIndex(offset + 2);
+         offset++;
+      }
+      for(uint16_t i = 0; i<vertices; i++)
+      {
+         model->InsertIndex(i % vertices);
+         model->InsertIndex(vertices + (i % vertices));
+         model->InsertIndex(vertices + ((i+1) % (vertices)));
+      }
+      for(uint16_t i = 0; i<vertices; i++)
+      {
+         model->InsertIndex(i % vertices);
+         model->InsertIndex(vertices + ((i+1) % (vertices)));
+         model->InsertIndex((i+1) % vertices);
+      }
+      model->ResetIndexCount();
+   }
+
+   void MeshTools::CoordinateAxes(Ref<TriangleMesh>& model)
+   {
+      Ref<TriangleMesh> xModelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.2,0.8,0.2,1.0), nullptr);
+      MeshTools::Cylinder(xModelMesh, 4, 0.01, 0.2f);
+      xModelMesh->ApplyTransform({0, M_PI/2, 0}, {0.0, 0.0, 0.1});
+
+      Ref<TriangleMesh> yModelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.8,0.2,0.2,1.0), nullptr);
+      MeshTools::Cylinder(yModelMesh, 4, 0.01, 0.2f);
+      yModelMesh->ApplyTransform({M_PI/2, 0, 0}, {0.1, 0.0, 0.0});
+
+      Ref<TriangleMesh> zModelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.2,0.2,0.8,1.0), nullptr);
+      MeshTools::Cylinder(zModelMesh, 4, 0.01, 0.2f);
+      zModelMesh->ApplyTransform({0, 0, M_PI/2}, {0.0, 0.1, 0.0});
+
+      model->AddMesh(xModelMesh);
+      model->AddMesh(yModelMesh);
+      model->AddMesh(zModelMesh);
+
+      CLAY_LOG_INFO("IndexCount: {}, VertexCount: {}, Indices: {}", model->GetPreviousIndexCount(), model->GetSize(), model->GetMesh()->_vertices.size());
    }
 }

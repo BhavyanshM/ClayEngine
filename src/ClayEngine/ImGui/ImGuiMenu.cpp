@@ -56,6 +56,12 @@ namespace Clay
           modelCloud->LoadOFFVertices(ASSETS_PATH + std::string("Meshes/car.off"));
           //          modelMesh->Print();
        }
+       if(ImGui::Button("Add Axes"))
+       {
+          modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
+          MeshTools::CoordinateAxes(modelMesh);
+          //          modelMesh->Print();
+       }
         if(ImGui::Button("Clear All Primitives"))
         {
             if(_models.size() > 0)

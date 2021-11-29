@@ -77,4 +77,36 @@ namespace Clay {
       for(Ref<Model> model : children)
          model->Update();
    }
+
+   void Model::AddMesh(const Ref<Model>& model)
+   {
+      for(int i = 0; i<model->GetSize(); i++)
+      {
+         InsertVertex(model->GetMesh()->_vertices[i*3+0],
+                      model->GetMesh()->_vertices[i*3+1],
+                      model->GetMesh()->_vertices[i*3+2]);
+         SetColor(model->GetColor());
+      }
+      for(int i = 0; i<model->GetMesh()->_indices.size(); i++){
+         InsertIndex(model->GetMesh()->_indices[i]);
+      }
+      ResetIndexCount();
+   }
+
+   void Model::ApplyTransform(const glm::vec3& angles, const glm::vec3& translation)
+   {
+      glm::mat4 transform =   glm::rotate(glm::mat4(1.0f), angles.z, {0.0, 0.0, 1.0}) *
+                              glm::rotate(glm::mat4(1.0f), angles.y, {0.0, 1.0, 0.0}) *
+                              glm::rotate(glm::mat4(1.0f), angles.x, {1.0, 0.0, 0.0});
+      glm::vec4 point;
+      for(int i = 0; i<GetSize(); i++)
+      {
+         point = transform * glm::vec4(GetMesh()->_vertices[i*3 + 0],
+                                       GetMesh()->_vertices[i*3 + 1],
+                                       GetMesh()->_vertices[i*3 + 2], 1);
+         _mesh->_vertices[i*3 + 0] = point.x + translation.x;
+         _mesh->_vertices[i*3 + 1] = point.y + translation.y;
+         _mesh->_vertices[i*3 + 2] = point.z + translation.z;
+      }
+   }
 }
