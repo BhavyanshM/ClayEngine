@@ -10,7 +10,7 @@ namespace Clay
    {
       public:
          static void ImGuiUpdate();
-
+         static void FileDialog();
    };
 }
 
