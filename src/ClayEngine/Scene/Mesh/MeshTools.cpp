@@ -372,15 +372,15 @@ namespace Clay
    void MeshTools::CoordinateAxes(Ref<TriangleMesh>& model)
    {
       Ref<TriangleMesh> xModelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.2,0.8,0.2,1.0), nullptr);
-      MeshTools::Cylinder(xModelMesh, 4, 0.01, 0.2f);
+      MeshTools::Cylinder(xModelMesh, 4, 0.005, 0.15f);
       xModelMesh->ApplyTransform({0, M_PI/2, 0}, {0.0, 0.0, 0.1});
 
       Ref<TriangleMesh> yModelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.8,0.2,0.2,1.0), nullptr);
-      MeshTools::Cylinder(yModelMesh, 4, 0.01, 0.2f);
+      MeshTools::Cylinder(yModelMesh, 4, 0.005, 0.15f);
       yModelMesh->ApplyTransform({M_PI/2, 0, 0}, {0.1, 0.0, 0.0});
 
       Ref<TriangleMesh> zModelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.2,0.2,0.8,1.0), nullptr);
-      MeshTools::Cylinder(zModelMesh, 4, 0.01, 0.2f);
+      MeshTools::Cylinder(zModelMesh, 4, 0.005, 0.15f);
       zModelMesh->ApplyTransform({0, 0, M_PI/2}, {0.0, 0.1, 0.0});
 
       model->AddMesh(xModelMesh);
