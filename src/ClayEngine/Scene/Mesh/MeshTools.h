@@ -18,7 +18,7 @@ namespace Clay
          static void Circle(Ref<TriangleMesh>& model, uint16_t vertices);
          static void Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float radius = 0.25f, float height = 1.0f);
          static void Cuboid(Ref<TriangleMesh>& model, float height, float width, float length);
-         static void Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks, const SurfaceParameters& params = SurfaceParameters());
+         static void Sphere(Ref<TriangleMesh>& model, float radius, int sectors, int stacks, const SurfaceParameters& params = SurfaceParameters(), float dt = 0);
          static void Surface(Ref<TriangleMesh>& model, int uSteps, int vSteps);
          static void Torus(Ref<TriangleMesh>& model, float innerRadius, float outerRadius, int innerCount, int outerCount);
          static void LoadOFF(Ref<TriangleMesh>& model, const std::string& filename);

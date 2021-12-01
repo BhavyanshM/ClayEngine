@@ -14,8 +14,8 @@ namespace Clay
       _params << 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f;
    }
 
-   float SurfaceParameters::CalculateHeight(float u, float v) const
+   float SurfaceParameters::CalculateHeight(float u, float v, float dt) const
    {
-      return sinf(u) + sin(v);
+      return 5 * cosf(u/2) + 5 * sin(v/3 + dt);
    }
 }

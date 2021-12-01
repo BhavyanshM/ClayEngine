@@ -102,6 +102,9 @@ namespace Clay
       ImGuiMenu::MeshPrimitiveOptions(_models);
       ImGuiMenu::FileBrowser();
 
+      ImGui::Begin("Options Menu");
+      ImGui::Checkbox("Animation Enabled", &_animationEnabled);
+      ImGui::End();
 
 
       /* Viewport Region */
@@ -155,13 +158,21 @@ namespace Clay
 //           CLAY_LOG_INFO("Time: {}", 0.1f * sin(_currentTime));
 //        }
 
+         if(_animationEnabled)
+         {
+            _models.clear();
+            Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
 
-         Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
-         MeshTools::CoordinateAxes(modelMesh);
-         modelMesh->RotateLocalY(_currentTime);
-         modelMesh->TranslateLocal({0.6f * sinf(_currentTime), 0.8f * cosf(_currentTime),
-                                    0.8f * (sinf(_currentTime * 4) * sinf(_currentTime)) });
-         _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
+//            MeshTools::CoordinateAxes(modelMesh);
+//            modelMesh->RotateLocalY(_currentTime);
+//            modelMesh->TranslateLocal({0.6f * sinf(_currentTime), 0.8f * cosf(_currentTime),
+//                                       0.8f * (sinf(_currentTime * 4) * sinf(_currentTime)) });
+
+            MeshTools::Sphere(modelMesh, 0.3f, 100, 100, SurfaceParameters(), _currentTime * 10);
+
+            _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
+            CLAY_LOG_INFO("Update");
+         }
 
         for(Ref<Model> model : _models)
         {

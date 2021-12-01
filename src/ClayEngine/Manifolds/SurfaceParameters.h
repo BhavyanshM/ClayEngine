@@ -17,7 +17,7 @@ namespace Clay
 
          const Eigen::VectorXf& GetParams() const {return _params;}
          const Eigen::VectorXf& GetGradient() const {return _grad;}
-         float CalculateHeight(float u, float v) const;
+         float CalculateHeight(float u, float v, float dt) const;
 
       private:
          Eigen::VectorXf _params;

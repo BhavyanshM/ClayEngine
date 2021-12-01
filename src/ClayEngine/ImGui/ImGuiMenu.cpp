@@ -22,7 +22,7 @@ namespace Clay
         if(ImGui::Button("Add Sphere"))
         {
             modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.6,0.4,0.3,1.0), nullptr);
-            MeshTools::Sphere(modelMesh, 0.1f, 50, 50);
+            MeshTools::Sphere(modelMesh, 0.1f, 80, 80);
         }
         if(ImGui::Button("Add Surface"))
         {
@@ -113,6 +113,5 @@ namespace Clay
        FileBrowserUI::ImGuiUpdate();
        ImGui::End();
     }
-
 
 }
