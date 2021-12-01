@@ -325,12 +325,14 @@ namespace Clay
       for(uint16_t i = 0; i<vertices; i++)
       {
          model->InsertVertex(height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
+         model->InsertColor(model->GetColor());
          theta += angle;
       }
       theta = 0;
       for(uint16_t i = 0; i<vertices; i++)
       {
          model->InsertVertex(-height/2, radius * sin(theta / 180 * M_PI), radius * cos(theta / 180 * M_PI));
+         model->InsertColor(model->GetColor());
          theta += angle;
       }
 

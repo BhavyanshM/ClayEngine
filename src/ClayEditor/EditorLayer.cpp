@@ -159,7 +159,8 @@ namespace Clay
          Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
          MeshTools::CoordinateAxes(modelMesh);
          modelMesh->RotateLocalY(_currentTime);
-         modelMesh->TranslateLocal({3.0f * sinf(_currentTime), 3.0f * cosf(_currentTime), -0.5f});
+         modelMesh->TranslateLocal({0.6f * sinf(_currentTime), 0.8f * cosf(_currentTime),
+                                    0.8f * (sinf(_currentTime * 4) * sinf(_currentTime)) });
          _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
 
         for(Ref<Model> model : _models)

@@ -38,6 +38,7 @@ namespace Clay
          static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f), uint32_t mode = RendererAPI::MODE::Triangles);
          static void Submit(const Ref<Model>& model);
          static void SubmitPoints(const Ref<Model>& model);
+         static void SubmitColoredTriangles(const Ref<Model>& model);
          static void SubmitLines(const Ref<Model>& model);
          static void SubmitTriangles(const Ref<Model>& model);
          static void SubmitPointCloudComponents(const Ref<Model>& model);

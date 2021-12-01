@@ -26,6 +26,7 @@ namespace Clay
          uint32_t _cummulativeIndexCount = 0;
          std::vector<float> _vertices;
          std::vector<uint32_t> _indices;
+         std::vector<glm::vec4> _colors;
          RendererAPI::MODE _type;
          glm::vec4 _color;
          Ref <Shader> _shader;
@@ -57,10 +58,12 @@ namespace Clay
          uint32_t GetSize() const { return _mesh->_index;}
          uint32_t GetPreviousIndexCount() const { return _mesh->_cummulativeIndexCount;}
          Ref<Mesh> GetMesh() const { return _mesh; }
+         std::vector<glm::vec4> GetColors() const { return _mesh->_colors; }
 
          void AddChild(Ref<Model> child) {children.emplace_back(child);}
          void SetShader(const Ref <Shader>& shader){_mesh->_shader = shader;}
          void SetColor(const glm::vec4& color){_mesh->_color = color;}
+         void InsertColor(const glm::vec4& color) {_mesh->_colors.emplace_back(color); };
          void SetPartIds(const std::vector<int>& partIds) {_mesh->_partIds = partIds;}
          void ResetIndexCount() { _mesh->_cummulativeIndexCount = _mesh->_index; };
 

@@ -234,7 +234,10 @@ namespace Clay
    {
       if(model->GetType() == RendererAPI::MODE::Triangles && EN_TRIANGLES)
       {
-         SubmitTriangles(model);
+         if(model->GetColors().size() != 0)
+            SubmitColoredTriangles(model);
+         else
+            SubmitTriangles(model);
       }
       if(model->GetType() == RendererAPI::MODE::Lines && EN_LINES)
       {
@@ -362,6 +365,47 @@ namespace Clay
       s_TriangleData.CloudId++;
 
 //      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
+
+   }
+
+   void Renderer::SubmitColoredTriangles(const Ref<Model>& model)
+   {
+      CLAY_PROFILE_FUNCTION();
+      s_TriangleData.MeshShader->Bind();
+      if(s_TriangleData.IndexCount + model->GetSize() >= s_TriangleData.MaxTriangles * 3)
+         FlushAndReset();
+
+
+      s_TriangleData.Transforms.emplace_back(model->GetTransformToWorld());
+      s_TriangleData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      s_TriangleData.MeshShader->SetMat4Array("u_Transforms", s_TriangleData.Transforms, 250);
+      s_TriangleData.MeshShader->SetFloat4("u_ObjectColor", model->GetColor());
+      s_TriangleData.MeshShader->SetFloat4("u_LightColor", {0.4, 0.9, 0.9, 1.0});
+      s_TriangleData.MeshShader->SetFloat("u_AmbientStrength", 0.5);
+
+      for(uint32_t i = 0; i<model->GetSize(); i++)
+      {
+         s_TriangleData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+                                                     model->GetMesh()->_vertices[i*3 + 1],
+                                                     model->GetMesh()->_vertices[i*3 + 2]};
+         s_TriangleData.vertexBufferPtr->Color = model->GetColors()[i];
+         s_TriangleData.vertexBufferPtr->Id = (float)s_TriangleData.CloudId;
+         s_TriangleData.vertexBufferPtr++;
+      }
+
+      for(uint32_t i = 0; i< model->GetMesh()->_indices.size(); i++)
+      {
+         s_TriangleData.indexBuffer->AddIndex(model->GetMesh()->_indices[i] + s_TriangleData.LastIndex);
+      }
+
+
+      s_TriangleData.LastIndex += model->GetMesh()->_vertices.size() / 3;
+      s_TriangleData.IndexCount += model->GetMesh()->_indices.size() / 3;
+      s_TriangleData.Stats.TriangleCount = s_TriangleData.IndexCount;
+      s_TriangleData.Stats.VertexCount += model->GetSize();
+      s_TriangleData.CloudId++;
+
+      //      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
 
    }
 

@@ -90,6 +90,12 @@ namespace Clay {
       for(int i = 0; i<model->GetMesh()->_indices.size(); i++){
          InsertIndex(model->GetMesh()->_indices[i]);
       }
+
+      if(model->GetColors().size() != 0)
+      {
+         for (int i = 0; i<model->GetColors().size(); i++) InsertColor(model->GetColors()[i]);
+      }
+
       ResetIndexCount();
    }
 
