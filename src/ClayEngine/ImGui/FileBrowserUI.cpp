@@ -4,8 +4,10 @@
 
 namespace Clay
 {
-   static std::filesystem::path currentDirectory = "/home/quantum/Workspace/Storage/Other/Temp/dataset/ModelNet40/";
-   static const std::filesystem::path ASSETS_DIRECTORY = "/home/quantum/Workspace/Storage/Other/Temp/dataset/ModelNet40/";
+    static std::string modelNetPath = "/home/quantum/Workspace/Storage/Other/Temp/dataset/ModelNet40/";
+
+   static std::filesystem::path currentDirectory = ASSETS_PATH;
+   static const std::filesystem::path ASSETS_DIRECTORY = ASSETS_PATH;
 
    void FileBrowserUI::ImGuiUpdate()
    {
