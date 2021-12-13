@@ -42,6 +42,7 @@ namespace Clay
          static void SubmitLines(const Ref<Model>& model);
          static void SubmitTriangles(const Ref<Model>& model);
          static void SubmitPointCloudComponents(const Ref<Model>& model);
+         static void SubmitColoredPoints(const Ref<Model>& model);
 
          inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI();}
 

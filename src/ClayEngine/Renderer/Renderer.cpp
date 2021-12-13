@@ -245,7 +245,10 @@ namespace Clay
       }
       if(model->GetType() == RendererAPI::MODE::Points && EN_POINTS)
       {
-         SubmitPoints(model);
+         if(model->GetColors().size() != 0)
+            SubmitColoredPoints(model);
+         else
+            SubmitPoints(model);
       }
    }
 
@@ -407,6 +410,33 @@ namespace Clay
 
       //      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
 
+   }
+
+   void Renderer::SubmitColoredPoints(const Ref<Model>& model)
+   {
+      CLAY_LOG_INFO("Points Colored");
+      CLAY_PROFILE_FUNCTION();
+      s_PointData.MeshShader->Bind();
+      if(s_PointData.IndexCount + model->GetSize() >= s_PointData.MaxPoints)
+         FlushAndReset();
+
+      s_PointData.MeshShader->Bind();
+      s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
+      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 250);
+
+      for(uint32_t i = 0; i<model->GetSize(); i++)
+      {
+         s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+                                                  model->GetMesh()->_vertices[i*3 + 1],
+                                                  model->GetMesh()->_vertices[i*3 + 2]};
+         s_PointData.vertexBufferPtr->Color = model->GetColors()[i];
+         s_PointData.vertexBufferPtr->Id = (float)s_PointData.CloudId;
+         s_PointData.vertexBufferPtr++;
+      }
+      s_PointData.IndexCount += model->GetSize();
+      s_PointData.Stats.VertexCount += model->GetSize();
+      s_PointData.CloudId++;
    }
 
    void Renderer::ResetStats()
