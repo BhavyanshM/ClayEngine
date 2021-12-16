@@ -27,17 +27,17 @@ namespace Clay
 //      modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
 //      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
 
-      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
-      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/bunny.pcd");
-
-      for(int i = 0; i<secondPCL->GetMesh()->_vertices.size()/3; i++)
-      {
-         secondPCL->InsertColor({123, 232, 25, 1});
-      }
-
-      CLAY_LOG_INFO("Size: {} {}", secondPCL->GetMesh()->_vertices.size()/3, secondPCL->GetColors().size());
-
-      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
+//      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
+//      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/bunny.pcd");
+//
+//      for(int i = 0; i<secondPCL->GetMesh()->_vertices.size()/3; i++)
+//      {
+//         secondPCL->InsertColor({123, 232, 25, 1});
+//      }
+//
+//      CLAY_LOG_INFO("Size: {} {}", secondPCL->GetMesh()->_vertices.size()/3, secondPCL->GetColors().size());
+//
+//      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
 
       //      std::vector<int> partIds(secondPCL->GetSize(), 0);
       //      for(int i = 0; i<partIds.size(); i++)
@@ -168,15 +168,18 @@ namespace Clay
 
          if(_animationEnabled)
          {
-            _models.clear();
             Ref<TriangleMesh> modelMesh = std::make_shared<TriangleMesh>(glm::vec4(0.3,0.5,0.7,1.0), _rootPCL);
 
-//            MeshTools::CoordinateAxes(modelMesh);
+            MeshTools::CoordinateAxes(modelMesh);
 //            modelMesh->RotateLocalY(_currentTime);
 //            modelMesh->TranslateLocal({0.6f * sinf(_currentTime), 0.8f * cosf(_currentTime),
 //                                       0.8f * (sinf(_currentTime * 4) * sinf(_currentTime)) });
 
-            MeshTools::Sphere(modelMesh, 0.3f, 100, 100, SurfaceParameters(), _currentTime * 10);
+            modelMesh->ApplyTransform({0, _currentTime * 0.1, 0},
+                                      {0.6f * sinf(_currentTime * 0.1), 0.8f * cosf(_currentTime * 0.1),
+                                       0.8f * (sinf(_currentTime * 0.1 * 4) * sinf(_currentTime * 0.1))});
+
+//            MeshTools::Sphere(modelMesh, 0.3f, 100, 100, SurfaceParameters(), _currentTime * 10);
 
             _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
             CLAY_LOG_INFO("Update");
