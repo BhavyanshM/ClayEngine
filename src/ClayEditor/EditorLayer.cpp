@@ -175,9 +175,15 @@ namespace Clay
 //            modelMesh->TranslateLocal({0.6f * sinf(_currentTime), 0.8f * cosf(_currentTime),
 //                                       0.8f * (sinf(_currentTime * 4) * sinf(_currentTime)) });
 
-            modelMesh->ApplyTransform({0, _currentTime * 0.1, 0},
-                                      {0.6f * sinf(_currentTime * 0.1), 0.8f * cosf(_currentTime * 0.1),
-                                       0.8f * (sinf(_currentTime * 0.1 * 4) * sinf(_currentTime * 0.1))});
+            glm::mat4 transform =   glm::rotate(glm::mat4(1.0f), _currentTime * 0.1f, {0.0, 0.0, 1.0}) *
+                                    glm::rotate(glm::mat4(1.0f), _currentTime * 0.1f, {0.0, 1.0, 0.0}) *
+                                    glm::rotate(glm::mat4(1.0f), _currentTime * 0.1f, {1.0, 0.0, 0.0});
+
+            modelMesh->ApplyTransform(transform);
+
+//            modelMesh->ApplyTransform({0, _currentTime * 0.1, 0},
+//                                      {0.6f * sinf(_currentTime * 0.1), 0.8f * cosf(_currentTime * 0.1),
+//                                       0.8f * (sinf(_currentTime * 0.1 * 4) * sinf(_currentTime * 0.1))});
 
 //            MeshTools::Sphere(modelMesh, 0.3f, 100, 100, SurfaceParameters(), _currentTime * 10);
 

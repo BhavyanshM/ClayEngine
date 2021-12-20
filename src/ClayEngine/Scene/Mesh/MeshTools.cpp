@@ -387,6 +387,6 @@ namespace Clay
       model->AddMesh(yModelMesh);
       model->AddMesh(zModelMesh);
 
-      CLAY_LOG_INFO("IndexCount: {}, VertexCount: {}, Indices: {}", model->GetPreviousIndexCount(), model->GetSize(), model->GetMesh()->_vertices.size());
+//      CLAY_LOG_INFO("IndexCount: {}, VertexCount: {}, Indices: {}", model->GetPreviousIndexCount(), model->GetSize(), model->GetMesh()->_vertices.size());
    }
 }

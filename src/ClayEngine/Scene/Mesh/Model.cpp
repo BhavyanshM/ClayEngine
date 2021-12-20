@@ -115,4 +115,18 @@ namespace Clay {
          _mesh->_vertices[i*3 + 2] = point.z + translation.z;
       }
    }
+
+   void Model::ApplyTransform(const glm::mat4& transform)
+   {
+      glm::vec4 point;
+      for(int i = 0; i<GetSize(); i++)
+      {
+         point = transform * glm::vec4(GetMesh()->_vertices[i*3 + 0],
+                                       GetMesh()->_vertices[i*3 + 1],
+                                       GetMesh()->_vertices[i*3 + 2], 1);
+         _mesh->_vertices[i*3 + 0] = point.x;
+         _mesh->_vertices[i*3 + 1] = point.y;
+         _mesh->_vertices[i*3 + 2] = point.z;
+      }
+   }
 }

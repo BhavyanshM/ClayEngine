@@ -75,6 +75,7 @@ namespace Clay
          void TransformLocal(const glm::mat4& transform);
          void TransformGlobal(const glm::mat4& transform);
          void ApplyTransform(const glm::vec3& angles, const glm::vec3& translation);
+         void ApplyTransform(const glm::mat4& transform);
 
       protected:
          std::vector<Ref<Model>> children;
