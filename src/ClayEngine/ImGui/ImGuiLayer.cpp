@@ -29,9 +29,9 @@ namespace Clay
       //io.ConfigViewportsNoAutoMerge = true;
       //io.ConfigViewportsNoTaskBarIcon = true;
 
-      // To Configure Fonts
-      // io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", 18.0f);
-      // io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", 18.0f);
+       // To Configure Fonts
+       std::string fontFile = std::string(ASSETS_PATH) + "Fonts/Work_Sans/static/WorkSans-Regular.ttf";
+       io.Fonts->AddFontFromFileTTF(fontFile.c_str(), 18.0f);
 
       // Setup Dear ImGui style
       ImGui::StyleColorsDark();
