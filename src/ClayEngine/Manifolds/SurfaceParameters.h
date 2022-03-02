@@ -5,8 +5,6 @@
 #ifndef CLAYENGINE_SURFACEPARAMETERS_H
 #define CLAYENGINE_SURFACEPARAMETERS_H
 
-#include "eigen3/Eigen/Core"
-
 namespace Clay
 {
    class SurfaceParameters
@@ -15,13 +13,8 @@ namespace Clay
 
          SurfaceParameters();
 
-         const Eigen::VectorXf& GetParams() const {return _params;}
-         const Eigen::VectorXf& GetGradient() const {return _grad;}
          float CalculateHeight(float u, float v, float dt) const;
 
-      private:
-         Eigen::VectorXf _params;
-         Eigen::VectorXf _grad;
    };
 }
 

@@ -14,7 +14,6 @@ namespace Clay
    class MeshTools
    {
       public:
-         static void LaunchKernel();
          static void Circle(Ref<TriangleMesh>& model, uint16_t vertices);
          static void Cylinder(Ref<TriangleMesh>& model, uint16_t vertices, float radius = 0.25f, float height = 1.0f);
          static void Cuboid(Ref<TriangleMesh>& model, float height, float width, float length);

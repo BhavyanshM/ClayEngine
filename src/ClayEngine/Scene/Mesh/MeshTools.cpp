@@ -3,33 +3,9 @@
 //
 
 #include "MeshTools.h"
-#include "Platforms/OpenCL/OpenCL.h"
 
 namespace Clay
 {
-   static OpenCL* s_OpenCL = new OpenCL(std::string(ASSETS_PATH) + "/Kernels/kernels.cpp");
-
-   void MeshTools::LaunchKernel()
-   {
-      uint8_t bufferA = s_OpenCL->CreateBufferInt(60);
-      uint8_t bufferB = s_OpenCL->CreateBufferInt(60);
-      uint8_t bufferC = s_OpenCL->CreateBufferInt(60);
-
-      s_OpenCL->SetArgument("surfaceKernel", 0, bufferA);
-      s_OpenCL->SetArgument("surfaceKernel", 1, bufferB);
-      s_OpenCL->SetArgument("surfaceKernel", 2, bufferC);
-
-      s_OpenCL->commandQueue.enqueueNDRangeKernel(s_OpenCL->kernels["surfaceKernel"], cl::NullRange, cl::NDRange(60), cl::NullRange);
-
-      int result[60];
-      s_OpenCL->ReadBufferInt(bufferC, result, 60);
-
-      for(int i = 0; i<60; i++)
-      {
-         printf("%d ", result[i]);
-      }
-      printf("\n");
-   }
 
    void MeshTools::Circle(Ref<TriangleMesh>& model, uint16_t vertices)
    {

@@ -12,7 +12,6 @@ include_directories(Vendor/GLAD/include/)
 include_directories(Vendor/ImGui/imgui/)
 include_directories(Vendor/glm/glm/)
 include_directories(Vendor/std_image)
-include_directories(/usr/include/CL/)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -51,8 +50,7 @@ target_precompile_headers(ClayEngine PUBLIC src/ClayEngine/Core/ClayHeaders.h)
 
 target_link_libraries(ClayEngine PUBLIC
         ${OPENGL_LIBRARIES}
-        glfw glad imgui glm::glm
-        /usr/lib/x86_64-linux-gnu/libOpenCL.so )
+        glfw glad imgui glm::glm)
 
 if(BUILD_LOCAL)
     target_compile_definitions(ClayEngine PUBLIC -DASSETS_PATH="../src/ClayEngine/Assets/")
