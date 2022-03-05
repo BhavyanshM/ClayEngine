@@ -39,7 +39,7 @@ namespace Clay
       _mesh->_index = 0;
    }
 
-   void PointCloud::Load(const std::string& filename)
+   void PointCloud::Load(const std::string& filename, bool applyTransformToWorld)
    {
       CLAY_LOG_INFO("Loading PointCloud from: {}", filename);
 
@@ -64,10 +64,18 @@ namespace Clay
             std::vector<std::string> words;
             boost::algorithm::split(words, line, boost::is_any_of(" "));
 
-            z = -atof(words[0].c_str());
-            x = -atof(words[1].c_str());
-            y = atof(words[2].c_str());
-
+            if(applyTransformToWorld)
+            {
+                z = -atof(words[0].c_str());
+                x = -atof(words[1].c_str());
+                y = atof(words[2].c_str());
+            }
+            else
+            {
+                x = atof(words[0].c_str());
+                y = atof(words[1].c_str());
+                z = atof(words[2].c_str());
+            }
             if (x * x + y * y + z * z > 0.001)
             {
                InsertVertex(x, y, z);

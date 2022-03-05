@@ -15,7 +15,7 @@ namespace Clay
          PointCloud() : Model() {};
          PointCloud(const glm::vec4& color, const Ref<Model>& parent);
 
-         void Load(const std::string& filename) override;
+         void Load(const std::string& filename, bool applyTransformToWorld = true);
          void Reset() override;
          void InsertVertex(float x, float y, float z) override;
          void InsertIndex(uint32_t index) override;

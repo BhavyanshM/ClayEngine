@@ -40,7 +40,6 @@ namespace Clay
          explicit Model(const Ref<Model>& parent, bool geometry = false, uint32_t count = 400000, RendererAPI::MODE type = RendererAPI::MODE::Points);
 
          void Update();
-         virtual void Load(const std::string& filename) {};
          virtual void Reset() {};
          virtual void Print() {};
          virtual void InsertVertex(float x, float y, float z) {};
