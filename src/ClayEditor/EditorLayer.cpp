@@ -111,6 +111,8 @@ namespace Clay
       ImGuiMenu::FileBrowser();
 
       ImGui::Begin("Options Menu");
+      ImGui::SliderInt("Line Width", &_lineWidth, 1, 10);
+      ImGui::SliderInt("Point Size", &_pointSize, 1, 20);
       ImGui::Checkbox("Animation Enabled", &_animationEnabled);
       ImGui::End();
 
@@ -155,6 +157,8 @@ namespace Clay
 
         _frameBuffer->Bind();
         RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
+        RenderCommand::SetPointSize((float)_pointSize);
+        RenderCommand::SetLineWidth((float)_lineWidth);
         RenderCommand::Clear();
         Renderer::BeginScene(_cameraController.GetCamera());
         _rootPCL->Update();

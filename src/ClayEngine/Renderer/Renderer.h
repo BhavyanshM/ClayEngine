@@ -51,10 +51,13 @@ namespace Clay
             uint32_t DrawCalls = 0;
             uint32_t TriangleCount = 0;
             uint32_t VertexCount = 0;
+            uint32_t LineCount = 0;
+            uint32_t IndexCount = 0;
 
-            uint32_t GetTotalVertexCount() {return (VertexCount != 0) ? VertexCount : TriangleCount * 3;}
-            uint32_t GetTotalIndexCount() {return TriangleCount * 3;}
+            uint32_t GetTotalVertexCount() {return VertexCount;}
+            uint32_t GetTotalIndexCount() {return IndexCount;}
             uint32_t GetTotalTriangleCount() {return TriangleCount;}
+            uint32_t GetTotalLineCount() {return LineCount;}
             uint32_t GetTotalDrawCallCount() {return DrawCalls;}
          };
 
@@ -74,7 +77,7 @@ namespace Clay
 
          const static bool EN_TRIANGLES = true;
          const static bool EN_POINTS = true;
-         const static bool EN_LINES = false;
+         const static bool EN_LINES = true;
 
    };
 

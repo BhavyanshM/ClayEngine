@@ -7,6 +7,7 @@
 
 #include "Scene/Mesh/Model.h"
 #include "Scene/Mesh/TriangleMesh.h"
+#include "Scene/Mesh/LineMesh.h"
 #include "Manifolds/SurfaceParameters.h"
 
 namespace Clay
@@ -23,6 +24,7 @@ namespace Clay
          static void LoadOFF(Ref<TriangleMesh>& model, const std::string& filename);
          static void LoadOBJ(Ref<TriangleMesh>& model, const std::string& filename);
          static void CoordinateAxes(Ref<TriangleMesh>& model);
+         static void BoundingBox(Ref<LineMesh>& model, float height, float width, float length);
    };
 
 

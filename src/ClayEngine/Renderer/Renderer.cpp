@@ -68,11 +68,9 @@ namespace Clay
       s_TriangleData.vertexArray->AddVertexBuffer(s_TriangleData.vertexBuffer);
       s_TriangleData.vertexBufferBase = new TriangleVertex[s_TriangleData.MaxTriangles * 3];
 
-
       s_TriangleData.indexBuffer = IndexBuffer::Create();
-      uint32_t offset = 0;
-
       s_TriangleData.vertexArray->SetIndexBuffer(s_TriangleData.indexBuffer);
+
       s_TriangleData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/TriangleShader.glsl"));
       s_TriangleData.MeshShader->Bind();
    }
@@ -89,17 +87,8 @@ namespace Clay
       s_LineData.vertexArray->AddVertexBuffer(s_LineData.vertexBuffer);
       s_LineData.vertexBufferBase = new LineVertex[s_LineData.MaxLines * 2];
 
-      uint32_t* lineIndices = new uint32_t[s_LineData.MaxLines * 2];
-      uint32_t offset = 0;
-      for(uint32_t i = 0; i< s_LineData.MaxLines * 2; i+=2)
-      {
-         lineIndices[i+0] = offset + 0;
-         lineIndices[i+1] = offset + 1;
-         offset += 2;
-      }
-      Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(lineIndices, s_LineData.MaxLines * 2);
-      s_LineData.vertexArray->SetIndexBuffer(indexBuffer);
-      delete[] lineIndices;
+//      s_LineData.indexBuffer = IndexBuffer::Create();
+//      s_LineData.vertexArray->SetIndexBuffer(s_LineData.indexBuffer);
 
       s_LineData.MeshShader = Shader::Create(std::string(ASSETS_PATH) + std::string("Shaders/LineShader.glsl"));
       s_LineData.MeshShader->Bind();
@@ -207,14 +196,17 @@ namespace Clay
          s_PointData.CloudId = 0;
       }
 
-
-
       if(EN_LINES){
-         //      RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
+         s_LineData.MeshShader->Bind();
+         s_LineData.vertexArray->Bind();
+         RenderCommand::DrawIndexed(s_LineData.vertexArray, s_LineData.IndexCount, RendererAPI::MODE::Lines);
+         s_LineData.vertexArray->Unbind();
+         s_LineData.MeshShader->Unbind();
          s_LineData.Stats.DrawCalls++;
          s_LineData.Transforms.clear();
          s_LineData.CloudId = 0;
       }
+
    }
 
    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform, uint32_t mode)
@@ -278,35 +270,6 @@ namespace Clay
       s_PointData.CloudId++;
    }
 
-   void Renderer::SubmitPointCloudComponents(const Ref<Model>& model)
-   {
-      CLAY_PROFILE_FUNCTION();
-      s_PointData.MeshShader->Bind();
-      if(s_PointData.IndexCount + model->GetSize() >= s_PointData.MaxPoints)
-         FlushAndReset();
-
-      s_PointData.MeshShader->Bind();
-      s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-      s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
-      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 250);
-      for(uint32_t i = 0; i<model->GetSize(); i++)
-      {
-         s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
-                                                       model->GetMesh()->_vertices[i*3 + 1],
-                                                       model->GetMesh()->_vertices[i*3 + 2]};
-         s_PointData.vertexBufferPtr->Color = {(float)(model->GetMesh()->_partIds[i] * 123 % 255) / 255.0f,
-                                                    (float)(model->GetMesh()->_partIds[i] * 321 % 255) / 255.0f,
-                                                    (float)(model->GetMesh()->_partIds[i] * 432 % 255) / 255.0f,
-                                                    1.0f};
-//         s_PointData.vertexBufferPtr->Color = {1.0f, 0.0f, 1.0f,1.0f};
-         s_PointData.vertexBufferPtr->Id = (float)s_PointData.CloudId;
-         s_PointData.vertexBufferPtr++;
-      }
-      s_PointData.IndexCount += model->GetSize();
-      s_PointData.Stats.VertexCount += model->GetSize();
-      s_PointData.CloudId++;
-   }
-
    void Renderer::SubmitLines(const Ref<Model>& model)
    {
       CLAY_PROFILE_FUNCTION();
@@ -314,20 +277,31 @@ namespace Clay
       if(s_LineData.IndexCount + model->GetSize() >= s_LineData.MaxLines * 2)
          FlushAndReset();
 
+      s_LineData.MeshShader->Bind();
       s_LineData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       s_LineData.MeshShader->SetMat4("u_Transform", model->GetTransformToWorld());
       s_LineData.MeshShader->SetFloat4("u_Color", model->GetColor());
 
-      s_LineData.MeshShader->Bind();
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
          s_LineData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
-                                                       model->GetMesh()->_vertices[i*3 + 1],
-                                                       model->GetMesh()->_vertices[i*3 + 2]};
+                                                 model->GetMesh()->_vertices[i*3 + 1],
+                                                 model->GetMesh()->_vertices[i*3 + 2]};
          s_LineData.vertexBufferPtr++;
       }
-      s_LineData.IndexCount += model->GetSize();
+
+//      for(uint32_t i = 0; i< model->GetMesh()->_indices.size(); i++)
+//      {
+//         s_LineData.indexBuffer->AddIndex(model->GetMesh()->_indices[i] + s_LineData.LastIndex);
+//      }
+
+
+      s_LineData.LastIndex += model->GetMesh()->_vertices.size() / 3;
+      s_LineData.IndexCount += model->GetMesh()->_vertices.size() / 3;
       s_LineData.Stats.VertexCount += model->GetSize();
+      s_LineData.Stats.LineCount = s_LineData.IndexCount / 2;
+      s_LineData.Stats.IndexCount = s_LineData.IndexCount;
+      s_LineData.CloudId++;
    }
 
    void Renderer::SubmitTriangles(const Ref<Model>& model)
@@ -367,8 +341,37 @@ namespace Clay
       s_TriangleData.Stats.VertexCount += model->GetSize();
       s_TriangleData.CloudId++;
 
-//      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
+      //      CLAY_LOG_INFO("TriangleMesh: {} {} {} {}", s_TriangleData.LastIndex, s_TriangleData.indexBuffer->GetIndices().size(), s_TriangleData.CloudId, s_TriangleData.Transforms.size());
 
+   }
+
+   void Renderer::SubmitPointCloudComponents(const Ref<Model>& model)
+   {
+      CLAY_PROFILE_FUNCTION();
+      s_PointData.MeshShader->Bind();
+      if(s_PointData.IndexCount + model->GetSize() >= s_PointData.MaxPoints)
+         FlushAndReset();
+
+      s_PointData.MeshShader->Bind();
+      s_PointData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+      s_PointData.Transforms.emplace_back(model->GetTransformToWorld());
+      s_PointData.MeshShader->SetMat4Array("u_Transforms", s_PointData.Transforms, 250);
+      for(uint32_t i = 0; i<model->GetSize(); i++)
+      {
+         s_PointData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
+                                                       model->GetMesh()->_vertices[i*3 + 1],
+                                                       model->GetMesh()->_vertices[i*3 + 2]};
+         s_PointData.vertexBufferPtr->Color = {(float)(model->GetMesh()->_partIds[i] * 123 % 255) / 255.0f,
+                                                    (float)(model->GetMesh()->_partIds[i] * 321 % 255) / 255.0f,
+                                                    (float)(model->GetMesh()->_partIds[i] * 432 % 255) / 255.0f,
+                                                    1.0f};
+//         s_PointData.vertexBufferPtr->Color = {1.0f, 0.0f, 1.0f,1.0f};
+         s_PointData.vertexBufferPtr->Id = (float)s_PointData.CloudId;
+         s_PointData.vertexBufferPtr++;
+      }
+      s_PointData.IndexCount += model->GetSize();
+      s_PointData.Stats.VertexCount += model->GetSize();
+      s_PointData.CloudId++;
    }
 
    void Renderer::SubmitColoredTriangles(const Ref<Model>& model)

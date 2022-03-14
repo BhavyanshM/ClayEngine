@@ -30,6 +30,8 @@ namespace Clay
 
          virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0, unsigned int mode = 0) = 0;
 
+         virtual void SetLineWidth(float width) = 0;
+         virtual void SetPointSize(float size) = 0;
 
          inline static API GetAPI() {return s_API;}
 

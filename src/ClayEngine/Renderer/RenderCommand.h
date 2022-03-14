@@ -32,6 +32,16 @@ namespace Clay
             s_RendererAPI->SetViewPort(x,y, width, height);
          }
 
+         inline static void SetLineWidth(float width)
+         {
+            s_RendererAPI->SetLineWidth(width);
+         }
+
+         inline static void SetPointSize(float size)
+         {
+            s_RendererAPI->SetPointSize(size);
+         }
+
          inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0, unsigned int mode = RendererAPI::MODE::Triangles)
          {
             vertexArray->Bind();

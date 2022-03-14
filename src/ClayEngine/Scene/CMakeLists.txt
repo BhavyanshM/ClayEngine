@@ -1,10 +1,12 @@
 set(SCENE_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/PointCloud.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/TriangleMesh.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/LineMesh.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/Model.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/MeshTools.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/Model.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/PointCloud.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/TriangleMesh.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/LineMesh.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Mesh/MeshTools.h
         PARENT_SCOPE)

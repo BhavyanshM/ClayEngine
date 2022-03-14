@@ -28,6 +28,7 @@ namespace Clay
 
       glEnable(GL_DEPTH_TEST);
       glEnable(GL_PROGRAM_POINT_SIZE);
+
    }
 
    void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
@@ -45,16 +46,25 @@ namespace Clay
       glViewport(x, y, width, height);
    }
 
+   void OpenGLRendererAPI::SetPointSize(float size)
+   {
+      glPointSize(size);
+   }
+
+   void OpenGLRendererAPI::SetLineWidth(float width)
+   {
+      glLineWidth(width);
+   }
+
    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount, uint32_t mode)
    {
       vertexArray->Bind();
-      uint32_t count = (vertexArray->GetIndexBuffer()->GetCount() != 0) ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
+      uint32_t count = indexCount;
       switch(mode)
       {
          case RendererAPI::MODE::Points:
          {
             glDrawElements(GL_POINTS, count, GL_UNSIGNED_INT, nullptr);
-            glPointSize(2.0);
             break;
          }
          case RendererAPI::MODE::Triangles:
@@ -64,7 +74,8 @@ namespace Clay
          }
          case RendererAPI::MODE::Lines:
          {
-            glDrawElements(GL_LINES, count, GL_UNSIGNED_INT, nullptr);
+//            CLAY_LOG_INFO("Count: {}", count);
+            glDrawArrays(GL_LINES, 0, count);
             break;
          }
       }

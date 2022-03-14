@@ -61,6 +61,9 @@ namespace Clay
          bool _viewportFocused = false;
          bool _viewportHovered = false;
          bool _animationEnabled = false;
+
+         int _lineWidth = 2;
+         int _pointSize = 2;
    };
 
 
