@@ -141,6 +141,19 @@ namespace Clay
       ImGui::End();
       ImGui::PopStyleVar();
 
+      ImGui::Begin("Image");
+      uint32_t cbTextureId = _texture->GetRendererId();
+      ImVec2 region = ImGui::GetContentRegionAvail();
+      ImGui::Image((void *) cbTextureId, region, ImVec2{0, 1}, ImVec2(1, 0));
+
+      if (ImGui::IsItemHovered())
+      {
+         ImVec2 windowPos = ImGui::GetCursorScreenPos();
+         ImVec2 pos = ImGui::GetMousePos();
+         ImGui::SetTooltip("Tooltip: %d, %d", (int) (pos.x - windowPos.x), (int)region.y + (int)(pos.y - windowPos.y));
+      }
+      ImGui::End();
+
       ImGui::End();
    }
 
