@@ -93,6 +93,7 @@ namespace Clay
    struct LineVertex
    {
       glm::vec3 Position;
+      glm::vec4 Color;
    };
 
    struct TriangleVertex

@@ -81,7 +81,8 @@ namespace Clay
       s_LineData.vertexBuffer = VertexBuffer::Create(s_LineData.MaxLines * 2 * sizeof(LineVertex));
 
       BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"}
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float4, "a_Color"}
       };
       s_LineData.vertexBuffer->SetLayout(layout);
       s_LineData.vertexArray->AddVertexBuffer(s_LineData.vertexBuffer);
@@ -280,21 +281,15 @@ namespace Clay
       s_LineData.MeshShader->Bind();
       s_LineData.MeshShader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
       s_LineData.MeshShader->SetMat4("u_Transform", model->GetTransformToWorld());
-      s_LineData.MeshShader->SetFloat4("u_Color", model->GetColor());
 
       for(uint32_t i = 0; i<model->GetSize(); i++)
       {
          s_LineData.vertexBufferPtr->Position = {model->GetMesh()->_vertices[i*3 + 0],
                                                  model->GetMesh()->_vertices[i*3 + 1],
                                                  model->GetMesh()->_vertices[i*3 + 2]};
+         s_LineData.vertexBufferPtr->Color = model->GetColor();
          s_LineData.vertexBufferPtr++;
       }
-
-//      for(uint32_t i = 0; i< model->GetMesh()->_indices.size(); i++)
-//      {
-//         s_LineData.indexBuffer->AddIndex(model->GetMesh()->_indices[i] + s_LineData.LastIndex);
-//      }
-
 
       s_LineData.LastIndex += model->GetMesh()->_vertices.size() / 3;
       s_LineData.IndexCount += model->GetMesh()->_vertices.size() / 3;
