@@ -9,6 +9,13 @@
 #include "spdlog/spdlog.h"
 #include <spdlog/sinks/stdout_color_sinks.h>
 
+#if LOG_DEBUG == 1
+#define CLAY_LOG_DEBUG(...) SPDLOG_INFO(__VA_ARGS__)
+#elif LOG_DEBUG == 0
+#define CLAY_LOG_DEBUG(...)
+#endif
+
+
 #define CLAY_LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
 #define CLAY_LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define CLAY_LOG_TRACE(...) SPDLOG_TRACE(__VA_ARGS__)

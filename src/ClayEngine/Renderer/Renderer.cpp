@@ -240,6 +240,8 @@ namespace Clay
       {
          if(model->GetColors().size() != 0)
             SubmitColoredPoints(model);
+         else if(model->GetPartIDs().size() != 0)
+            SubmitPointCloudComponents(model);
          else
             SubmitPoints(model);
       }

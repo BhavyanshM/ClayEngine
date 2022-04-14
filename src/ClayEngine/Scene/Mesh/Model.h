@@ -58,6 +58,7 @@ namespace Clay
          uint32_t GetPreviousIndexCount() const { return _mesh->_cummulativeIndexCount;}
          Ref<Mesh> GetMesh() const { return _mesh; }
          std::vector<glm::vec4> GetColors() const { return _mesh->_colors; }
+         const std::vector<int>& GetPartIDs() const { return _mesh->_partIds; }
 
          void AddChild(Ref<Model> child) {children.emplace_back(child);}
          void SetShader(const Ref <Shader>& shader){_mesh->_shader = shader;}

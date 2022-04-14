@@ -27,8 +27,8 @@ namespace Clay
 //      modelMesh->TranslateLocal({0.2f, 0.3f, -0.5f});
 //      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(modelMesh)));
 
-//      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
-//      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/bunny.pcd");
+      Ref<PointCloud> secondPCL = std::make_shared<PointCloud>(glm::vec4(0.4,0.3,0.4,1), _rootPCL);
+      secondPCL->Load(std::string(ASSETS_PATH) + "Meshes/OusterScan_01.pcd");
 //
 //      for(int i = 0; i<secondPCL->GetMesh()->_vertices.size()/3; i++)
 //      {
@@ -37,14 +37,13 @@ namespace Clay
 //
 //      CLAY_LOG_INFO("Size: {} {}", secondPCL->GetMesh()->_vertices.size()/3, secondPCL->GetColors().size());
 //
-//      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
+      _models.push_back(std::move(std::dynamic_pointer_cast<Model>(secondPCL)));
 
-      //      std::vector<int> partIds(secondPCL->GetSize(), 0);
-      //      for(int i = 0; i<partIds.size(); i++)
-      //      {
-      //         partIds[i] = i / 2000;
-      //      }
-      //      secondPCL->SetPartIds(partIds);
+//      std::vector<int> partIds(secondPCL->GetSize(), 0);
+      for(int i = 0; i<secondPCL->GetSize(); i++)
+      {
+         secondPCL->InsertPartIndex(i / 2000);
+      }
    }
 
    void EditorLayer::OnImGuiRender()

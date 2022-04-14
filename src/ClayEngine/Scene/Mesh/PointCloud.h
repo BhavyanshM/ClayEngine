@@ -21,6 +21,7 @@ namespace Clay
          void InsertIndex(uint32_t index) override;
          void LoadOFFVertices(const std::string& filename);
          void Print() override;
+         void InsertPartIndex(int id) { _mesh->_partIds.push_back(id); }
 
    };
 }

@@ -52,6 +52,10 @@ target_link_libraries(ClayEngine PUBLIC
         ${OPENGL_LIBRARIES}
         glfw glad imgui glm::glm)
 
+if(LOG_DEBUG)
+    target_compile_definitions(ClayEngine PUBLIC -DLOG_DEBUG=1)
+endif()
+
 if(BUILD_LOCAL)
     target_compile_definitions(ClayEngine PUBLIC -DASSETS_PATH="../src/ClayEngine/Assets/")
 else()
