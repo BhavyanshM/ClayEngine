@@ -20,12 +20,23 @@ namespace Clay
 
       bool final = true;
 
+      static char searchCharBuffer[128];
+      ImGui::InputText("Search: ", searchCharBuffer, IM_ARRAYSIZE(searchCharBuffer));
+      searchString = std::string(searchCharBuffer);
+
       if(currentDirectory != ASSETS_DIRECTORY)
       {
          if(ImGui::Button("<-"))
          {
+            filePath = currentDirectory;
             currentDirectory = currentDirectory.parent_path();
          }
+      }
+      ImGui::SameLine(50.0f);
+      if(ImGui::Button("Open"))
+      {
+         filePath = currentDirectory;
+         final = false;
       }
 
       static float padding = 16.0f;
@@ -45,26 +56,33 @@ namespace Clay
          auto relativePath = std::filesystem::relative(path, currentDirectory);
          std::string fileNameString = relativePath.filename().string();
 
-         Ref<Texture2D> icon = is_directory(dir) ? _directoryIcon : _fileIcon;
-         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0,0,0,0));
-         ImGui::ImageButton((ImTextureID) icon->GetRendererId(), {thumbnailSize, thumbnailSize}, {0,1}, {1,0});
-         ImGui::PopStyleColor();
+         auto res = std::mismatch(searchString.begin(), searchString.end(), fileNameString.begin(), fileNameString.end());
 
-         if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+         if(searchString.empty() || res.first == searchString.end())
          {
-            if(dir.is_directory())
-            {
-               currentDirectory /= path.filename();
-            }
-            else
-            {
-               filePath = currentDirectory.string() + path.filename().string();
-               final = false;
-            }
-         }
-         ImGui::TextWrapped(fileNameString.c_str());
+            Ref<Texture2D> icon = is_directory(dir) ? _directoryIcon : _fileIcon;
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0,0,0,0));
+            ImGui::ImageButton((ImTextureID) icon->GetRendererId(), {thumbnailSize, thumbnailSize}, {0,1}, {1,0});
+            ImGui::PopStyleColor();
 
-         ImGui::NextColumn();
+            if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+            {
+               filePath = (currentDirectory / path.filename()).string();
+               if(dir.is_directory())
+               {
+                  currentDirectory /= path.filename();
+               }
+               else
+               {
+                  final = false;
+               }
+            }
+            ImGui::TextWrapped(fileNameString.c_str());
+
+            ImGui::NextColumn();
+         }
+
+
       }
 
       ImGui::Columns(1);

@@ -17,7 +17,8 @@ namespace Clay
          void SetCurrentDirectory(const std::string& current);
 
       private:
-         std::filesystem::path currentDirectory = ASSETS_PATH;
+         std::filesystem::path currentDirectory;
+         std::string searchString;
 
          Ref<Texture2D> _directoryIcon;
          Ref<Texture2D> _fileIcon;
