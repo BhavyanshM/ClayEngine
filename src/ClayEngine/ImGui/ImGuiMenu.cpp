@@ -7,6 +7,7 @@
 
 namespace Clay
 {
+
    void ImGuiMenu::MeshPrimitiveOptions(std::vector<Ref<Model>>& _models)
    {
       ImGui::Begin("Mesh Primitives");
@@ -114,13 +115,6 @@ namespace Clay
       ImGui::Text("Indices: %d", lineStats.GetTotalIndexCount());
       ImGui::NewLine();
 
-      ImGui::End();
-   }
-
-   void ImGuiMenu::FileBrowser()
-   {
-      ImGui::Begin("File Browser");
-      FileBrowserUI::ImGuiUpdate();
       ImGui::End();
    }
 }

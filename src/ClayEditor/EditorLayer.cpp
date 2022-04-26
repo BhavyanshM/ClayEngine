@@ -10,7 +10,7 @@
 
 namespace Clay
 {
-   EditorLayer::EditorLayer() : Layer("Sandbox2D")
+   EditorLayer::EditorLayer() : Layer("Sandbox2D"), fileBrowserUI("/home/quantum/Workspace/Volume/CPP/ClayEngine/")
    {
       _rootPCL = std::make_shared<Model>();
       Ref<Model> cameraGrandParent = std::make_shared<Model>(_rootPCL);
@@ -107,12 +107,23 @@ namespace Clay
 //      ImGui::ColorEdit3("Square Color", glm::value_ptr(_squareColor));
       ImGuiMenu::RendererOptions();
       ImGuiMenu::MeshPrimitiveOptions(_models);
-      ImGuiMenu::FileBrowser();
+
+
+
 
       ImGui::Begin("Options Menu");
       ImGui::SliderInt("Line Width", &_lineWidth, 1, 10);
       ImGui::SliderInt("Point Size", &_pointSize, 1, 20);
       ImGui::Checkbox("Animation Enabled", &_animationEnabled);
+
+      ImGui::Text("File Chosen: %s", selectedPath.c_str());
+      if(ImGui::Button("Browse"))
+      {
+         showFileBrowser = true;
+      }
+      if(showFileBrowser)
+         showFileBrowser = fileBrowserUI.ImGuiUpdate(selectedPath);
+
       ImGui::End();
 
 

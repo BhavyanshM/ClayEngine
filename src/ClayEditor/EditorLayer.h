@@ -9,6 +9,7 @@
 #include "Core/Clay.h"
 #include "Core/ClayHeaders.h"
 #include "Scene/Mesh/TriangleMesh.h"
+#include "ImGui/FileBrowserUI.h"
 
 namespace Clay
 {
@@ -64,6 +65,11 @@ namespace Clay
 
          int _lineWidth = 2;
          int _pointSize = 2;
+
+         FileBrowserUI fileBrowserUI;
+         std::string selectedPath;
+
+         bool showFileBrowser = false;
    };
 
 
