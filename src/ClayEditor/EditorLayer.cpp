@@ -10,7 +10,7 @@
 
 namespace Clay
 {
-   EditorLayer::EditorLayer() : Layer("Sandbox2D"), fileBrowserUI("/home/quantum/Workspace/Volume/CPP/ClayEngine/")
+   EditorLayer::EditorLayer() : Layer("Sandbox2D"), fileBrowserUI(std::string(ASSETS_PATH))
    {
       _rootPCL = std::make_shared<Model>();
       Ref<Model> cameraGrandParent = std::make_shared<Model>(_rootPCL);
